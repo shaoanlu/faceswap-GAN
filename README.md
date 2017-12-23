@@ -13,7 +13,7 @@ Transforming Hinako Sano [(佐野ひなこ)](https://ja.wikipedia.org/wiki/%E4%B
 
 ## 2. GAN (adding adversarial loss)
 
-![](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/noPL_sh_test3.gif)
+![](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/woPL_sh_test3.gif)
 
 ## 3. GAN (adding adversarial loss and [VGGface](https://github.com/rcmalli/keras-vggface) perceptual loss)
 
