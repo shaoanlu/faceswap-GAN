@@ -10,6 +10,8 @@ Transform Hinako Sano [(佐野ひなこ)](https://ja.wikipedia.org/wiki/%E4%BD%9
 
 ## 1. [deepfakes' autorecoder](https://github.com/deepfakes/faceswap) (non official repo.)
 
+(The result of autoencoder can be much better if we trained longer.)
+
 ![AE GIF](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/AE_sh_test.gif)
 
 ## 2. GAN (adding adversarial loss)
