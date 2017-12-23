@@ -2,7 +2,7 @@
 A GAN model that is built upon deepfakes' autoencoder, adding adversarial loss and perceptual loss (VGGface) to improve output result.
 
 # [Jupyter notebook WIP]
-WIP cleaning the codes.
+WIP code cleanup.
 
 # Results
 
