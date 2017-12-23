@@ -1,12 +1,12 @@
 # deepfakes-faceswap-GAN
 Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' Auto-encoder architecture
 
-# [WIP]
+# [Jupyter notebook WIP]
 WIP cleaning the codes.
 
 # Results
 
-Transforming Hinako Sano [(佐野ひなこ)](https://ja.wikipedia.org/wiki/%E4%BD%90%E9%87%8E%E3%81%B2%E3%81%AA%E3%81%93) to Emi Takei [(武井咲)](https://ja.wikipedia.org/wiki/%E6%AD%A6%E4%BA%95%E5%92%B2).
+Transforming Hinako Sano [(佐野ひなこ)](https://ja.wikipedia.org/wiki/%E4%BD%90%E9%87%8E%E3%81%B2%E3%81%AA%E3%81%93) to Emi Takei [(武井咲)](https://ja.wikipedia.org/wiki/%E6%AD%A6%E4%BA%95%E5%92%B2).  
 
 ## 1. [deepfakes' autorecoder](https://github.com/deepfakes/faceswap)(Non official repo.)
 
