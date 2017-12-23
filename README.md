@@ -24,6 +24,7 @@ By applying perceptual loss, the movemnet of eyeballs becomes more realistic (al
 
 ![GAN_PL_GIF](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/PL_sh_test3.gif)
 
+###### Source video: [佐野ひなことすごくどうでもいい話？(遊戯王)](https://www.youtube.com/watch?v=tzlD1CQvkwU)
 
 # Requirements
 
