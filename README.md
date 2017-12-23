@@ -1,5 +1,5 @@
 # deepfakes-faceswap-GAN
-Building upon deepfakes' autoencoder, adding Adversarial loss and perceptual loss (VGGface).
+A GAN model that is built upon deepfakes' autoencoder, adding adversarial loss and perceptual loss (VGGface) to improve output result.
 
 # [Jupyter notebook WIP]
 WIP cleaning the codes.
