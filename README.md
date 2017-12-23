@@ -6,7 +6,7 @@ WIP code cleanup.
 
 # Results
 
-Transform Hinako Sano [(佐野ひなこ)](https://ja.wikipedia.org/wiki/%E4%BD%90%E9%87%8E%E3%81%B2%E3%81%AA%E3%81%93) to Emi Takei [(武井咲)](https://ja.wikipedia.org/wiki/%E6%AD%A6%E4%BA%95%E5%92%B2).  
+In below are results that shows trained models transforming Hinako Sano [(佐野ひなこ)](https://ja.wikipedia.org/wiki/%E4%BD%90%E9%87%8E%E3%81%B2%E3%81%AA%E3%81%93) to Emi Takei [(武井咲)](https://ja.wikipedia.org/wiki/%E6%AD%A6%E4%BA%95%E5%92%B2).  
 
 ## 1. [deepfakes' autorecoder](https://github.com/deepfakes/faceswap) (non official repo.)
 
@@ -22,7 +22,7 @@ Adversarial loss improves output resolution.
 
 ## 3. GAN (adding adversarial loss and [VGGface](https://github.com/rcmalli/keras-vggface) perceptual loss)
 
-By applying perceptual loss, the movemnet of eyeballs becomes more realistic (although hard to distinguish in the gifs).
+When perceptual loss is apllied, the movemnet of eyeballs becomes more realistic (although hard to distinguish in the gifs). But the training time is doubled.
 
 ![GAN_PL_GIF](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/PL_sh_test3.gif)
 
