@@ -10,19 +10,19 @@ In below are results that shows trained models transforming Hinako Sano [(佐野
 
 ## 1. [deepfakes' autorecoder](https://github.com/deepfakes/faceswap) (non official repo.)
 
-(The result of autoencoder can be much better if we trained longer.)
+It should be mentoined that the result of autoencoder (AE) can be much better if we trained it longer.
 
 ![AE GIF](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/AE_sh_test.gif)
 
 ## 2. GAN (adding adversarial loss)
 
-Adversarial loss improves output resolution.
+Adversarial loss improves resolution of generated images. We can see the differences on eyes, mouth and teeth compare to AE. Furthermore, I applied a smoothing to generated images when pasting it back to original face, thus the result looks more natrual.
 
 ![GAN_GIF](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/woPL_sh_test3.gif)
 
 ## 3. GAN (adding adversarial loss and [VGGface](https://github.com/rcmalli/keras-vggface) perceptual loss)
 
-When perceptual loss is apllied, the movemnet of eyeballs becomes more realistic (although hard to distinguish in the gifs). But the training time is doubled.
+When perceptual loss is apllied, the movemnet of eyeballs becomes more realistic (although hard to distinguish in the gifs). But the training time is doubled ~ tripled.
 
 ![GAN_PL_GIF](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/PL_sh_test3.gif)
 
