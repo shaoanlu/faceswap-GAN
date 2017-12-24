@@ -16,7 +16,7 @@ It should be mentoined that the result of autoencoder (AE) can be much better if
 
 ## 2. GAN (adding adversarial loss)
 
-Adversarial loss improves resolution of generated images. We can see the differences on eyes, mouth and teeth compare to AE. Furthermore, I applied a smoothing to generated images when pasting it back to original face, thus the result looks more natrual.
+Adversarial loss improves resolution of generated images. We can see the differences on eyes, mouth and teeth compare to AE. Furthermore, I applied a smoothing mask on generated images before pasting it back to original face, thus the result looks more natrual.
 
 ![GAN_GIF](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/woPL_sh_test3.gif)
 
