@@ -36,3 +36,6 @@ When perceptual loss is apllied, the movemnet of eyeballs becomes more realistic
 * dlib
 * face_recodnition
 * moviepy
+
+## Acknowledgments
+Code borrows from [tjwei](https://github.com/tjwei/GANotebooks) and [deepfakes](https://github.com/deepfakes/faceswap). The generative network is adopted from [CycleGAN](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix).
