@@ -26,7 +26,7 @@ Adversarial loss improves resolution of generated images. We can see the differe
 ![GAN_GIF](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/woPL_sh_test3.gif)
 ![GAN_results](https://github.com/shaoanlu/faceswap-GAN/raw/master/woPL_results.png)
 
-## 3. GAN (adding adversarial loss and [VGGface](https://github.com/rcmalli/keras-vggface) perceptual loss)
+## 3. GAN (adding adversarial loss and [VGGFace](https://github.com/rcmalli/keras-vggface) perceptual loss)
 
 When perceptual loss is apllied, the movemnet of eyeballs becomes more realistic (although hard to distinguish in the gifs). But the training time is doubled ~ tripled.
 
