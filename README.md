@@ -46,6 +46,7 @@ When perceptual loss is apllied, the movemnet of eyeballs becomes more realistic
 * keras 2
 * Tensorflow 1.3 
 * Python 3
+* OpenCV
 * dlib
 * face_recodnition
 * moviepy
