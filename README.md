@@ -41,7 +41,7 @@ When perceptual loss is apllied, the movemnet of eyeballs becomes more realistic
 
 ###### Source video: [佐野ひなことすごくどうでもいい話？(遊戯王)](https://www.youtube.com/watch?v=tzlD1CQvkwU)
 
-## Things that didn't worked
+## Things that didn't work
 1. BatchNorm/InstanceNorm: Caused input/output skin color inconsistency when the 2 training dataset had different skin color dsitribution (light condition, shadow, etc.).
 2. Increasing perceptual loss weighting factor (to 1) unstablized training. But the weihgting [.01, .1, .1] I used is not optimal either.
 3. In the encoder architecture, flattening Conv2D and shrinking it to Dense(1024) is crutial for model to learn semantic features, or face representation. If we used Conv layers only (which means larger dimension), it will learn features like visaul descriptors? ([source paper](https://arxiv.org/abs/1706.02932v2), sec 3.1)
