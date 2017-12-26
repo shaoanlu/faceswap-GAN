@@ -2,15 +2,15 @@
 Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder architecture.
 
 # Descriptions
-* [FaceSwap_GAN_github.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_github.ipynb): In this noetbook, we will: 
+* [FaceSwap_GAN_github.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_github.ipynb): This jupyter notebook does the following:
   1. Build a GAN model. 
   2. Train the GAN from scratch. 
   3. Detect faces in an image using dlib's cnn model. 
   4. Use GAN to transform detected face into target face. 
   5. Use moviepy module to output a video clip with swapped face.
 
-* [dlib_video_face_detection.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/dlib_video_face_detection.ipynb): In this notebook. we will:
-  1. Detect/Crop faces in video using dlib's cnn model. 
+* [dlib_video_face_detection.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/dlib_video_face_detection.ipynb): This jupyter notebook does the following: 
+  1. Detect/Crop faces in a video using dlib's cnn model. 
   2. Pack cropped face images into a zip file.
 
 # Results
