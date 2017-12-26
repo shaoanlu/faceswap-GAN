@@ -9,6 +9,10 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
   4. Use GAN to transform detected face into target face. 
   5. Use moviepy module to output a video clip with swapped face.
 
+* [dlib_video_face_detection.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/dlib_video_face_detection.ipynb): In this notebook. we will:
+  1. Detect/Crop faces in video using dlib's cnn model. 
+  2. Pack cropped face images into a zip file.
+
 # Results
 
 In below are results that shows trained models transforming Hinako Sano [(佐野ひなこ)](https://ja.wikipedia.org/wiki/%E4%BD%90%E9%87%8E%E3%81%B2%E3%81%AA%E3%81%93) to Emi Takei [(武井咲)](https://ja.wikipedia.org/wiki/%E6%AD%A6%E4%BA%95%E5%92%B2).  
