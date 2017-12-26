@@ -12,6 +12,8 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
 * [dlib_video_face_detection.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/dlib_video_face_detection.ipynb): This jupyter notebook does the following jobs: 
   1. Detect/Crop faces in a video using dlib's cnn model. 
   2. Pack cropped face images into a zip file.
+ 
+* Training data: 5k/9k face iamges for each target. Raw images are scrawled from pinterest and youtube videos, and then cropped using dlib.
 
 # Results
 
