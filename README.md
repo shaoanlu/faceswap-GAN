@@ -23,7 +23,8 @@ In below are results that shows trained models transforming Hinako Sano ([佐野
 
 It should be mentoined that the result of autoencoder (AE) can be much better if we trained it longer.
 
-![AE GIF](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/AE_sh_test.gif)
+![AE GIF](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/AE_sh_test.gif)  
+ ![AE_results](https://github.com/shaoanlu/faceswap-GAN/raw/master/AE_results.png)
 
 ## 2. GAN (adding adversarial loss)
 
