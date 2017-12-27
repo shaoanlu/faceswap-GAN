@@ -35,7 +35,7 @@ Adversarial loss improves resolution of generated images. We can see the differe
 
 ## 3. GAN (adding adversarial loss and [VGGFace](https://github.com/rcmalli/keras-vggface) perceptual loss)
 
-When perceptual loss is apllied, the movemnet of eyeballs becomes more realistic and cnosistent with input face (although hard to tell the diffeernces from the gifs). However, training time is doubled ~ tripled.
+When perceptual loss is apllied, the movemnet of eyeballs becomes more realistic and cnosistent with input face (although hard to tell the differences from the gifs). However, training time is doubled ~ tripled.
 
 ![GAN_PL_GIF](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/PL_sh_test3.gif)
 ![GAN_PL_results](https://github.com/shaoanlu/faceswap-GAN/raw/master/wPL_results.png)
@@ -46,6 +46,7 @@ When perceptual loss is apllied, the movemnet of eyeballs becomes more realistic
 1. BatchNorm/InstanceNorm: Caused input/output skin color inconsistency when the 2 training dataset had different skin color dsitribution (light condition, shadow, etc.).
 2. Increasing perceptual loss weighting factor (to 1) unstablized training. But the weihgting [.01, .1, .1] I used is not optimal either.
 3. In the encoder architecture, flattening Conv2D and shrinking it to Dense(1024) is crutial for model to learn semantic features, or face representation. If we used Conv layers only (which means larger dimension), it will learn features like visaul descriptors? ([source paper](https://arxiv.org/abs/1706.02932v2), sec 3.1)
+4. Transform Emi Takei to Hinko Sano gave suboptimal results, due to imbalanced training data that over 65% of images of Hinako Sano came from the same video series.
 
 # Requirements
 
