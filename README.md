@@ -40,10 +40,10 @@ When perceptual loss is apllied, the movemnet of eyeballs becomes more realistic
 ![GAN_PL_GIF](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/PL_sh_test3.gif)
 ![GAN_PL_results](https://github.com/shaoanlu/faceswap-GAN/raw/master/wPL_results.png)
 
-###### Source video: [佐野ひなことすごくどうでもいい話？(遊戯王)](https://www.youtube.com/watch?v=tzlD1CQvkwU)
-
 The following figure shows output of mdoel trained with/wihtout perceptual loss (PL). Note that the input image is not in the training data, thus blurry outputs are presented. This somehow implies limitation of my faceswap model.
 ![Comp PL](https://github.com/shaoanlu/faceswap-GAN/raw/master/comparison_PL.PNG)
+
+###### Source video: [佐野ひなことすごくどうでもいい話？(遊戯王)](https://www.youtube.com/watch?v=tzlD1CQvkwU)
 
 ## Notes:
 1. BatchNorm/InstanceNorm: Caused input/output skin color inconsistency when the 2 training dataset had different skin color dsitribution (light condition, shadow, etc.).
