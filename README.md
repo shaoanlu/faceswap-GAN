@@ -13,7 +13,7 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
   1. Detect/Crop faces in a video using dlib's cnn model. 
   2. Pack cropped face images into a zip file.
  
-* Training data: Training images are supposed be in `./TE/` and `./SH/` folder for each target respectively. Images can be face image of any size.
+* Training data: Training images are supposed to be in `./TE/` and `./SH/` folder for each target respectively. Face images can be of any size.
 
 # Results
 
@@ -40,7 +40,7 @@ When perceptual loss is apllied, the movemnet of eyeballs becomes more realistic
 ![GAN_PL_GIF](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/PL_sh_test3.gif)
 ![GAN_PL_results](https://github.com/shaoanlu/faceswap-GAN/raw/master/wPL_results.png)
 
-The following figure shows nuanced eyeballs direction in moedl output trained with/wihtout perceptual loss (PL). Note that the input image is not in the training data, thus slightly blurry outputs are presented. This somehow implies limitation of my faceswap model.
+The following figure shows nuanced eyeballs direction in model output trained with/wihtout perceptual loss (PL). Note that the input image is not in the training data, thus slightly blurry outputs are presented. This somehow implies limitation of my faceswap model.
 
 ![Comp PL](https://github.com/shaoanlu/faceswap-GAN/raw/master/comparison_PL_rev.png)
 
