@@ -58,8 +58,8 @@ The following figure shows nuanced eyeballs direction in model output trained wi
 * Python 3
 * OpenCV
 * dlib
-* face_recognition
-* moviepy
+* [face_recognition](https://github.com/ageitgey/face_recognition)
+* [moviepy](http://zulko.github.io/moviepy/)
 
 ## Acknowledgments
 Code borrows from [tjwei](https://github.com/tjwei/GANotebooks) and [deepfakes](https://github.com/deepfakes/faceswap). The generative network is adopted from [CycleGAN](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix).
