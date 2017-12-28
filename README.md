@@ -13,7 +13,7 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
   1. Detect/Crop faces in a video using dlib's cnn model. 
   2. Pack cropped face images into a zip file.
  
-* Training data: 5k/9k face images for each target. Raw materials are scrawled from pinterest and youtube, and then cropped using dlib. Face alignment was not applied on training data.
+* Training data: 5k/9k face images for each target. Raw materials are crawled from pinterest and youtube, and then cropped using dlib. Face alignment was not applied on training data.
 
 # Results
 
@@ -47,7 +47,7 @@ When perceptual loss is apllied, the movemnet of eyeballs becomes more realistic
 2. Increasing perceptual loss weighting factor (to 1) unstablized training. But the weihgting [.01, .1, .1] I used is not optimal either.
 3. In the encoder architecture, flattening Conv2D and shrinking it to Dense(1024) is crutial for model to learn semantic features, or face representation. If we used Conv layers only (which means larger dimension), will it learn features like visaul descriptors? ([source paper](https://arxiv.org/abs/1706.02932v2), last paragraph of sec 3.1)
 4. Transform Emi Takei to Hinko Sano gave suboptimal results, due to imbalanced training data that over 65% of images of Hinako Sano came from the same video series.
-5. Mixup technique ([arXiv](https://arxiv.org/abs/1710.09412)) and least squares loss fnuction are adopted ([arXiv](https://arxiv.org/abs/1712.06391)) for training GAN. However, I did not do any ablation experiment on them. Don't know how much impact they had on outputs.
+5. Mixup technique ([arXiv](https://arxiv.org/abs/1710.09412)) and least squares loss function are adopted ([arXiv](https://arxiv.org/abs/1712.06391)) for training GAN. However, I did not do any ablation experiment on them. Don't know how much impact they had on outputs.
 
 # Requirements
 
