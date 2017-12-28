@@ -35,12 +35,15 @@ Adversarial loss improves resolution of generated images. We can see the differe
 
 ## 3. GAN (adding adversarial loss and [VGGFace](https://github.com/rcmalli/keras-vggface) perceptual loss)
 
-When perceptual loss is apllied, the movemnet of eyeballs becomes more realistic and cnosistent with input face (although hard to tell the differences from the gifs). However, training time is doubled ~ tripled.
+When perceptual loss is apllied, the movemnet of eyeballs becomes more realistic and cnosistent with input face. However, training time is doubled ~ tripled.
 
 ![GAN_PL_GIF](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/PL_sh_test3.gif)
 ![GAN_PL_results](https://github.com/shaoanlu/faceswap-GAN/raw/master/wPL_results.png)
 
 ###### Source video: [佐野ひなことすごくどうでもいい話？(遊戯王)](https://www.youtube.com/watch?v=tzlD1CQvkwU)
+
+The following figure shows output of mdoel trained with/wihtout perceptual loss (PL). Note that the input image is not in the training data, thus the outputs are blurry than above images. This somehow indicates limitation of my faceswap model.
+![Comp PL](https://github.com/shaoanlu/faceswap-GAN/raw/master/comparison_PL.PNG)
 
 ## Notes:
 1. BatchNorm/InstanceNorm: Caused input/output skin color inconsistency when the 2 training dataset had different skin color dsitribution (light condition, shadow, etc.).
