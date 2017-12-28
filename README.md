@@ -42,7 +42,7 @@ When perceptual loss is apllied, the movemnet of eyeballs becomes more realistic
 
 ###### Source video: [佐野ひなことすごくどうでもいい話？(遊戯王)](https://www.youtube.com/watch?v=tzlD1CQvkwU)
 
-The following figure shows output of mdoel trained with/wihtout perceptual loss (PL). Note that the input image is not in the training data, thus the outputs are blurry than above images. This somehow indicates limitation of my faceswap model.
+The following figure shows output of mdoel trained with/wihtout perceptual loss (PL). Note that the input image is not in the training data, thus blurry outputs are presented. This somehow implies limitation of my faceswap model.
 ![Comp PL](https://github.com/shaoanlu/faceswap-GAN/raw/master/comparison_PL.PNG)
 
 ## Notes:
