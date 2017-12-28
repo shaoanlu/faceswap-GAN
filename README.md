@@ -8,7 +8,6 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
   3. Detect faces in an image using dlib's cnn model. 
   4. Use GAN to transform detected face into target face. 
   5. Use moviepy module to output a video clip with swapped face.  
-###### Note: Mixup technique ([arXiv](https://arxiv.org/abs/1710.09412)) and least squares loss fnuction are adopted ([arXiv](https://arxiv.org/abs/1712.06391)) for training GAN. However, I did not do any ablation experiment on them.
 
 * [dlib_video_face_detection.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/dlib_video_face_detection.ipynb): This jupyter notebook does the following jobs: 
   1. Detect/Crop faces in a video using dlib's cnn model. 
@@ -43,11 +42,12 @@ When perceptual loss is apllied, the movemnet of eyeballs becomes more realistic
 
 ###### Source video: [佐野ひなことすごくどうでもいい話？(遊戯王)](https://www.youtube.com/watch?v=tzlD1CQvkwU)
 
-## Things that didn't work
+## Notes:
 1. BatchNorm/InstanceNorm: Caused input/output skin color inconsistency when the 2 training dataset had different skin color dsitribution (light condition, shadow, etc.).
 2. Increasing perceptual loss weighting factor (to 1) unstablized training. But the weihgting [.01, .1, .1] I used is not optimal either.
-3. In the encoder architecture, flattening Conv2D and shrinking it to Dense(1024) is crutial for model to learn semantic features, or face representation. If we used Conv layers only (which means larger dimension), it will learn features like visaul descriptors? ([source paper](https://arxiv.org/abs/1706.02932v2), sec 3.1)
+3. In the encoder architecture, flattening Conv2D and shrinking it to Dense(1024) is crutial for model to learn semantic features, or face representation. If we used Conv layers only (which means larger dimension), will it learn features like visaul descriptors? ([source paper](https://arxiv.org/abs/1706.02932v2), last paragraph of sec 3.1)
 4. Transform Emi Takei to Hinko Sano gave suboptimal results, due to imbalanced training data that over 65% of images of Hinako Sano came from the same video series.
+5. Mixup technique ([arXiv](https://arxiv.org/abs/1710.09412)) and least squares loss fnuction are adopted ([arXiv](https://arxiv.org/abs/1712.06391)) for training GAN. However, I did not do any ablation experiment on them. Don't know how much impact they had on outputs.
 
 # Requirements
 
