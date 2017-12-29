@@ -8,6 +8,15 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
   3. Detect faces in an image using dlib's cnn model. 
   4. Use GAN to transform detected face into target face. 
   5. Use moviepy module to output a video clip with swapped face.  
+  
+  **Updated 29, Dec., 2017:** A smoothed bounding box method is added in section "making video clips w/o face alignment". See the below gif for comparison: The noticeble jittering on the swapped faces is eliminated in the smoothed bounding box bbox version.
+
+  ![bbox](https://github.com/shaoanlu/faceswap-GAN/raw/master/bbox_comp_annotated.gif)
+
+  - A. Original face
+  - B. Swapped face, using smoothing mask
+  - C. Swapped face, using smoothing mask and face alignment
+  - D. Swapped face, using smoothing mask and smoothed bounding box
 
 * [dlib_video_face_detection.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/dlib_video_face_detection.ipynb): This jupyter notebook does the following jobs: 
   1. Detect/Crop faces in a video using dlib's cnn model. 
@@ -44,14 +53,6 @@ The following figure shows nuanced eyeballs direction in model output trained wi
 
 ![Comp PL](https://github.com/shaoanlu/faceswap-GAN/raw/master/comparison_PL_rev.png)
 
-## Notes:
-1. BatchNorm/InstanceNorm: Caused input/output skin color inconsistency when the 2 training dataset had different skin color dsitribution (light condition, shadow, etc.).
-2. Increasing perceptual loss weighting factor (to 1) unstablized training. But the weihgting [.01, .1, .1] I used is not optimal either.
-3. In the encoder architecture, flattening Conv2D and shrinking it to Dense(1024) is crutial for model to learn semantic features, or face representation. If we used Conv layers only (which means larger dimension), will it learn features like visaul descriptors? ([source paper](https://arxiv.org/abs/1706.02932v2), last paragraph of sec 3.1)
-4. Transform Emi Takei to Hinko Sano gave suboptimal results, due to imbalanced training data that over 65% of images of Hinako Sano came from the same video series.
-5. Mixup technique ([arXiv](https://arxiv.org/abs/1710.09412)) and least squares loss function are adopted ([arXiv](https://arxiv.org/abs/1712.06391)) for training GAN. However, I did not do any ablation experiment on them. Don't know how much impact they had on outputs.
-6. Since humna faces are not 100% symmetric, should we remove random flipping from data augmenattion for model to learn better features? Maybe the generated faces will look more like the taget.
-
 # Requirements
 
 * keras 2
@@ -61,6 +62,17 @@ The following figure shows nuanced eyeballs direction in model output trained wi
 * dlib
 * [face_recognition](https://github.com/ageitgey/face_recognition)
 * [moviepy](http://zulko.github.io/moviepy/)
+
+## Notes:
+1. BatchNorm/InstanceNorm: Caused input/output skin color inconsistency when the 2 training dataset had different skin color dsitribution (light condition, shadow, etc.).
+2. Increasing perceptual loss weighting factor (to 1) unstablized training. But the weihgting [.01, .1, .1] I used is not optimal either.
+3. In the encoder architecture, flattening Conv2D and shrinking it to Dense(1024) is crutial for model to learn semantic features, or face representation. If we used Conv layers only (which means larger dimension), will it learn features like visaul descriptors? ([source paper](https://arxiv.org/abs/1706.02932v2), last paragraph of sec 3.1)
+4. Transform Emi Takei to Hinko Sano gave suboptimal results, due to imbalanced training data that over 65% of images of Hinako Sano came from the same video series.
+5. Mixup technique ([arXiv](https://arxiv.org/abs/1710.09412)) and least squares loss function are adopted ([arXiv](https://arxiv.org/abs/1712.06391)) for training GAN. However, I did not do any ablation experiment on them. Don't know how much impact they had on outputs.
+6. Since humna faces are not 100% symmetric, should we remove random flipping from data augmenattion for model to learn better features? Maybe the generated faces will look more like the taget.
+
+## TODO
+1. Use Kalman filter to track bounding box.
 
 ## Acknowledgments
 Code borrows from [tjwei](https://github.com/tjwei/GANotebooks) and [deepfakes](https://github.com/deepfakes/faceswap). The generative network is adopted from [CycleGAN](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix).
