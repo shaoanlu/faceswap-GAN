@@ -9,7 +9,7 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
   4. Use GAN to transform detected face into target face. 
   5. Use moviepy module to output a video clip with swapped face.  
   
-  **Updated 29, Dec., 2017:** A smoothed bounding box method is added in section "making video clips w/o face alignment". See the below gif for comparison: The noticeable jittering on the swapped faces is eliminated in the smoothed bounding box version.
+  **Updated 29, Dec., 2017:** A smoothed bounding box method is added in section "making video clips". See the below gif for comparison: The noticeable jittering on the swapped faces is eliminated in the smoothed bounding box version.
 
   ![bbox](https://github.com/shaoanlu/faceswap-GAN/raw/master/bbox_comp_annotated.gif)
 
