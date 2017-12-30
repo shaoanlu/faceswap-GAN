@@ -24,6 +24,10 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
  
 * Training data: Training images are supposed to be in `./TE/` and `./SH/` folder for each target respectively. Face images can be of any size.
 
+## WIP
+* Mask geneartion: output image is a mixture of input source face, generated mask and generated target face.
+![mask](https://github.com/shaoanlu/faceswap-GAN/raw/master/face_seg.jpg)
+
 # Results
 
 In below are results that show trained models transforming Hinako Sano ([佐野ひなこ](https://ja.wikipedia.org/wiki/%E4%BD%90%E9%87%8E%E3%81%B2%E3%81%AA%E3%81%93), left) to Emi Takei ([武井咲](https://ja.wikipedia.org/wiki/%E6%AD%A6%E4%BA%95%E5%92%B2), right).  
