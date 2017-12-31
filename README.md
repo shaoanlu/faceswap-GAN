@@ -37,7 +37,7 @@ Adversarial loss improves resolution of generated images. Also, When perceptual 
 ![GAN_PL_GIF](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/PL_sh_test3.gif)
 ![GAN_PL_results](https://github.com/shaoanlu/faceswap-GAN/raw/master/wPL_results.png)
 
-**Perceptual loss (PL):** The following figure shows nuanced eyeballs direction in model output trained with/wihtout perceptual loss (PL). 
+**Perceptual loss (PL):** The following figure shows nuanced eyeballs direction in model output trained with/wihtout PL. 
 
 ![Comp PL](https://github.com/shaoanlu/faceswap-GAN/raw/master/comparison_PL_rev.png)
 
