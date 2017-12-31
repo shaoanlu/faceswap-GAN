@@ -17,6 +17,7 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
 
 ## WIP
 **Mask geneartion:** Model learns a proper mask that can help on handling occlusion.
+
 ![mask](https://github.com/shaoanlu/faceswap-GAN/raw/master/readme_imgs/comp_mask.png)
 
 ## Results
