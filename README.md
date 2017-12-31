@@ -38,7 +38,7 @@ Adversarial loss improves resolution of generated images. In addition, when perc
 **Smoothed bounding box:** Exponential moving average of bounding box position over frames is introduced to eliminate jittering on the swapped face. See the below gif for comparison. (Updated 29, Dec., 2017)
 
 ![bbox](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/bbox_comp_annotated.gif)
-  - A. Original face
+  - A. Source face
   - B. Swapped face, using smoothing mask
   - C. Swapped face, using smoothing mask and face alignment
   - D. Swapped face, using smoothing mask and smoothed bounding box
@@ -46,7 +46,15 @@ Adversarial loss improves resolution of generated images. In addition, when perc
 ## WIP
 **Mask geneartion:** Model learns a proper mask that can help on handling occlusion.
 
-![mask](https://github.com/shaoanlu/faceswap-GAN/raw/master/readme_imgs/comp_mask.png)
+![mask0](https://github.com/shaoanlu/faceswap-GAN/raw/master/readme_imgs/comp_mask.png)
+
+![mask1](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/mask_comp1.gif)
+
+![mask2](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/mask_comp2.gif)
+
+  - Left: Source face
+  - Middle: Swapped face, before masking
+  - Right: Swapped face, after masking
 
 # Requirements
 
