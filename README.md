@@ -32,7 +32,7 @@ It should be mentoined that the result of autoencoder (AE) can be much better if
 
 ## 2. GAN (adding adversarial loss and [VGGFace](https://github.com/rcmalli/keras-vggface) perceptual loss)
 
-Adversarial loss improves resolution of generated images. Also, When perceptual loss is apllied, the movemnet of eyeballs becomes more realistic and cnosistent with input face.
+Adversarial loss improves resolution of generated images. In addition, when perceptual loss is apllied, the movemnet of eyeballs becomes more realistic and consistent with input face.
 
 ![GAN_PL_GIF](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/PL_sh_test3.gif)
 ![GAN_PL_results](https://github.com/shaoanlu/faceswap-GAN/raw/master/wPL_results.png)
@@ -41,7 +41,7 @@ Adversarial loss improves resolution of generated images. Also, When perceptual 
 
 ![Comp PL](https://github.com/shaoanlu/faceswap-GAN/raw/master/comparison_PL_rev.png)
 
-**Smoothed bounding box:** Moving average of bounding box position over frames is introduced to eliminate noticeable jittering on the swapped faces. See the below gif for comparison. (Updated 29, Dec., 2017)
+**Smoothed bounding box:** Exponential moving average of bounding box position over frames is introduced to eliminate jittering on the swapped face. See the below gif for comparison. (Updated 29, Dec., 2017)
 
 ![bbox](https://github.com/shaoanlu/faceswap-GAN/raw/master/bbox_comp_annotated.gif)
   - A. Original face
