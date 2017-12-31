@@ -8,15 +8,6 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
   3. Detect faces in an image using dlib's cnn model. 
   4. Use GAN to transform detected face into target face. 
   5. Use moviepy module to output a video clip with swapped face.  
-  
-  **Updated 29, Dec., 2017:** A smoothed bounding box method is added in section "making video clips". See the below gif for comparison: The noticeable jittering on the swapped faces is eliminated in the smoothed bounding box version.
-
-  ![bbox](https://github.com/shaoanlu/faceswap-GAN/raw/master/bbox_comp_annotated.gif)
-
-  - A. Original face
-  - B. Swapped face, using smoothing mask
-  - C. Swapped face, using smoothing mask and face alignment
-  - D. Swapped face, using smoothing mask and smoothed bounding box
 
 * [dlib_video_face_detection.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/dlib_video_face_detection.ipynb): This jupyter notebook does the following jobs: 
   1. Detect/Crop faces in a video using dlib's cnn model. 
@@ -46,9 +37,16 @@ Adversarial loss improves resolution of generated images. Also, When perceptual 
 ![GAN_PL_GIF](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/PL_sh_test3.gif)
 ![GAN_PL_results](https://github.com/shaoanlu/faceswap-GAN/raw/master/wPL_results.png)
 
-The following figure shows nuanced eyeballs direction in model output trained with/wihtout perceptual loss (PL). Note that the input image is not in the training data, thus slightly blurry outputs are presented. This somehow implies limitation of my faceswap model that it is not gauranteed to (and possibly can't) perform well outside training set.
-
+The following figure shows nuanced eyeballs direction in model output trained with/wihtout perceptual loss (PL). 
 ![Comp PL](https://github.com/shaoanlu/faceswap-GAN/raw/master/comparison_PL_rev.png)
+
+**Updated 29, Dec., 2017:** A smoothed bounding box method is added in section "making video clips". See the below gif for comparison: The noticeable jittering on the swapped faces is eliminated in the smoothed bounding box version.
+
+![bbox](https://github.com/shaoanlu/faceswap-GAN/raw/master/bbox_comp_annotated.gif)
+  - A. Original face
+  - B. Swapped face, using smoothing mask
+  - C. Swapped face, using smoothing mask and face alignment
+  - D. Swapped face, using smoothing mask and smoothed bounding box
 
 # Requirements
 
