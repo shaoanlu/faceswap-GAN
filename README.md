@@ -15,9 +15,6 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
  
 * Training data: Training images are supposed to be in `./TE/` and `./SH/` folder for each target respectively. Face images can be of any size.
 
-## WIP
-**Mask geneartion:** Model learns a proper mask that can help on handling occlusion.
-
 ![mask](https://github.com/shaoanlu/faceswap-GAN/raw/master/readme_imgs/comp_mask.png)
 
 ## Results
@@ -47,6 +44,9 @@ Adversarial loss improves resolution of generated images. In addition, when perc
   - B. Swapped face, using smoothing mask
   - C. Swapped face, using smoothing mask and face alignment
   - D. Swapped face, using smoothing mask and smoothed bounding box
+
+## WIP
+**Mask geneartion:** Model learns a proper mask that can help on handling occlusion.
 
 # Requirements
 
