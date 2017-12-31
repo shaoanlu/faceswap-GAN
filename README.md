@@ -1,7 +1,7 @@
 # deepfakes-faceswap-GAN
 Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder architecture.
 
-# Descriptions
+## Descriptions
 * [FaceSwap_GAN_github.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_github.ipynb): This jupyter notebook does the following jobs:
   1. Build a GAN model. 
   2. Train the GAN from scratch. 
@@ -19,31 +19,30 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
 * Mask geneartion: output image is a mixture of input source face, generated mask and generated target face.
 ![mask](https://github.com/shaoanlu/faceswap-GAN/raw/master/face_seg.jpg)
 
-# Results
+## Results
 
 In below are results that show trained models transforming Hinako Sano ([佐野ひなこ](https://ja.wikipedia.org/wiki/%E4%BD%90%E9%87%8E%E3%81%B2%E3%81%AA%E3%81%93), left) to Emi Takei ([武井咲](https://ja.wikipedia.org/wiki/%E6%AD%A6%E4%BA%95%E5%92%B2), right).  
 ###### Source video: [佐野ひなことすごくどうでもいい話？(遊戯王)](https://www.youtube.com/watch?v=tzlD1CQvkwU)
-## 1. Autorecoder
+### 1. Autorecoder
 
 It should be mentoined that the result of autoencoder (AE) can be much better if we trained it for longer.
 
-![AE GIF](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/AE_sh_test.gif)  
- ![AE_results](https://github.com/shaoanlu/faceswap-GAN/raw/master/AE_results.png)
+![AE GIF](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/AE_sh_test.gif)![AE_results](https://github.com/shaoanlu/faceswap-GAN/raw/master/readme_imgs/AE_results.png)
 
-## 2. GAN (adding adversarial loss and [VGGFace](https://github.com/rcmalli/keras-vggface) perceptual loss)
+### 2. GAN (adding adversarial loss and [VGGFace](https://github.com/rcmalli/keras-vggface) perceptual loss)
 
 Adversarial loss improves resolution of generated images. In addition, when perceptual loss is apllied, the movemnet of eyeballs becomes more realistic and consistent with input face.
 
 ![GAN_PL_GIF](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/PL_sh_test3.gif)
-![GAN_PL_results](https://github.com/shaoanlu/faceswap-GAN/raw/master/wPL_results.png)
+![GAN_PL_results](https://github.com/shaoanlu/faceswap-GAN/raw/master/readme_imgs/wPL_results_resized.png)
 
 **Perceptual loss (PL):** The following figure shows nuanced eyeballs direction in model output trained with/wihtout PL. 
 
-![Comp PL](https://github.com/shaoanlu/faceswap-GAN/raw/master/comparison_PL_rev.png)
+![Comp PL](https://github.com/shaoanlu/faceswap-GAN/raw/master/readme_imgs/comparison_PL_rev.png)
 
 **Smoothed bounding box:** Exponential moving average of bounding box position over frames is introduced to eliminate jittering on the swapped face. See the below gif for comparison. (Updated 29, Dec., 2017)
 
-![bbox](https://github.com/shaoanlu/faceswap-GAN/raw/master/bbox_comp_annotated.gif)
+![bbox](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/bbox_comp_annotated.gif)
   - A. Original face
   - B. Swapped face, using smoothing mask
   - C. Swapped face, using smoothing mask and face alignment
