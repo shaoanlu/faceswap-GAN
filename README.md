@@ -37,10 +37,11 @@ Adversarial loss improves resolution of generated images. Also, When perceptual 
 ![GAN_PL_GIF](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/PL_sh_test3.gif)
 ![GAN_PL_results](https://github.com/shaoanlu/faceswap-GAN/raw/master/wPL_results.png)
 
-The following figure shows nuanced eyeballs direction in model output trained with/wihtout perceptual loss (PL). 
+**Perceptual loss (PL):** The following figure shows nuanced eyeballs direction in model output trained with/wihtout perceptual loss (PL). 
+
 ![Comp PL](https://github.com/shaoanlu/faceswap-GAN/raw/master/comparison_PL_rev.png)
 
-**Updated 29, Dec., 2017:** A smoothed bounding box method is added in section "making video clips". See the below gif for comparison: The noticeable jittering on the swapped faces is eliminated in the smoothed bounding box version.
+**Smoothed bounding box:** Moving average of bounding box position over frames is introduced to eliminate noticeable jittering on the swapped faces. See the below gif for comparison. (Updated 29, Dec., 2017)
 
 ![bbox](https://github.com/shaoanlu/faceswap-GAN/raw/master/bbox_comp_annotated.gif)
   - A. Original face
