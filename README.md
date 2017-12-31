@@ -17,7 +17,7 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
 
 ## WIP
 * Mask geneartion: output image is a mixture of input source face, generated mask and generated target face.
-![mask](https://github.com/shaoanlu/faceswap-GAN/raw/master/face_seg.jpg)
+![mask](https://github.com/shaoanlu/faceswap-GAN/raw/master/readme_imgs/face_seg.jpg)
 
 ## Results
 
