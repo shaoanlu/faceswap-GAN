@@ -25,7 +25,7 @@ It should be mentoined that the result of autoencoder (AE) can be much better if
 
 ![AE GIF](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/AE_sh_test.gif)![AE_results](https://github.com/shaoanlu/faceswap-GAN/raw/master/readme_imgs/AE_results.png)
 
-### 2. GAN (adding adversarial loss and [VGGFace](https://github.com/rcmalli/keras-vggface) perceptual loss)
+### 2. Generative Adversarial Network, GAN (adding [VGGFace](https://github.com/rcmalli/keras-vggface) perceptual loss)
 
 Adversarial loss improves resolution of generated images. In addition, when perceptual loss is apllied, the movemnet of eyeballs becomes more realistic and consistent with input face.
 
