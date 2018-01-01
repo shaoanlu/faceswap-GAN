@@ -46,7 +46,7 @@ Adversarial loss improves resolution of generated images. In addition, when perc
 ## WIP
 **Mask geneartion:** Model learns a proper mask that can help on handling occlusion.
 
-![mask0](https://github.com/shaoanlu/faceswap-GAN/raw/master/readme_imgs/comp_mask.png)
+![mask0](https://github.com/shaoanlu/faceswap-GAN/raw/master/readme_imgs/comp_mask_rev.png)
 
 ![mask1](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/mask_comp1.gif)
 
