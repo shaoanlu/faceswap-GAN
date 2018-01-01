@@ -48,13 +48,14 @@ Adversarial loss improves resolution of generated images. In addition, when perc
 
 ![mask0](https://github.com/shaoanlu/faceswap-GAN/raw/master/readme_imgs/comp_mask_rev.png)
 
-![mask1](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/mask_comp1.gif)
-
-![mask2](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/mask_comp2.gif)
-
+![mask1](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/mask_comp1.gif)  ![mask2](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/mask_comp2.gif)
   - Left: Source face
   - Middle: Swapped face, before masking
   - Right: Swapped face, after masking
+
+**Mask Visualization**: Make video clips that shows mask heatmap & face detectoin bounding box.
+
+![mask_vis](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/mask_visualization.gif)
 
 # Requirements
 
