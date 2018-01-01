@@ -55,7 +55,7 @@ Adversarial loss improves resolution of generated images. In addition, when perc
 
 **Mask Visualization**: Make video clips that shows mask heatmap & face bounding box.
 
-![mask_vis](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/mask_visualization.gif)
+![mask_vis](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/mask_vis_rev.gif)
   - Left: Source face
   - Middle: Swapped face, after masking
   - Right: Mask heatmap & face bounding box
