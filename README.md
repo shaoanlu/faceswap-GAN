@@ -82,4 +82,4 @@ Adversarial loss improves resolution of generated images. In addition, when perc
 1. Use Kalman filter to track bounding box.
 
 ## Acknowledgments
-Code borrows from [tjwei](https://github.com/tjwei/GANotebooks) and [deepfakes](https://github.com/deepfakes/faceswap). The generative network is adopted from [CycleGAN](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix).
+Code borrows from [tjwei](https://github.com/tjwei/GANotebooks) and [deepfakes](https://pastebin.com/hYaLNg1T). The generative network is adopted from [CycleGAN](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix).
