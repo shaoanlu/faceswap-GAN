@@ -1,4 +1,4 @@
-# deepfakes-faceswap-GAN
+# faceswap-GAN
 Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder architecture.
 
 ## Descriptions
@@ -21,7 +21,7 @@ In below are results that show trained models transforming Hinako Sano ([佐野�
 ###### Source video: [佐野ひなことすごくどうでもいい話？(遊戯王)](https://www.youtube.com/watch?v=tzlD1CQvkwU)
 ### 1. Autorecoder
 
-It should be mentoined that the result of autoencoder (AE) can be much better if we trained it for longer.
+Autoencoder based on deepfakes' script. It should be mentoined that the result of autoencoder (AE) can be much better if we trained it for longer.
 
 ![AE GIF](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/AE_sh_test.gif)![AE_results](https://github.com/shaoanlu/faceswap-GAN/raw/master/readme_imgs/AE_results.png)
 
