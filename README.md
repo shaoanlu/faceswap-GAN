@@ -25,7 +25,7 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
 
 ![AE GIF](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/AE_sh_test.gif)![AE_results](https://github.com/shaoanlu/faceswap-GAN/raw/master/readme_imgs/AE_results.png)
 
-### 2. Generative Adversarial Network, GAN (adding [VGGFace](https://github.com/rcmalli/keras-vggface) perceptual loss)
+### 2. [Generative Adversarial Network](https://www.analyticsvidhya.com/blog/2017/06/introductory-generative-adversarial-networks-gans/), GAN (adding [VGGFace](https://github.com/rcmalli/keras-vggface) perceptual loss)
 
 Adversarial loss improves resolution of generated images. In addition, when perceptual loss is apllied, the movemnet of eyeballs becomes more realistic and consistent with input face.
 
@@ -60,7 +60,7 @@ Adversarial loss improves resolution of generated images. In addition, when perc
   - Middle: Swapped face, after masking
   - Right: Mask heatmap & face bounding box
 
-# Requirements
+## Requirements
 
 * keras 2
 * Tensorflow 1.3 
