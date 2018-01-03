@@ -61,7 +61,7 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
 
 ![bbox](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/bbox_comp_annotated.gif)
   - A. Source face.
-  - B. Swapped face, using smoothing mask (smooths the edges of output image when pasting it back to input image).
+  - B. Swapped face, using smoothing mask (smoothes edges of output image when pasting it back to input image).
   - C. Swapped face, using smoothing mask and face alignment.
   - D. Swapped face, using smoothing mask and smoothed bounding box.
 
