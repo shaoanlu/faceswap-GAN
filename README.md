@@ -78,7 +78,7 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
   - Middle: Swapped face, before masking.
   - Right: Swapped face, after masking.
 
-**Mask visualization**: The following gif shows output mask heatmap & face bounding box.
+**Mask visualization**: The following gif shows output mask & face bounding box.
 
 ![mask_vis](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/mask_vis_rev.gif)
   - Left: Source face.
