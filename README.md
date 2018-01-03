@@ -81,7 +81,7 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
 The following gif presents a comparison of version 1 and version 2 output result.
 
 ![ver_comp_gif](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/ver1ver2_bboxedge.gif)
-  - Left: GAN version 1. Barely noticeable bounding box edges are shown.
+  - Left: GAN version 1. A barely noticeable bounding box is shown (see the bangs and hair color around cheeks).
   - Right: GAN version 2. Version 2 eliminates bbox artifacts and produces natrual skin tone.
 
 **Mask visualization**: The following gif shows output mask & face bounding box.
