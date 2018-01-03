@@ -7,9 +7,11 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
 
   1. Build a GAN model. 
   2. Train the GAN from scratch. 
-  3. Detect faces in an image using dlib's cnn model. 
-  4. Use GAN to transform detected face into target face. 
-  5. Use moviepy module to output a video clip with swapped face.  
+  3. Use GAN to swap a single face image to target face
+  4. Detect faces in an image using dlib's cnn model. 
+  5. Use GAN to transform detected face into target face. 
+  6. Use moviepy module to output a video clip with swapped face.  
+  
 ### GAN-v2
 * [FaceSwap_GAN_v2_train.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_train.ipynb): Detailed training procedures can be found in this notebook.
   1. Build a GAN model. 
@@ -21,13 +23,14 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
 * [FaceSwap_GAN_v2_test_img.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_img.ipynb): Provides `swap_face()` function that require less VRAM.
   1. Load trained model.
   2. Swap a single face image to target face.
+  
 * [FaceSwap_GAN_v2_test_video.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video.ipynb)
   1. Load trained model.
   2. Detect faces in an image using dlib's cnn model. 
   3. Use GAN to transform detected face into target face. 
   4. Use moviepy module to output a video clip with swapped face.    
   
-### Other utlis
+### Others
 * [dlib_video_face_detection.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/dlib_video_face_detection.ipynb)
   1. Detect/Crop faces in a video using dlib's cnn model. 
   2. Pack cropped face images into a zip file.
@@ -46,11 +49,11 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
 
 ### 2. [Generative Adversarial Network](https://www.analyticsvidhya.com/blog/2017/06/introductory-generative-adversarial-networks-gans/), GAN (version 1)
 
-**Improved outptu resoluiton:** Adversarial loss improves resolution of generated images. In addition, when perceptual loss is apllied, the movemnet of eyeballs becomes more realistic and consistent with input face.
+**Improved output resolution:** Adversarial loss improves resolution of generated images. In addition, when perceptual loss is apllied, the movemnet of eyeballs becomes more realistic and consistent with input face.
 
 ![GAN_PL_GIF](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/smoothedBboxPL_sh_test3.gif)![GAN_PL_results](https://github.com/shaoanlu/faceswap-GAN/raw/master/readme_imgs/wPL_results_resized.png)
 
-**[VGGFace](https://github.com/rcmalli/keras-vggface) perceptual loss (PL):** The following figure shows nuanced eyeballs direction in model output trained with/wihtout PL. 
+**VGGFace[(gtihub)](https://github.com/rcmalli/keras-vggface) perceptual loss (PL):** The following figure shows nuanced eyeballs direction in model output trained with/wihtout PL. 
 
 ![Comp PL](https://github.com/shaoanlu/faceswap-GAN/raw/master/readme_imgs/comparison_PL_rev.png)
 
@@ -63,7 +66,7 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
   - D. Swapped face, using smoothing mask and smoothed bounding box
 
 ### 3. [Generative Adversarial Network](https://www.analyticsvidhya.com/blog/2017/06/introductory-generative-adversarial-networks-gans/), GAN (version 2)
-**Segmentation mask prediction:** Model learns a proper mask that help on handling occlusion, eliminating artifacts on bbox edges, and producing natrual skin tone.
+**Segmentation mask prediction:** Model learns a proper mask that helps on handling occlusion, eliminating artifacts on bbox edges, and producing natrual skin tone.
 
 ![mask0](https://github.com/shaoanlu/faceswap-GAN/raw/master/readme_imgs/comp_mask_rev.png)
 
@@ -95,10 +98,6 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
 3. In the encoder architecture, flattening Conv2D and shrinking it to Dense(1024) is crutial for model to learn semantic features, or face representation. If we used Conv layers only (which means larger dimension), will it learn features like visaul descriptors? ([source paper](https://arxiv.org/abs/1706.02932v2), last paragraph of sec 3.1)
 4. Transform Emi Takei to Hinko Sano gave suboptimal results, due to imbalanced training data that over 65% of images of Hinako Sano came from the same video series.
 5. Mixup technique ([arXiv](https://arxiv.org/abs/1710.09412)) and least squares loss function are adopted ([arXiv](https://arxiv.org/abs/1712.06391)) for training GAN. However, I did not do any ablation experiment on them. Don't know how much impact they had on outputs.
-6. Since humna faces are not 100% symmetric, should we remove random flipping from data augmenattion for model to learn better features? Maybe the generated faces will look more like the taget.
-
-## TODO
-1. Use Kalman filter for tracking bounding box.
 
 ## Acknowledgments
 Code borrows from [tjwei](https://github.com/tjwei/GANotebooks) and [deepfakes](https://pastebin.com/hYaLNg1T). The generative network is adopted from [CycleGAN](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix).
