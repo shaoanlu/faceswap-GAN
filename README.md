@@ -7,7 +7,7 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
 
   1. Build a GAN model. 
   2. Train the GAN from scratch. 
-  3. Use GAN to swap a single face image to target face
+  3. Use GAN to swap a single face image to target face.
   4. Detect faces in an image using dlib's cnn model. 
   5. Use GAN to transform detected face into target face. 
   6. Use moviepy module to output a video clip with swapped face.  
@@ -60,10 +60,10 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
 **Smoothed bounding box:** Exponential moving average of bounding box position over frames is introduced to eliminate jittering on the swapped face. See the below gif for comparison. (Updated 29, Dec., 2017)
 
 ![bbox](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/bbox_comp_annotated.gif)
-  - A. Source face
-  - B. Swapped face, using smoothing mask
-  - C. Swapped face, using smoothing mask and face alignment
-  - D. Swapped face, using smoothing mask and smoothed bounding box
+  - A. Source face.
+  - B. Swapped face, using smoothing mask (smooths the edges of output image when pasting it back to input image).
+  - C. Swapped face, using smoothing mask and face alignment.
+  - D. Swapped face, using smoothing mask and smoothed bounding box.
 
 ### 3. [Generative Adversarial Network](https://www.analyticsvidhya.com/blog/2017/06/introductory-generative-adversarial-networks-gans/), GAN (version 2)
 **Segmentation mask prediction:** Model learns a proper mask that helps on handling occlusion, eliminating artifacts on bbox edges, and producing natrual skin tone.
@@ -71,16 +71,16 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
 ![mask0](https://github.com/shaoanlu/faceswap-GAN/raw/master/readme_imgs/comp_mask_rev.png)
 
 ![mask1](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/mask_comp1.gif)  ![mask2](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/mask_comp2.gif)
-  - Left: Source face
-  - Middle: Swapped face, before masking
-  - Right: Swapped face, after masking
+  - Left: Source face.
+  - Middle: Swapped face, before masking.
+  - Right: Swapped face, after masking.
 
 **Mask visualization**: The following gif shows output mask heatmap & face bounding box.
 
 ![mask_vis](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/mask_vis_rev.gif)
-  - Left: Source face
-  - Middle: Swapped face, after masking
-  - Right: Mask heatmap & face bounding box
+  - Left: Source face.
+  - Middle: Swapped face, after masking.
+  - Right: Mask heatmap & face bounding box.
 
 ## Requirements
 
