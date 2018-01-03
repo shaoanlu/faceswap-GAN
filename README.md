@@ -35,7 +35,7 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
   1. Detect/Crop faces in a video using dlib's cnn model. 
   2. Pack cropped face images into a zip file.
  
-* Training data: Training images are supposed to be in `./faceA/` and `./faceB/` folder for each target respectively. Face images can be of any size. (Updated 3, Jan., 2018)
+* Training data: Face images are supposed to be in `./faceA/` and `./faceB/` folder for each target respectively. Face images can be of any size. (Updated 3, Jan., 2018)
 
 ## Results
 
