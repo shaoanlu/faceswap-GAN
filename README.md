@@ -53,11 +53,11 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
 
 ![GAN_PL_GIF](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/smoothedBboxPL_sh_test3.gif)![GAN_PL_results](https://github.com/shaoanlu/faceswap-GAN/raw/master/readme_imgs/wPL_results_resized.png)
 
-**VGGFace[(GtiHub repo)](https://github.com/rcmalli/keras-vggface) perceptual loss (PL):** The following figure shows nuanced eyeballs direction in model output trained with/wihtout PL. 
+**VGGFace[(GitHub repo)](https://github.com/rcmalli/keras-vggface) perceptual loss (PL):** The following figure shows nuanced eyeballs direction in model output trained with/wihtout PL. 
 
 ![Comp PL](https://github.com/shaoanlu/faceswap-GAN/raw/master/readme_imgs/comparison_PL_rev.png)
 
-**Smoothed bounding box:** Exponential moving average of bounding box position over frames is introduced to eliminate jittering on the swapped face. See the below gif for comparison. (Updated 29, Dec., 2017)
+**Smoothed bounding box (Smoothed bbox):** Exponential moving average of bounding box position over frames is introduced to eliminate jittering on the swapped face. See the below gif for comparison.
 
 ![bbox](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/bbox_comp_annotated.gif)
   - A. Source face.
@@ -66,6 +66,9 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
   - D. Swapped face, using smoothing mask and smoothed bounding box.
 
 ### 3. [Generative Adversarial Network](https://www.analyticsvidhya.com/blog/2017/06/introductory-generative-adversarial-networks-gans/), GAN (version 2)
+
+**Version 1 features:** Most of features in version 1 are inherited, including perceptual loss and smoothed bbox.
+
 **Segmentation mask prediction:** Model learns a proper mask that helps on handling occlusion, eliminating artifacts on bbox edges, and producing natrual skin tone.
 
 ![mask0](https://github.com/shaoanlu/faceswap-GAN/raw/master/readme_imgs/comp_mask_rev.png)
