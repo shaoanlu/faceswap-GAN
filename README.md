@@ -53,7 +53,7 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
 
 ![GAN_PL_GIF](https://github.com/shaoanlu/faceswap-GAN/raw/master/gifs/smoothedBboxPL_sh_test3.gif)![GAN_PL_results](https://github.com/shaoanlu/faceswap-GAN/raw/master/readme_imgs/wPL_results_resized.png)
 
-**VGGFace[(gtihub)](https://github.com/rcmalli/keras-vggface) perceptual loss (PL):** The following figure shows nuanced eyeballs direction in model output trained with/wihtout PL. 
+**VGGFace[(GtiHub repo)](https://github.com/rcmalli/keras-vggface) perceptual loss (PL):** The following figure shows nuanced eyeballs direction in model output trained with/wihtout PL. 
 
 ![Comp PL](https://github.com/shaoanlu/faceswap-GAN/raw/master/readme_imgs/comparison_PL_rev.png)
 
