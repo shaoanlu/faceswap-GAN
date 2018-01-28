@@ -24,4 +24,4 @@
 9. **CycleGAN experiment**:
   - ![cyckeGAN exp result](https://www.dropbox.com/s/rj7gi5yft6yw7ng/cycleGAN_exp.JPG?raw=1)
   - Top row: input images.; Bottom row: output images.
-  - CycleGAN generates artifacts on output faces.
+  - CycleGAN produces artifacts on output faces. Also, featuers are not consitent before/after transformation, e.g., bangs and skin tone.
