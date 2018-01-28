@@ -20,4 +20,8 @@
   - ![knn_codes](https://www.dropbox.com/s/a3o1cvqts83h4fl/knn_code_fit.jpg?raw=1)
   - Idea: Refine output face by adding infromation from training images that look like the input image.
   - Similar results can be achieved by simply weighted averaging input image with images retrieved by kNNs (instead of the code).
-  - **TODO**: Implement **alphaGAN**, which integrates VAE that has a more representative latent space.
+  - TODO: Implement **alphaGAN**, which integrates VAE that has a more representative latent space.
+9. **CycleGAN experiment**:
+  - ![cyckeGAN exp result](https://www.dropbox.com/s/rj7gi5yft6yw7ng/cycleGAN_exp.JPG?raw=1)
+  - Top row: input images.; Bottom row: output images.
+  - CycleGAN generates artifacts on output faces.
