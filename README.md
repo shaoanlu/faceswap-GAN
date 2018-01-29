@@ -115,6 +115,14 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
     ```
 #### 2. How does it work?
   - [This illustration](https://www.dropbox.com/s/4u8q4f03px4spf8/faceswap_GAN_arch3.jpg?raw=1) shows a very high-level and abstract (but not exactly the same) flowchart of the denoising autoencoder algorithm.
+#### 3. No audio in output clips?
+  - Set `audio=True` in the video making cell.
+  ```python
+  output = 'OUTPUT_VIDEO.mp4'
+  clip1 = VideoFileClip("INPUT_VIDEO.mp4")
+  clip = clip1.fl_image(process_video)
+  %time clip.write_videofile(output, audio=True) # Set audio=True
+  ```
 
 ## Requirements
 
