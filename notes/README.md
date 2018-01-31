@@ -1,11 +1,11 @@
-## Notes:
+# Notes:
+## In this page are notes for my ongoing experiments and failed attmeps.
 1. **BatchNorm/InstanceNorm**: Caused input/output skin color inconsistency when the 2 training dataset had different skin color dsitribution (light condition, shadow, etc.). But I wonder if this will be solved after further training the model.
 2. Increasing perceptual loss weighting factor (to 1) unstablized training. But the weihgting [.01, .1, .1] I used is not optimal either.
 3. ~~In the encoder architecture, flattening Conv2D and shrinking it to Dense(1024) is crutial for model to learn semantic features, or face representation. If we used Conv layers only (which means larger dimension), will it learn features like visaul descriptors? ([source paper](https://arxiv.org/abs/1706.02932v2), last paragraph of sec 3.1)~~ Similar results can be achieved by replacing the Dense layer with Conv2D strides 2 layers (shrinking feature map to 1x1).
 4. Transform Emi Takei to Hinko Sano gave suboptimal results, due to imbalanced training data that over 65% of images of Hinako Sano came from the same video series.
 5. **Mixup** technique ([arXiv](https://arxiv.org/abs/1710.09412)) and **least squares loss** function are adopted ([arXiv](https://arxiv.org/abs/1712.06391)) for training GAN. However, I did not do any ablation experiment on them. Don't know how much impact they had on outputs.
 6. **Adding face landmarks** as the fourth input channel during training (w/ dropout_chance=0.3) force the model to learn(overfit) these face features. However it didn't give me decernible improvement. The following gif is the result clip, it should be mentoined that the landmarks information was not provided during video making, but the model was still able to prodcue accurate landmarks because similar [face, landmarks] pairs are already shown to the model during training.
-
   - ![landamrks_gif](https://www.dropbox.com/s/ek8y5fued7irq1j/sh_test_clipped4_lms_comb.gif?raw=1)
 
 7. **Recursive loop:** Feed model's output image back as its input, **repeat N times**.
@@ -25,3 +25,11 @@
   - ![cyckeGAN exp result](https://www.dropbox.com/s/rj7gi5yft6yw7ng/cycleGAN_exp.JPG?raw=1)
   - Top row: input images.; Bottom row: output images.
   - CycleGAN produces artifacts on output faces. Also, featuers are not consitent before/after transformation, e.g., bangs and skin tone.
+9.5. **CycleGAN with masking**
+  - To be updated.
+10. **(Towards) One Model to Swap Them All**
+  - Objective: Train a model that is capable of swapping any given face to Emma Watson.
+  - `faceA` folder contains ~2k images of Emma Watson.
+  - `faceB` folder contains ~200k images from celebA dataset.
+  - Hacks: Add **domain adversaria loss** on embedidngs (idea from [XGAN](https://arxiv.org/pdf/1711.05139.pdf) and [an ICCV GAN tutorial](https://youtu.be/uUUvieVxCMs?t=18m59s)). It encourages encoder to generate embbeding from two diffeernt domains to lie in the same subspace (assuming celebA dataset covers almost the true face image dsitribution). Also, heavy data augmentation (random channel shifting, random downsampling, etc.) is applied on face A to pervent overfitting.
+  - Result: Model performs poorly on hard sample, e.g., man with beard.
