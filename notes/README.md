@@ -25,11 +25,10 @@
   - ![cyckeGAN exp result](https://www.dropbox.com/s/rj7gi5yft6yw7ng/cycleGAN_exp.JPG?raw=1)
   - Top row: input images.; Bottom row: output images.
   - CycleGAN produces artifacts on output faces. Also, featuers are not consitent before/after transformation, e.g., bangs and skin tone.
-9.5. **CycleGAN with masking**
-  - To be updated.
+  - **CycleGAN with masking**: To be updated.
 10. **(Towards) One Model to Swap Them All**
   - Objective: Train a model that is capable of swapping any given face to Emma Watson.
   - `faceA` folder contains ~2k images of Emma Watson.
   - `faceB` folder contains ~200k images from celebA dataset.
-  - Hacks: Add **domain adversaria loss** on embedidngs (idea from [XGAN](https://arxiv.org/pdf/1711.05139.pdf) and [an ICCV GAN tutorial](https://youtu.be/uUUvieVxCMs?t=18m59s)). It encourages encoder to generate embbeding from two diffeernt domains to lie in the same subspace (assuming celebA dataset covers almost the true face image dsitribution). Also, heavy data augmentation (random channel shifting, random downsampling, etc.) is applied on face A to pervent overfitting.
+  - Hacks: Add **domain adversaria loss** on embedidngs (idea from [XGAN](https://arxiv.org/abs/1711.05139) and [this ICCV GAN tutorial](https://youtu.be/uUUvieVxCMs?t=18m59s)). It encourages encoder to generate embbeding from two diffeernt domains to lie in the same subspace (assuming celebA dataset covers almost the true face image dsitribution). Also, heavy data augmentation (random channel shifting, random downsampling, etc.) is applied on face A to pervent overfitting.
   - Result: Model performs poorly on hard sample, e.g., man with beard.
