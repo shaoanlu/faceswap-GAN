@@ -93,6 +93,10 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
   
 **Optional 128x128 input/output resolution**: Increase input and output size to 128x128.
 
+**Mask refinement**: Tips for mask refinement are provided in the jupyter notebooks (VGGFace ResNet50 is required). The following figure shows generated masks before/after refinement.
+
+![mask_refinement](https://www.dropbox.com/s/v0cgz9xqrwcuzjh/mask_refinement.jpg?raw=1)
+
 ## Frequently asked questions
 
 #### 1. Video making is slow / OOM error?
