@@ -1,6 +1,11 @@
 # faceswap-GAN
 Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder architecture.
 
+## News
+| Date          | Update        |
+| ------------- | ------------- | 
+| 2018-02-07      | **Video-making**: Auto downscale image resolution for face detection, preventing OOM error. This does not affect output video resolution. (Target notebook: [v2_sz128_train](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_sz128_train.ipynb), [v2_train](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_train.ipynb), and [v2_test_video](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video.ipynb))| 
+
 ## Descriptions
 ### GAN-v1
 * [FaceSwap_GAN_github.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_github.ipynb)
@@ -100,8 +105,19 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
 ## Frequently asked questions
 
 #### 1. Video making is slow / OOM error?
-  - It is likely due to too large resolution of input video, try to   
-  **reduce input size**
+  - It is likely due to too high resolution of input video, try to   
+  **Increase `video_scaling_offset = 0`** to 1 or higher (update 2018-02-07),
+  
+    or
+  **disable CNN model for face detectoin** (update 2018-02-07)
+    ```python
+    def process_video(...):
+      ...
+      #faces = get_faces_bbox(image, model="cnn") # Use CNN model
+      faces = get_faces_bbox(image, model='hog') # Use default Haar features.  
+    ```
+    or
+   **reduce input size**
     ```python
     def porcess_video(input_img):
       # Reszie to 1/2x width and height.
@@ -109,16 +125,8 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
       image = input_image
       ...
     ``` 
-    or
-  **disable CNN model for face detectoin**
-    ```python
-    def process_video(...):
-      ...
-      #faces = face_recognition.face_locations(image, model="cnn") # Use CNN model
-      faces = face_recognition.face_locations(image) # Use default Haar features.  
-    ```
 #### 2. How does it work?
-  - [This illustration](https://www.dropbox.com/s/4u8q4f03px4spf8/faceswap_GAN_arch3.jpg?raw=1) shows a very high-level and abstract (but not exactly the same) flowchart of the denoising autoencoder algorithm.
+  - [This illustration](https://www.dropbox.com/s/4u8q4f03px4spf8/faceswap_GAN_arch3.jpg?raw=1) shows a very high-level and abstract (but not exactly the same) flowchart of the denoising autoencoder algorithm. The objective functions look like [this](https://www.dropbox.com/s/e5j5rl7o3tmw6q0/faceswap_GAN_arch4.jpg?raw=1).
 #### 3. No audio in output clips?
   - Set `audio=True` in the video making cell.
   ```python
