@@ -4,7 +4,7 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
 ## News
 | Date          | Update        |
 | ------------- | ------------- | 
-| 2018-02-07      | **Video-making**: Auto downscale image resolution for face detection, preventing OOM error. This does not affect output video resolution. (Target notebook: [v2_sz128_train](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_sz128_train.ipynb), [v2_train](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_train.ipynb), and [v2_test_video](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video.ipynb))| 
+| 2018-02-07      | **Video-making**: Automatically downscale image resolution for face detection, preventing OOM error. This does not affect output video resolution: 1080p/720p in, 1080p/720p out. (Updated notebooks: [v2_sz128_train](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_sz128_train.ipynb), [v2_train](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_train.ipynb), and [v2_test_video](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video.ipynb))| 
 
 ## Descriptions
 ### GAN-v1
@@ -20,7 +20,7 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
   
 * [FaceSwap_GAN_v2_test_img.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_img.ipynb): Provides `swap_face()` function that require less VRAM.
   1. Load trained model.
-  2. Do single image face swapping.
+  2. Do single image face-swapping.
   
 * [FaceSwap_GAN_v2_test_video.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video.ipynb)
   1. Load trained model.
@@ -68,7 +68,7 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
 
 ![Comp PL](https://www.dropbox.com/s/dszawjl2hlp9mut/comparison_PL_rev.png?raw=1)
 
-**Smoothed bounding box (Smoothed bbox):** Exponential moving average of bounding box position over frames is introduced to eliminate jittering on the swapped face. See the below gif for comparison.
+**Smoothed bounding box (Smoothed bbox):** Exponential moving average of bounding box position over frames is introduced to eliminate jitter on the swapped face. See the below gif for comparison.
 
 ![bbox](https://www.dropbox.com/s/fla8lcpfpb20rt2/bbox_comp_annotated.gif?raw=1)
   - A. Source face.
@@ -117,7 +117,7 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
       faces = get_faces_bbox(image, model='hog') # Use default Haar features.  
     ```
     or
-   **reduce input size**
+   **reduce input size** (legacy)
     ```python
     def porcess_video(input_img):
       # Reszie to 1/2x width and height.
