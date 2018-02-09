@@ -32,3 +32,8 @@
   - `faceB` folder contains ~200k images from celebA dataset.
   - Hacks: Add **domain adversaria loss** on embedidngs (idea from [XGAN](https://arxiv.org/abs/1711.05139) and [this ICCV GAN tutorial](https://youtu.be/uUUvieVxCMs?t=18m59s)). It encourages encoder to generate embbeding from two diffeernt domains to lie in the same subspace (assuming celebA dataset covers almost the true face image dsitribution). Also, heavy data augmentation (random channel shifting, random downsampling, etc.) is applied on face A to pervent overfitting.
   - Result: Model performs poorly on hard sample, e.g., man with beard.
+11. **Face parts swapping as data augmentation**
+  - ![](https://www.dropbox.com/s/1l9n1ple6ymxy8b/data_augm_flowchart.jpg?raw=1)
+  - Swap only part of source face (mouth/nose/eyes) to target face, treating the swapped face as a augmented training data for source face.
+  - For each source face image, a look-alike target face is retrieved by using knn (taking a averaegd feature map as input) for face part swapping.
+  - Result: Unfortunately, the model also learns to generates artifacts as appear in augmented data, e.g., sharp edges around eyes/nose and weirdly warped face. The artifacts of augmented data are caused by non-perfect blending (due to false landmarks and bad perspective warping).
