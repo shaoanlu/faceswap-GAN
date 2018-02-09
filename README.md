@@ -106,27 +106,30 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
 
 #### 1. Video making is slow / OOM error?
   - It is likely due to too high resolution of input video, modify parameters in section 13 or 14 will solve it.   
-  First, **increase `video_scaling_offset = 0`** to 1 or higher. If this doesn't help, **set `manually_downscale = True`**.  
-  If your GPU does not have enough VRAM, **disable CNN model for face detectoin**.
-    ```python
-    def process_video(...):
-      ...
-      #faces = get_faces_bbox(image, model="cnn") # Use CNN model
-      faces = get_faces_bbox(image, model='hog') # Use default Haar features.  
-    ```
+    - First, **increase `video_scaling_offset = 0` to 1** or higher. 
+    - If it doesn't help, **set `manually_downscale = True`**.  
+    - If the above still do not help, **disable CNN model for face detectoin**.
+      ```python
+      def process_video(...):
+        ...
+        #faces = get_faces_bbox(image, model="cnn") # Use CNN model
+        faces = get_faces_bbox(image, model='hog') # Use default Haar features.  
+      ```
 #### 2. How does it work?
   - [This illustration](https://www.dropbox.com/s/4u8q4f03px4spf8/faceswap_GAN_arch3.jpg?raw=1) shows a very high-level and abstract (but not exactly the same) flowchart of the denoising autoencoder algorithm. The objective functions look like [this](https://www.dropbox.com/s/e5j5rl7o3tmw6q0/faceswap_GAN_arch4.jpg?raw=1).
 #### 3. No audio in output clips?
   - Set `audio=True` in the video making cell.
-  ```python
-  output = 'OUTPUT_VIDEO.mp4'
-  clip1 = VideoFileClip("INPUT_VIDEO.mp4")
-  clip = clip1.fl_image(process_video)
-  %time clip.write_videofile(output, audio=True) # Set audio=True
-  ```
+    ```python
+    output = 'OUTPUT_VIDEO.mp4'
+    clip1 = VideoFileClip("INPUT_VIDEO.mp4")
+    clip = clip1.fl_image(process_video)
+    %time clip.write_videofile(output, audio=True) # Set audio=True
+    ```
 #### 4. Previews look good, but video result does not seem to transform the face?
   - Default setting transfroms face B to face A.
-  - To transform face A to face B, change `path_abgr_A` to `path_abgr_B` in `process_video()` (section 13/14 of v2_train.ipynb and v2_sz128_train.ipynb) or  `whom2whom = "BtoA"` to `whom2whom = "AtoB"` (section 12 of v2_test_video.ipynb).
+  - To transform face A to face B, modify the following parameters depending on your current running notebook:
+    - Change `path_abgr_A` to `path_abgr_B` in `process_video()` (section 13/14 of v2_train.ipynb and v2_sz128_train.ipynb).
+    - Change `whom2whom = "BtoA"` to `whom2whom = "AtoB"` (section 12 of v2_test_video.ipynb).
 
 ## Requirements
 
