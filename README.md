@@ -4,6 +4,7 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
 ## News
 | Date          | Update        |
 | ------------- | ------------- | 
+| 2018-02-13      | **Video-making**: A new script for video making using **[MTCNN](https://kpzhang93.github.io/MTCNN_face_detection_alignment/index.html)** is added. Faster detection with tunnable threshold. No need of CUDA supported dlib. (New notebook: [v2_test_vodeo_MTCNN](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video_MTCNN.ipynb))| 
 | 2018-02-11      | **Video-making**: Add Kalman filters for face bounding box tracking (default `True`). (Updated notebooks: [v2_sz128_train](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_sz128_train.ipynb), [v2_train](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_train.ipynb), and [v2_test_video](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video.ipynb))| 
 | 2018-02-10      | **Video-making**: Add optional (default `False`) histogram matching for color correction into video making pipeline. Set `use_color_correction = True` to enable this feature. (Updated notebooks: [v2_sz128_train](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_sz128_train.ipynb), [v2_train](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_train.ipynb), and [v2_test_video](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video.ipynb))| 
 | 2018-02-07      | **Video-making**: Automatically downscale image resolution for face detection, preventing OOM error. This does not affect output video resolution: 1080p/720p in, 1080p/720p out. (Updated notebooks: [v2_sz128_train](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_sz128_train.ipynb), [v2_train](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_train.ipynb), and [v2_test_video](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video.ipynb))| 
@@ -27,6 +28,11 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
 * [FaceSwap_GAN_v2_test_video.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video.ipynb)
   1. Load trained model.
   2. Use moviepy module to output a video clip with swapped face. 
+  
+* [FaceSwap_GAN_v2_test_video_MTCNN.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video_MTCNN.ipynb)
+  1. Load trained model.
+  2. Use moviepy module to output a video clip with swapped face. 
+  3. This script does not reqiure CUDA supported dlib.
   
 * [faceswap_WGAN-GP_keras_github.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/temp/faceswap_WGAN-GP_keras_github.ipynb)
   - This notebook contains a class of GAN mdoel using [WGAN-GP](https://arxiv.org/abs/1704.00028). 
@@ -107,7 +113,7 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
 ## Frequently asked questions
 
 #### 1. Video making is slow / OOM error?
-  - It is likely due to too high resolution of input video, modify parameters in section 13 or 14 will solve it.   
+  - It is likely due to too high resolution of input video, modify parameters in step 13 or 14 will solve it.   
     - First, **increase `video_scaling_offset = 0` to 1** or higher. 
     - If it doesn't help, **set `manually_downscale = True`**.  
     - If the above still do not help, **disable CNN model for face detectoin**.
@@ -130,8 +136,8 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
 #### 4. Previews look good, but video result does not seem to transform the face?
   - Default setting transfroms face B to face A.
   - To transform face A to face B, modify the following parameters depending on your current running notebook:
-    - Change `path_abgr_A` to `path_abgr_B` in `process_video()` (section 13/14 of v2_train.ipynb and v2_sz128_train.ipynb).
-    - Change `whom2whom = "BtoA"` to `whom2whom = "AtoB"` (section 12 of v2_test_video.ipynb).
+    - Change `path_abgr_A` to `path_abgr_B` in `process_video()` (step 13/14 of v2_train.ipynb and v2_sz128_train.ipynb).
+    - Change `whom2whom = "BtoA"` to `whom2whom = "AtoB"` (step 12 of v2_test_video.ipynb).
 
 ## Requirements
 
@@ -139,9 +145,9 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
 * Tensorflow 1.3 
 * Python 3
 * OpenCV
-* dlib
-* [face_recognition](https://github.com/ageitgey/face_recognition)
+* dlib (optional)
+* [face_recognition](https://github.com/ageitgey/face_recognition) (optinoal)
 * [moviepy](http://zulko.github.io/moviepy/)
 
 ## Acknowledgments
-Code borrows from [tjwei](https://github.com/tjwei/GANotebooks), [eriklindernoren](https://github.com/eriklindernoren/Keras-GAN/blob/master/aae/adversarial_autoencoder.py), [fchollet](https://github.com/fchollet/deep-learning-with-python-notebooks/blob/master/8.5-introduction-to-gans.ipynb), [keras-contrib](https://github.com/keras-team/keras-contrib/blob/master/examples/improved_wgan.py) and [deepfakes](https://pastebin.com/hYaLNg1T). The generative network is adopted from [CycleGAN](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix). Part of illustrations are from [irasutoya](http://www.irasutoya.com/).
+Code borrows from [tjwei](https://github.com/tjwei/GANotebooks), [eriklindernoren](https://github.com/eriklindernoren/Keras-GAN/blob/master/aae/adversarial_autoencoder.py), [fchollet](https://github.com/fchollet/deep-learning-with-python-notebooks/blob/master/8.5-introduction-to-gans.ipynb), [keras-contrib](https://github.com/keras-team/keras-contrib/blob/master/examples/improved_wgan.py) and [deepfakes](https://pastebin.com/hYaLNg1T). The generative network is adopted from [CycleGAN](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix). Weights and scripts of MTCNN are from [FaceNet](https://github.com/davidsandberg/facenet). Illustrations are from [irasutoya](http://www.irasutoya.com/).
