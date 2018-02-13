@@ -105,6 +105,10 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
 
 ![mask_refinement](https://www.dropbox.com/s/v0cgz9xqrwcuzjh/mask_refinement.jpg?raw=1)
 
+**Face detection/tracking using MTCNN and Kalman filter**: More stable detection and smooth tracking.
+
+![dlib_vs_MTCNN](https://www.dropbox.com/s/diztxntkss4dt7v/mask_dlib_mtcnn.gif?raw=1)
+
 ## Frequently asked questions
 
 #### 1. Video making is slow / OOM error?
