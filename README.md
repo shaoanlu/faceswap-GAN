@@ -13,26 +13,21 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
 ### GAN-v1
 * [FaceSwap_GAN_github.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_github.ipynb)
 
-  1. Build and train a GAN model. 
-  2. Use moviepy module to output a video clip with swapped face.  
+  - Script for training the version 1 GAN model.
+  - Video making functions are also included. 
   
 ### GAN-v2
 * [FaceSwap_GAN_v2_train.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_train.ipynb): Detailed training procedures can be found in this notebook.
-  1. Build and train a GAN model. 
-  2. Use moviepy module to output a video clip with swapped face.
-  
-* [FaceSwap_GAN_v2_test_img.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_img.ipynb): Provides `swap_face()` function that require less VRAM.
-  1. Load trained model.
-  2. Do single image face-swapping.
+  - Script for training the version 2 GAN model.
+  - Video making functions are also included.
   
 * [FaceSwap_GAN_v2_test_video.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video.ipynb)
-  1. Load trained model.
-  2. Use moviepy module to output a video clip with swapped face. 
+  - Script for generating videos.
+  - Using face_recognition module for face detection.
   
 * [FaceSwap_GAN_v2_test_video_MTCNN.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video_MTCNN.ipynb)
-  1. Load trained model.
-  2. Use moviepy module to output a video clip with swapped face. 
-  3. This script does not reqiure CUDA supported dlib.
+  - Script for generating videos.
+  - Using MTCNN for face detection. Does not reqiure CUDA supported dlib.
   
 * [faceswap_WGAN-GP_keras_github.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/temp/faceswap_WGAN-GP_keras_github.ipynb)
   - This notebook contains a class of GAN mdoel using [WGAN-GP](https://arxiv.org/abs/1704.00028). 
@@ -47,14 +42,14 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
   - Minor updates on the architectures: 
     1. Add instance normalization to generators and discriminators.
     2. Add additional regressoin loss (mae loss) on 64x64 branch output.
-  - Not compatible with `_test_video` and `_test_img` notebooks above.
+  - Not compatible with `_test_video` and `_test_video_MTCNN` notebooks above.
   
 ### Others
 * [dlib_video_face_detection.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/dlib_video_face_detection.ipynb)
   1. Detect/Crop faces in a video using dlib's cnn model. 
   2. Pack cropped face images into a zip file.
  
-* Training data: Face images are supposed to be in `./faceA/` and `./faceB/` folder for each target respectively. Face images can be of any size. (Updated 3, Jan., 2018)
+* Training data: Face images are supposed to be in `./faceA/` and `./faceB/` folder for each target respectively. Face images can be of any size.
 
 ## Results
 
