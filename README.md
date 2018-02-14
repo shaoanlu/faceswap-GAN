@@ -63,39 +63,35 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
 
 ### 2. Generative Adversarial Network, GAN (version 1)
 
-**Improved output quality:** Adversarial loss improves reconstruction quality of generated images.
+- **Improved output quality:** Adversarial loss improves reconstruction quality of generated images.
 
-![GAN_PL_results](https://www.dropbox.com/s/ex7z8upst0toyf0/wPL_results_resized.png?raw=1).
+  ![GAN_PL_results](https://www.dropbox.com/s/ex7z8upst0toyf0/wPL_results_resized.png?raw=1).
 
-**[VGGFace](https://github.com/rcmalli/keras-vggface) perceptual loss:** Perceptual loss improves direction of eyeballs to be more realistic and consistent with input face.
+- **[VGGFace](https://github.com/rcmalli/keras-vggface) perceptual loss:** Perceptual loss improves direction of eyeballs to be more realistic and consistent with input face.
 
-**Smoothed bounding box (Smoothed bbox):** Exponential moving average of bounding box position over frames is introduced to eliminate jitter on the swapped face. 
+- **Smoothed bounding box (Smoothed bbox):** Exponential moving average of bounding box position over frames is introduced to eliminate jitter on the swapped face. 
 
 ### 3. Generative Adversarial Network, GAN (version 2)
 
-**Version 1 features:** Most of features in version 1 are inherited, including perceptual loss and smoothed bbox.
+- **Version 1 features:** Most of features in version 1 are inherited, including perceptual loss and smoothed bbox.
 
-**Unsupervised segmentation mask:** Model learns a proper mask that helps on handling occlusion, eliminating artifacts on bbox edges, and producing natrual skin tone.
+- **Unsupervised segmentation mask:** Model learns a proper mask that helps on handling occlusion, eliminating artifacts on bbox edges, and producing natrual skin tone.
 
-![mask1](https://www.dropbox.com/s/do3gax2lmhck941/mask_comp1.gif?raw=1)  ![mask2](https://www.dropbox.com/s/gh0yq26qkr31yve/mask_comp2.gif?raw=1)
-  - Left: Source face.
-  - Middle: Swapped face, before masking.
-  - Right: Swapped face, after masking.
+  ![mask1](https://www.dropbox.com/s/do3gax2lmhck941/mask_comp1.gif?raw=1)  ![mask2](https://www.dropbox.com/s/gh0yq26qkr31yve/mask_comp2.gif?raw=1)
+    - From left to right: source face, swapped face (before masking), swapped face (after masking).
 
-![mask_vis](https://www.dropbox.com/s/q6dfllwh71vavcv/mask_vis_rev.gif?raw=1)
-  - Left: Source face.
-  - Middle: Swapped face, after masking.
-  - Right: Mask heatmap & face bounding box.
+  ![mask_vis](https://www.dropbox.com/s/q6dfllwh71vavcv/mask_vis_rev.gif?raw=1)
+    - From left to right: source face, swapped face (after masking), mask heapmap.
   
-**Optional 128x128 input/output resolution**: Increase input and output size to 128x128.
+- **Optional 128x128 input/output resolution**: Increase input and output size to 128x128.
 
-**Mask refinement**: Tips for mask refinement are provided in the jupyter notebooks (VGGFace ResNet50 is required). The following figure shows generated masks before/after refinement. Input faces are from [CelebA dataset](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html).
+- **Mask refinement**: Tips for mask refinement are provided in the jupyter notebooks (VGGFace ResNet50 is required). The following figure shows generated masks before/after refinement. Input faces are from [CelebA dataset](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html).
 
-![mask_refinement](https://www.dropbox.com/s/v0cgz9xqrwcuzjh/mask_refinement.jpg?raw=1)
+  ![mask_refinement](https://www.dropbox.com/s/v0cgz9xqrwcuzjh/mask_refinement.jpg?raw=1)
 
-**Face detection/tracking using MTCNN and Kalman filter**: More stable detection and smooth tracking.
+- **Face detection/tracking using MTCNN and Kalman filter**: More stable detection and smooth tracking.
 
-![dlib_vs_MTCNN](https://www.dropbox.com/s/diztxntkss4dt7v/mask_dlib_mtcnn.gif?raw=1)
+  ![dlib_vs_MTCNN](https://www.dropbox.com/s/diztxntkss4dt7v/mask_dlib_mtcnn.gif?raw=1)
 
 ## Frequently asked questions
 
@@ -132,9 +128,9 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
 * Tensorflow 1.3 
 * Python 3
 * OpenCV
+* [moviepy](http://zulko.github.io/moviepy/)
 * dlib (optional)
 * [face_recognition](https://github.com/ageitgey/face_recognition) (optinoal)
-* [moviepy](http://zulko.github.io/moviepy/)
 
 ## Acknowledgments
 Code borrows from [tjwei](https://github.com/tjwei/GANotebooks), [eriklindernoren](https://github.com/eriklindernoren/Keras-GAN/blob/master/aae/adversarial_autoencoder.py), [fchollet](https://github.com/fchollet/deep-learning-with-python-notebooks/blob/master/8.5-introduction-to-gans.ipynb), [keras-contrib](https://github.com/keras-team/keras-contrib/blob/master/examples/improved_wgan.py) and [deepfakes](https://pastebin.com/hYaLNg1T). The generative network is adopted from [CycleGAN](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix). Weights and scripts of MTCNN are from [FaceNet](https://github.com/davidsandberg/facenet). Illustrations are from [irasutoya](http://www.irasutoya.com/).
