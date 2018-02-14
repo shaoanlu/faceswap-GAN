@@ -63,36 +63,24 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
 
 ### 2. Generative Adversarial Network, GAN (version 1)
 
-**Improved output quality:** Adversarial loss improves reconstruction quality of generated images. In addition, when perceptual loss is apllied, the direction of eyeballs becomes more realistic and consistent with input face.
+**Improved output quality:** Adversarial loss improves reconstruction quality of generated images.
 
-![GAN_PL_results](https://www.dropbox.com/s/ex7z8upst0toyf0/wPL_results_resized.png?raw=1)
+![GAN_PL_results](https://www.dropbox.com/s/ex7z8upst0toyf0/wPL_results_resized.png?raw=1).
 
-**[VGGFace](https://github.com/rcmalli/keras-vggface) perceptual loss (PL):** The following figure shows nuanced eyeballs direction of output faces trained with/without PL. 
+**[VGGFace](https://github.com/rcmalli/keras-vggface) perceptual loss:** Perceptual loss improves direction of eyeballs to be more realistic and consistent with input face.
 
-![Comp PL](https://www.dropbox.com/s/dszawjl2hlp9mut/comparison_PL_rev.png?raw=1)
-
-**Smoothed bounding box (Smoothed bbox):** Exponential moving average of bounding box position over frames is introduced to eliminate jitter on the swapped face. See the below gif for comparison.
-
-![bbox](https://www.dropbox.com/s/fla8lcpfpb20rt2/bbox_comp_annotated.gif?raw=1)
-  - A. Source face.
-  - B. Swapped face, using smoothing mask (smoothes edges of output image when pasting it back to input image).
-  - C. Swapped face, using smoothing mask and face alignment.
-  - D. Swapped face, using smoothing mask and smoothed bounding box.
+**Smoothed bounding box (Smoothed bbox):** Exponential moving average of bounding box position over frames is introduced to eliminate jitter on the swapped face. 
 
 ### 3. Generative Adversarial Network, GAN (version 2)
 
 **Version 1 features:** Most of features in version 1 are inherited, including perceptual loss and smoothed bbox.
 
-**Segmentation mask prediction:** Model learns a proper mask that helps on handling occlusion, eliminating artifacts on bbox edges, and producing natrual skin tone.
-
-![mask0](https://www.dropbox.com/s/iivdpsba1sa7wg1/comp_mask_rev.png?raw=1)
+**Unsupervised segmentation mask:** Model learns a proper mask that helps on handling occlusion, eliminating artifacts on bbox edges, and producing natrual skin tone.
 
 ![mask1](https://www.dropbox.com/s/do3gax2lmhck941/mask_comp1.gif?raw=1)  ![mask2](https://www.dropbox.com/s/gh0yq26qkr31yve/mask_comp2.gif?raw=1)
   - Left: Source face.
   - Middle: Swapped face, before masking.
   - Right: Swapped face, after masking.
-
-**Mask visualization**: The following gif shows output mask & face bounding box.
 
 ![mask_vis](https://www.dropbox.com/s/q6dfllwh71vavcv/mask_vis_rev.gif?raw=1)
   - Left: Source face.
