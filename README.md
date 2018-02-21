@@ -57,7 +57,9 @@ In below are results that show trained models transforming Hinako Sano ([佐野�
 
 Autoencoder based on deepfakes' script. It should be mentoined that the result of autoencoder (AE) can be much better if we trained it for longer.
 
-![AE_results](https://www.dropbox.com/s/n9xjzhlc4llbh96/AE_results.png?raw=1)
+- **Result:**
+
+  ![AE_results](https://www.dropbox.com/s/n9xjzhlc4llbh96/AE_results.png?raw=1)
 
 ### 2. Generative Adversarial Network, GAN (version 1)
 
@@ -86,6 +88,10 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
 - **Mask refinement**: Tips for mask refinement are provided in the jupyter notebooks (VGGFace ResNet50 is required). The following figure shows generated masks before/after refinement. Input faces are from [CelebA dataset](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html).
 
   ![mask_refinement](https://www.dropbox.com/s/v0cgz9xqrwcuzjh/mask_refinement.jpg?raw=1)
+
+- **Mask comparison:** The following figure shows comparison between (i) generated masks and (ii) face segmentations using [YuvalNirkin's FCN netwrok](https://github.com/YuvalNirkin/face_segmentation). Surprisingly, FCN fails to segment out occlusion of faces in the 2nd and 4th rows.
+
+  ![mask_seg_comp](https://www.dropbox.com/s/0tp0fjygfxlofv7/seg_comp.jpg?raw=1)
 
 - **Face detection/tracking using MTCNN and Kalman filter**: More stable detection and smooth tracking.
 
