@@ -4,26 +4,26 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
 ## News
 | Date          | Update        |
 | ------------- | ------------- | 
-| 2018-02-13      | **Video-making**: Add a new video-making script using **[MTCNN](https://kpzhang93.github.io/MTCNN_face_detection_alignment/index.html)** for face detection. Faster detection with tunnable threshold. No need of CUDA supported dlib. (New notebook: [v2_test_vodeo_MTCNN](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video_MTCNN.ipynb))| 
-| 2018-02-10      | **Video-making**: Add optional (default `False`) histogram matching for color correction into video making pipeline. Set `use_color_correction = True` to enable this feature. (Updated notebooks: [v2_sz128_train](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_sz128_train.ipynb), [v2_train](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_train.ipynb), and [v2_test_video](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video.ipynb))| 
+| 2018-02-13      | **Video conversion**: Add a new video procesisng script using **[MTCNN](https://kpzhang93.github.io/MTCNN_face_detection_alignment/index.html)** for face detection. Faster detection with configurable threshold value. No need of CUDA supported dlib. (New notebook: [v2_test_vodeo_MTCNN](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video_MTCNN.ipynb))| 
+| 2018-02-10      | **Video conversion**: Add a optional (default `False`) histogram matching function for color correction into video conversion pipeline. Set `use_color_correction = True` to enable this feature. (Updated notebooks: [v2_sz128_train](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_sz128_train.ipynb), [v2_train](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_train.ipynb), and [v2_test_video](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video.ipynb))| 
 
 ## Descriptions
 ### GAN-v1
 * [FaceSwap_GAN_github.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_github.ipynb)
 
   - Script for training the version 1 GAN model.
-  - Video making functions are also included. 
+  - Video conversion functions are also included. 
   
 ### GAN-v2
-* [FaceSwap_GAN_v2_train.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_train.ipynb): Detailed training procedures can be found in this notebook.
+* [FaceSwap_GAN_v2_train.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_train.ipynb) **(recommneded for trainnig)**
   - Script for training the version 2 GAN model.
-  - Video making functions are also included.
+  - Video conversion functions are also included.
   
 * [FaceSwap_GAN_v2_test_video.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video.ipynb)
   - Script for generating videos.
   - Using face_recognition module for face detection.
   
-* [FaceSwap_GAN_v2_test_video_MTCNN.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video_MTCNN.ipynb)
+* [FaceSwap_GAN_v2_test_video_MTCNN.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video_MTCNN.ipynb) **(recommneded for video conversion)**
   - Script for generating videos.
   - Using MTCNN for face detection. Does not reqiure CUDA supported dlib.
   
@@ -36,13 +36,13 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
   gan.train(max_iters=10e4, save_interval=500) # start training
   ```
 * [FaceSwap_GAN_v2_sz128_train.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_sz128_train.ipynb)
-  - Input and output images have shape `(128, 128, 3)`.
+  - Input and output images have larger shape `(128, 128, 3)`.
   - Minor updates on the architectures: 
     1. Add instance normalization to generators and discriminators.
     2. Add additional regressoin loss (mae loss) on 64x64 branch output.
   - Not compatible with `_test_video` and `_test_video_MTCNN` notebooks above.
   
-### Others
+### Miscellaneous
 * [dlib_video_face_detection.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/dlib_video_face_detection.ipynb)
   1. Detect/Crop faces in a video using dlib's cnn model. 
   2. Pack cropped face images into a zip file.
@@ -55,9 +55,9 @@ In below are results that show trained models transforming Hinako Sano ([佐野�
 ###### Source video: [佐野ひなことすごくどうでもいい話？(遊戯王)](https://www.youtube.com/watch?v=tzlD1CQvkwU)
 ### 1. Autorecoder baseline
 
-Autoencoder based on deepfakes' script. It should be mentoined that the result of autoencoder (AE) can be much better if we trained it for longer.
+Autoencoder based on deepfakes' script. It should be mentoined that the result of autoencoder (AE) can be much better if we train it longer.
 
-- **Result:**
+- **Results:**
 
   ![AE_results](https://www.dropbox.com/s/n9xjzhlc4llbh96/AE_results.png?raw=1)
 
@@ -73,7 +73,7 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
 
 ### 3. Generative Adversarial Network, GAN (version 2)
 
-- **Version 1 features:** Most of features in version 1 are inherited, including perceptual loss and smoothed bbox.
+- **Version 1 features:** Most of the features in version 1 are inherited, including perceptual loss and smoothed bbox.
 
 - **Unsupervised segmentation mask:** Model learns a proper mask that helps on handling occlusion, eliminating artifacts on bbox edges, and producing natrual skin tone.
 
@@ -81,15 +81,15 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
     - From left to right: source face, swapped face (before masking), swapped face (after masking).
 
   ![mask_vis](https://www.dropbox.com/s/q6dfllwh71vavcv/mask_vis_rev.gif?raw=1)
-    - From left to right: source face, swapped face (after masking), mask heapmap.
+    - From left to right: source face, swapped face (after masking), mask heatmap.
   
-- **Optional 128x128 input/output resolution**: Increase input and output size to 128x128.
+- **Optional 128x128 input/output resolution**: Increase input and output size from 64x64 to 128x128.
 
-- **Mask refinement**: Tips for mask refinement are provided in the jupyter notebooks (VGGFace ResNet50 is required). The following figure shows generated masks before/after refinement. Input faces are from [CelebA dataset](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html).
+- **Mask refinement**: VGGFace ResNet50 is introduced for mask refinement (as the preceptual loss). The following figure shows generated masks before/after refinement. Input faces are from [CelebA dataset](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html).
 
   ![mask_refinement](https://www.dropbox.com/s/v0cgz9xqrwcuzjh/mask_refinement.jpg?raw=1)
 
-- **Mask comparison:** The following figure shows comparison between (i) generated masks and (ii) face segmentations using [YuvalNirkin's FCN netwrok](https://github.com/YuvalNirkin/face_segmentation). Surprisingly, FCN fails to segment out occlusion of faces in the 2nd and 4th rows.
+- **Mask comparison:** The following figure shows comparison between (i) generated masks and (ii) face segmentations using [YuvalNirkin's FCN netwrok](https://github.com/YuvalNirkin/face_segmentation). Surprisingly, FCN sometimes fails to segment out face occlusions (see the 2nd and 4th rows).
 
   ![mask_seg_comp](https://www.dropbox.com/s/0tp0fjygfxlofv7/seg_comp.jpg?raw=1)
 
@@ -99,8 +99,8 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
 
 ## Frequently asked questions
 
-#### 1. Video making is slow / OOM error?
-  - It is likely due to too high resolution of input video, modify parameters in step 13 or 14 will solve it.   
+#### 1. Slow video processing / OOM error?
+  - It is likely due to too high resolution of input video, modify the parameters in step 13 or 14 will solve it.   
     - First, **increase `video_scaling_offset = 0` to 1** or higher. 
     - If it doesn't help, **set `manually_downscale = True`**.  
     - If the above still do not help, **disable CNN model for face detectoin**.
