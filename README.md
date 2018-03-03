@@ -105,9 +105,9 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
     3. Domain adversarial loss (XGAN): Encourage embeddings to lie in the same subspace.
   - One `res_block` in the decoder is replaced by MS-D network (default depth = 16) for output refinement.
     - This is a very inefficient implementation of MS-D network.
+  - Preview images are saved in `./previews` folder.
   - FCN8s for face segmentation is introduced to improve masking in video conversion (default `use_FCN_mask = False`).
     - To enable this feature, keras weights file should be generated through jupyter notebook provided in [this repo](https://github.com/shaoanlu/face_segmentation_keras).
-  - Preview images are saved in `./previews` folder.
 
 ## Frequently asked questions
 
