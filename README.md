@@ -4,6 +4,7 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
 ## Updates
 | Date          | Update        |
 | ------------- | ------------- | 
+| 2018-03-12      | **Model architecture**: V2.1 model generators has been changed to VAEs.| 
 | 2018-03-03      | **Model architecture**: Add a [new notebook](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2.1_train.ipynb) which contains an improved GAN architecture. The architecture is greatly inspired by [XGAN](https://arxiv.org/abs/1711.05139) and [MS-D neural network](http://www.pnas.org/content/115/2/254).| 
 | 2018-02-13      | **Video conversion**: Add a new video procesisng script using **[MTCNN](https://kpzhang93.github.io/MTCNN_face_detection_alignment/index.html)** for face detection. Faster detection with configurable threshold value. No need of CUDA supported dlib. (New notebook: [v2_test_vodeo_MTCNN](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video_MTCNN.ipynb))| 
 | 2018-02-10      | **Video conversion**: Add a optional (default `False`) histogram matching function for color correction into video conversion pipeline. Set `use_color_correction = True` to enable this feature. (Updated notebooks: [v2_sz128_train](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_sz128_train.ipynb), [v2_train](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_train.ipynb), and [v2_test_video](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video.ipynb))| 
@@ -98,17 +99,16 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
 
   ![dlib_vs_MTCNN](https://www.dropbox.com/s/diztxntkss4dt7v/mask_dlib_mtcnn.gif?raw=1)
   
-- **V2.1 update:** An improved architecture is updated in order to stablize training. The architecture is greatly inspired by [XGAN](https://arxiv.org/abs/1711.05139) and [MS-D neural network](http://www.pnas.org/content/115/2/254).
+- **V2.1 update:** An improved architecture is updated in order to stablize training. ~~The architecture is greatly inspired by [XGAN](https://arxiv.org/abs/1711.05139) and [MS-D neural network](http://www.pnas.org/content/115/2/254)~~ The XGAN architecture was replaced by VAE generators.
   - In v2.1 architecture, we add more discriminators/losses to the GAN. To be specific, they are:
     1. GAN loss for non-masked outputs: Add two more discriminators to non-masked outputs.
-    2. Semantic consistency loss (XGAN): Use cosine distance of embeddings of real faces and reconstructed faces.
-    3. Domain adversarial loss (XGAN): Encourage embeddings to lie in the same subspace.
-    4. (WIP) Frame loss: An L1 loss between output of current frame and previous frame, resulting smooth transition in output video.
-  - One `res_block` in the decoder is replaced by MS-D network (default depth = 16) for output refinement.
+    2. VAE loss: KL divergence between N(0,1) and N(z_mean, exp(z_log_var)).
+    3. [Perceptual adversarial loss](https://arxiv.org/abs/1706.09138).
+  - ~~One `res_block` in the decoder is replaced by MS-D network (default depth = 16) for output refinement~~.
     - This is a very inefficient implementation of MS-D network.
   - Preview images are saved in `./previews` folder.
   - (WIP) Random motion blur as data augmentation, reducing ghost effect in output video.
-  - FCN8s for face segmentation is introduced to improve masking in video conversion (default `use_FCN_mask = False`).
+  - FCN8s for face segmentation is introduced to improve masking in video conversion (default `use_FCN_mask = True`).
     - To enable this feature, keras weights file should be generated through jupyter notebook provided in [this repo](https://github.com/shaoanlu/face_segmentation_keras).
 
 ## Frequently asked questions
