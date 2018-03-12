@@ -103,9 +103,11 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
     1. GAN loss for non-masked outputs: Add two more discriminators to non-masked outputs.
     2. Semantic consistency loss (XGAN): Use cosine distance of embeddings of real faces and reconstructed faces.
     3. Domain adversarial loss (XGAN): Encourage embeddings to lie in the same subspace.
+    4. (WIP) Frame loss: An L1 loss between output of current frame and previous frame, resulting smooth transition in output video.
   - One `res_block` in the decoder is replaced by MS-D network (default depth = 16) for output refinement.
     - This is a very inefficient implementation of MS-D network.
   - Preview images are saved in `./previews` folder.
+  - (WIP) Random motion blur as data augmentation, reducing ghost effect in output video.
   - FCN8s for face segmentation is introduced to improve masking in video conversion (default `use_FCN_mask = False`).
     - To enable this feature, keras weights file should be generated through jupyter notebook provided in [this repo](https://github.com/shaoanlu/face_segmentation_keras).
 
