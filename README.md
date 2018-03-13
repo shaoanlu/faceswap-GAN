@@ -91,7 +91,7 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
 
   ![mask_refinement](https://www.dropbox.com/s/v0cgz9xqrwcuzjh/mask_refinement.jpg?raw=1)
 
-- **Mask comparison:** The following figure shows comparison between (i) generated masks and (ii) face segmentations using [YuvalNirkin's FCN netwrok](https://github.com/YuvalNirkin/face_segmentation). Surprisingly, FCN sometimes fails to segment out face occlusions (see the 2nd and 4th rows).
+- **Mask comparison:** The following figure shows comparison between (i) generated masks and (ii) face segmentations using [YuvalNirkin's FCN](https://github.com/YuvalNirkin/face_segmentation). Surprisingly, FCN sometimes fails to segment out face occlusions (see the 2nd and 4th rows).
 
   ![mask_seg_comp](https://www.dropbox.com/s/0tp0fjygfxlofv7/seg_comp.jpg?raw=1)
 
@@ -99,15 +99,16 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
 
   ![dlib_vs_MTCNN](https://www.dropbox.com/s/diztxntkss4dt7v/mask_dlib_mtcnn.gif?raw=1)
   
-- **V2.1 update:** An improved architecture is updated in order to stablize training. The architecture is greatly inspired by [XGAN](https://arxiv.org/abs/1711.05139) and [MS-D neural network](http://www.pnas.org/content/115/2/254)
-  - In v2.1 architecture, we add more discriminators/losses to the GAN. To be specific, they are:
+- **V2.1 update:** An improved architecture is updated in order to stablize training. The architecture is greatly inspired by [XGAN](https://arxiv.org/abs/1711.05139) ~~and [MS-D neural network](http://www.pnas.org/content/115/2/254)~~.
+  - V2.1 model  provides three base architectures: (i) XGAN, (ii) VAE-GAN, and (iii) a variant of v2 GAN. (default `base_model="GAN"`)
+  - Add more discriminators/losses to the GAN. To be specific, they are:
     1. GAN loss for non-masked outputs (common): Add two more discriminators to non-masked outputs.
-    2. [Perceptual adversarial loss](https://arxiv.org/abs/1706.09138) (common).
+    2. [Perceptual adversarial loss](https://arxiv.org/abs/1706.09138) (common): Feature level L1 loss which improves semantic detail.
     3. Domain-adversarial loss (XGAN): "It encourages the embeddings learned by the encoder to lie in the same subspace"
-    4. Semantic consistency loss (XGAN): Preserve semantic of input.
+    4. Semantic consistency loss (XGAN): Loss of cosine distance of embeddings to preserve semantic of input.
     5. KL loss (VAE-GAN): KL divergence between  N(0,1) and latent vector.
   - ~~One `res_block` in the decoder is replaced by MS-D network (default depth = 16) for output refinement~~.
-    - This is a very inefficient implementation of MS-D network.
+    - ~~This is a very inefficient implementation of MS-D network.~~ MS-D network is not included for now.
   - Preview images are saved in `./previews` folder.
   - (WIP) Random motion blur as data augmentation, reducing ghost effect in output video.
   - FCN8s for face segmentation is introduced to improve masking in video conversion (default `use_FCN_mask = True`).
