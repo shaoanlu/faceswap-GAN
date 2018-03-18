@@ -91,8 +91,7 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
 
   ![dlib_vs_MTCNN](https://www.dropbox.com/s/diztxntkss4dt7v/mask_dlib_mtcnn.gif?raw=1)
 
-- **Training schedule**: V2 model provides a predefined training schedule. The following figure shows the results after 21k iters with `TOTAL_ITERS = 30000`.
-  ![cage_trump](https://www.dropbox.com/s/3c28kakchl423rl/auto_results.jpg?raw=1)
+- **Training schedule**: V2 model provides a predefined training schedule. [This figure](https://www.dropbox.com/s/3c28kakchl423rl/auto_results.jpg?raw=1) shows the results after 21k iters with `TOTAL_ITERS = 30000`.
   
 - **V2.1 update:** An improved architecture is updated in order to stablize training. The architecture is greatly inspired by [XGAN](https://arxiv.org/abs/1711.05139) ~~and [MS-D neural network](http://www.pnas.org/content/115/2/254)~~.
   - V2.1 model  provides three base architectures: (i) XGAN, (ii) VAE-GAN, and (iii) a variant of v2 GAN. (default `base_model="GAN"`)
