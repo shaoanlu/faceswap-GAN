@@ -4,7 +4,7 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
 ## Updates
 | Date          | Update        |
 | ------------- | ------------- | 
-| 2018-03-17      | **Training**: V2 model now provides a 40000-iter training schedule which automatically switches to proper loss functions at predefined iterations. ([Results on Cage/Trump dataset](https://www.dropbox.com/s/niayapca6t7r90b/auto_results.jpg?raw=1))| 
+| 2018-03-17      | **Training**: V2 model now provides a 40000-iter training schedule which automatically switches to proper loss functions at predefined iterations. ([Cage/Trump dataset results](https://www.dropbox.com/s/3c28kakchl423rl/auto_results.jpg?raw=1))| 
 | 2018-03-13      | **Model architecture**: V2.1 model now provides 3 base architectures: (i) XGAN, (ii) VAE-GAN, and (iii) a variant of v2 GAN. See "4. Training Phase Configuration" in [v2.1 notebook](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2.1_train.ipynb) for detail.| 
 | 2018-03-03      | **Model architecture**: Add a [new notebook](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2.1_train.ipynb) which contains an improved GAN architecture. The architecture is greatly inspired by [XGAN](https://arxiv.org/abs/1711.05139) and [MS-D neural network](http://www.pnas.org/content/115/2/254).| 
 | 2018-02-13      | **Video conversion**: Add a new video procesisng script using **[MTCNN](https://kpzhang93.github.io/MTCNN_face_detection_alignment/index.html)** for face detection. Faster detection with configurable threshold value. No need of CUDA supported dlib. (New notebook: [v2_test_vodeo_MTCNN](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video_MTCNN.ipynb))| 
@@ -92,7 +92,7 @@ Autoencoder based on deepfakes' script. It should be mentoined that the result o
   ![dlib_vs_MTCNN](https://www.dropbox.com/s/diztxntkss4dt7v/mask_dlib_mtcnn.gif?raw=1)
 
 - **Training schedule**: V2 model provides a predefined training schedule. The following figure shows the results after 21k iters with `TOTAL_ITERS = 30000`.
-  ![cage_trump](https://www.dropbox.com/s/niayapca6t7r90b/auto_results.jpg?raw=1)
+  ![cage_trump](https://www.dropbox.com/s/3c28kakchl423rl/auto_results.jpg?raw=1)
   
 - **V2.1 update:** An improved architecture is updated in order to stablize training. The architecture is greatly inspired by [XGAN](https://arxiv.org/abs/1711.05139) ~~and [MS-D neural network](http://www.pnas.org/content/115/2/254)~~.
   - V2.1 model  provides three base architectures: (i) XGAN, (ii) VAE-GAN, and (iii) a variant of v2 GAN. (default `base_model="GAN"`)
