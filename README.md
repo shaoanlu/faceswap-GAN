@@ -11,7 +11,7 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
 
 ## Descriptions  
 ### GAN-v2
-* [FaceSwap_GAN_v2_train.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_train.ipynb) **(recommneded for trainnig)**
+* [FaceSwap_GAN_v2_train.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_train.ipynb) **(recommned for trainnig)**
   - Script for training the version 2 GAN model.
   - Video conversion functions are also included.
   
@@ -19,7 +19,7 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
   - Script for generating videos.
   - Using face_recognition module for face detection.
   
-* [FaceSwap_GAN_v2_test_video_MTCNN.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video_MTCNN.ipynb) **(recommneded for video conversion)**
+* [FaceSwap_GAN_v2_test_video_MTCNN.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video_MTCNN.ipynb) **(recommned for video conversion)**
   - Script for generating videos.
   - Using MTCNN for face detection. Does not reqiure CUDA supported dlib.
   
@@ -101,7 +101,8 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
         faces = get_faces_bbox(image, model='hog') # Use default Haar features.  
       ```
 #### 2. How does it work?
-  - [This illustration](https://www.dropbox.com/s/4u8q4f03px4spf8/faceswap_GAN_arch3.jpg?raw=1) shows a very high-level and abstract (but not exactly the same) flowchart of the denoising autoencoder algorithm. The objective functions look like [this](https://www.dropbox.com/s/e5j5rl7o3tmw6q0/faceswap_GAN_arch4.jpg?raw=1).
+  - The following illustration shows a very high-level and abstract (but not exactly the same) flowchart of the denoising autoencoder algorithm. The objective functions look like [this](https://www.dropbox.com/s/e5j5rl7o3tmw6q0/faceswap_GAN_arch4.jpg?raw=1).
+  ![flow_chart](https://www.dropbox.com/s/4u8q4f03px4spf8/faceswap_GAN_arch3.jpg?raw=1) 
 #### 3. No audio in output clips?
   - Set `audio=True` in the video making cell.
     ```python
