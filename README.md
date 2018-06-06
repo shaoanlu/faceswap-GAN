@@ -12,49 +12,53 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
 
 ## Descriptions  
 ### GAN-v2
-* [FaceSwap_GAN_v2_train.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_train.ipynb) **(recommned for trainnig)**
-  - Script for training the version 2 GAN model.
+* [FaceSwap_GAN_v2_train.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_train.ipynb) **(recommend for trainnig)**
+  - Notebook for training the version 2 GAN model.
   - Video conversion functions are also included.
   
-* [FaceSwap_GAN_v2_test_video.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video.ipynb)
-  - Script for generating videos.
-  - Using face_recognition module for face detection.
+* [FaceSwap_GAN_v2_test_video_MTCNN.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video_MTCNN.ipynb) **(recommend for video conversion)**
+  - Notebook for generating videos. Use MTCNN for face detection.
   
-* [FaceSwap_GAN_v2_test_video_MTCNN.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video_MTCNN.ipynb) **(recommned for video conversion)**
-  - Script for generating videos.
-  - Using MTCNN for face detection. Does not reqiure CUDA supported dlib.
+* [FaceSwap_GAN_v2_test_video.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video.ipynb)
+  - Notebook for generating videos. Use face_recognition module for face detection (requiring dlib package).
   
 * [faceswap_WGAN-GP_keras_github.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/temp/faceswap_WGAN-GP_keras_github.ipynb)
-  - This notebook contains a class of GAN mdoel using [WGAN-GP](https://arxiv.org/abs/1704.00028). 
+  - This notebook is an independent training script for a GAN model of [WGAN-GP](https://arxiv.org/abs/1704.00028). 
   - Perceptual loss is discarded for simplicity. 
-  - The WGAN-GP model gave me similar result with LSGAN model after tantamount (~18k) generator updates.
+  - Not compatible with `_test_video` and `_test_video_MTCNN` notebooks above. 
+  - The WGAN-GP model gave similar result with LSGAN model after tantamount (~18k) generator updates.
+  - Training can be start easily as the following:
   ```python
   gan = FaceSwapGAN() # instantiate the class
   gan.train(max_iters=10e4, save_interval=500) # start training
   ```
 * [FaceSwap_GAN_v2_sz128_train.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_sz128_train.ipynb)
+  - This notebook is an independent script for a model with larger input/output resolution.
+  - Not compatible with `_test_video` and `_test_video_MTCNN` notebooks above. 
   - Input and output images have larger shape `(128, 128, 3)`.
-  - Minor updates on the architectures: 
-    1. Add instance normalization to generators and discriminators.
+  - Introduce minor updates to the architectures: 
+    1. Add instance normalization to the generators and discriminators.
     2. Add additional regressoin loss (mae loss) on 64x64 branch output.
-  - Not compatible with `_test_video` and `_test_video_MTCNN` notebooks above.
   
 ### Miscellaneous
 * [dlib_video_face_detection.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/dlib_video_face_detection.ipynb)
-  1. Detect/Crop faces in a video using dlib's cnn model. 
-  2. Pack cropped face images into a zip file.
- 
-* Training data: Face images are supposed to be in `./faceA/` and `./faceB/` folder for each target respectively. Face images can be of any size.
+  - Detect/Crop faces in a video using dlib's cnn model. 
+  - Pack cropped face images into a zip file.
+  
+### Training data format 
+  - Face images are supposed to be in `./faceA/` or `./faceB/` folder for each taeget respectively. 
+  - Face images can be of any size. 
+  - For better generalization, source faces can also contain multiple person.
 
-## Results
-### Generative Adversarial Network, GAN (version 2)
-
+## Generative Adversarial Network for face swapping (version 2)
+### Results
 - **Improved output quality:** Adversarial loss improves reconstruction quality of generated images.
   ![trump_cage](https://www.dropbox.com/s/24k16vtqkhlf13i/auto_results.jpg?raw=1)
 
-- **[VGGFace](https://github.com/rcmalli/keras-vggface) perceptual loss:** Perceptual loss improves direction of eyeballs to be more realistic and consistent with input face.
+### Features
+- **[VGGFace](https://github.com/rcmalli/keras-vggface) perceptual loss:** Perceptual loss improves direction of eyeballs to be more realistic and consistent with input face. It also smoothes out artifacts in the segmentation mask, resulting higher output quality.
 
-- **Smoothed bounding box (Smoothed bbox):** Exponential moving average of bounding box position over frames is introduced to eliminate jitter on the swapped face. 
+- **Smoothed bounding box:** Exponential moving average of bounding box position over frames is 
 
 - **Unsupervised segmentation mask:** Model learns a proper mask that helps on handling occlusion, eliminating artifacts on bbox edges, and producing natrual skin tone. In below are results transforming Hinako Sano ([佐野ひなこ](https://ja.wikipedia.org/wiki/%E4%BD%90%E9%87%8E%E3%81%B2%E3%81%AA%E3%81%93)) to Emi Takei ([武井咲](https://ja.wikipedia.org/wiki/%E6%AD%A6%E4%BA%95%E5%92%B2)).
 
@@ -65,15 +69,18 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
     - From left to right: source face, swapped face (after masking), mask heatmap.  
 ###### Source video: [佐野ひなことすごくどうでもいい話？(遊戯王)](https://www.youtube.com/watch?v=tzlD1CQvkwU)
   
-- **Optional 128x128 input/output resolution**: Increase input and output size from 64x64 to 128x128.
+- **Optional 128x128 input/output resolution**: Increase input and output resilution from 64x64 to 128x128.
 
-- **Face detection/tracking using MTCNN and Kalman filter**: More stable detection and smooth tracking.
+- **Face detection/tracking using MTCNN and Kalman filter during video conversion**: 
+  - MTCNN provides more stable detections. 
+  - Kalman filter is introduced to smoothen face bounding box positions over frames and eliminate jitter on the swapped face. 
 
   ![dlib_vs_MTCNN](https://www.dropbox.com/s/diztxntkss4dt7v/mask_dlib_mtcnn.gif?raw=1)
 
 - **Training schedule**: V2 model provides a predefined training schedule. The Trump/Cage results above are generated by model trained for 21k iters using `TOTAL_ITERS = 30000` predefined training schedule.
-  
-- **V2.1 update:** An improved architecture is updated in order to stablize training. The architecture is greatly inspired by [XGAN](https://arxiv.org/abs/1711.05139) ~~and [MS-D neural network](http://www.pnas.org/content/115/2/254)~~. (Note: V2.1 script is experimental and not well-maintained)
+
+### Experimental models
+- **V2.1 model:** An improved architecture is updated in order to stablize training. The architecture is greatly inspired by [XGAN](https://arxiv.org/abs/1711.05139) ~~and [MS-D neural network](http://www.pnas.org/content/115/2/254)~~. (Note: V2.1 script is experimental and not well-maintained)
   - V2.1 model  provides three base architectures: (i) XGAN, (ii) VAE-GAN, and (iii) a variant of v2 GAN. (default `base_model="GAN"`)
   - Add more discriminators/losses to the GAN. To be specific, they are:
     1. GAN loss for non-masked outputs (common): Add two more discriminators to non-masked outputs.
@@ -90,21 +97,10 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
 
 ## Frequently asked questions
 
-#### 1. Slow video processing / OOM error?
-  - It is likely due to too high resolution of input video, modify the parameters in step 13 or 14 will solve it.   
-    - First, **increase `video_scaling_offset = 0` to 1** or higher. 
-    - If it doesn't help, **set `manually_downscale = True`**.  
-    - If the above still do not help, **disable CNN model for face detectoin**.
-      ```python
-      def process_video(...):
-        ...
-        #faces = get_faces_bbox(image, model="cnn") # Use CNN model
-        faces = get_faces_bbox(image, model='hog') # Use default Haar features.  
-      ```
-#### 2. How does it work?
+#### 1. How does it work?
   - The following illustration shows a very high-level and abstract (but not exactly the same) flowchart of the denoising autoencoder algorithm. The objective functions look like [this](https://www.dropbox.com/s/e5j5rl7o3tmw6q0/faceswap_GAN_arch4.jpg?raw=1).
   ![flow_chart](https://www.dropbox.com/s/4u8q4f03px4spf8/faceswap_GAN_arch3.jpg?raw=1) 
-#### 3. No audio in output clips?
+#### 2. No audio in output clips?
   - Set `audio=True` in the video making cell.
     ```python
     output = 'OUTPUT_VIDEO.mp4'
@@ -112,7 +108,7 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
     clip = clip1.fl_image(process_video)
     %time clip.write_videofile(output, audio=True) # Set audio=True
     ```
-#### 4. Previews look good, but video result does not seem to transform the face?
+#### 3. Previews look good, but video result does not seem to transform the face?
   - Default setting transfroms face B to face A.
   - To transform face A to face B, modify the following parameters depending on your current running notebook:
     - Change `path_abgr_A` to `path_abgr_B` in `process_video()` (step 13/14 of v2_train.ipynb and v2_sz128_train.ipynb).
