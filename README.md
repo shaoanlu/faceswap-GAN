@@ -54,7 +54,7 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
 ### Architecture
   ![enc_arch3d](https://www.dropbox.com/s/5rftakq55tnxw1s/enc_arch3d_resized.jpg?raw=1)
   
-  ![dec_arch3d](https://www.dropbox.com/s/x8sepp1a2quw132/dec_3arch3d_resized.jpg?raw=1)
+  ![dec_arch3d](https://www.dropbox.com/s/p09ioztjcxs66ey/dec_3arch3d_resized.jpg?raw=1)
   
   ![dis_arch3d](https://www.dropbox.com/s/ea7u84u1x570kbs/dis_arch3d_resized.jpg?raw=1)
 
