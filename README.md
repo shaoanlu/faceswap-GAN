@@ -52,11 +52,11 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes' auto-encoder
 
 ## Generative Adversarial Network for face swapping (version 2)
 ### Architecture
-  ![enc_arch3d](https://www.dropbox.com/s/5rftakq55tnxw1s/enc_arch3d_resized.jpg?raw=1)
+  ![enc_arch3d](https://www.dropbox.com/s/b43x8bv5xxbo5q0/enc_arch3d_resized2.jpg?raw=1)
   
   ![dec_arch3d](https://www.dropbox.com/s/p09ioztjcxs66ey/dec_3arch3d_resized.jpg?raw=1)
   
-  ![dis_arch3d](https://www.dropbox.com/s/ea7u84u1x570kbs/dis_arch3d_resized.jpg?raw=1)
+  ![dis_arch3d](https://www.dropbox.com/s/szcq8j5axo11mu9/dis_arch3d_resized2.jpg?raw=1)
 
 ### Results
 - **Improved output quality:** Adversarial loss improves reconstruction quality of generated images.
