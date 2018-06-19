@@ -107,7 +107,7 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes(reddit user)'
   - FCN8s for face segmentation is introduced to improve masking in video conversion (default `use_FCN_mask = True`).
     - To enable this feature, keras weights file should be generated through jupyter notebook provided in [this repo](https://github.com/shaoanlu/face_segmentation_keras).
 
-## Frequently asked questions
+## Frequently asked questions and troubleshooting
 
 #### 1. How does it work?
   - The following illustration shows a very high-level and abstract (but not exactly the same) flowchart of the denoising autoencoder algorithm. The objective functions look like [this](https://www.dropbox.com/s/e5j5rl7o3tmw6q0/faceswap_GAN_arch4.jpg?raw=1).
@@ -120,11 +120,14 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes(reddit user)'
     clip = clip1.fl_image(process_video)
     %time clip.write_videofile(output, audio=True) # Set audio=True
     ```
-#### 3. Previews look good, but video result does not seem to transform the face?
+#### 3. Previews look good, but it does not transform to the output videos?
   - Default setting transfroms face B to face A.
   - To transform face A to face B, modify the following parameters depending on your current running notebook:
     - Change `path_abgr_A` to `path_abgr_B` in `process_video()` (step 13/14 of v2_train.ipynb and v2_sz128_train.ipynb).
-    - Change `whom2whom = "BtoA"` to `whom2whom = "AtoB"` (step 12 of v2_test_video.ipynb).
+    - Change `direction = "BtoA"` to `direction = "AtoB"` (step 12 of v2_test_video.ipynb).
+  - Model performs its full potential when the input images contain less backgrund.
+    - Input images should be crop to 80% center area during video conversion.
+    - ![readme_note001](https://www.dropbox.com/s/a1kjy0ynnlj2g4c/readme_note00.jpg?raw=1)
 
 ## Requirements
 
