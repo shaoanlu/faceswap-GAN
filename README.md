@@ -20,9 +20,6 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes(reddit user)'
 * [FaceSwap_GAN_v2_test_video_MTCNN.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video_MTCNN.ipynb) **(recommend for video conversion)**
   - Notebook for generating videos. Use MTCNN for face detection.
   
-* [FaceSwap_GAN_v2_test_video.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video.ipynb)
-  - Notebook for generating videos. Use face_recognition module for face detection (requiring dlib package).
-  
 * [faceswap_WGAN-GP_keras_github.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/temp/faceswap_WGAN-GP_keras_github.ipynb)
   - This notebook is an independent training script for a GAN model of [WGAN-GP](https://arxiv.org/abs/1704.00028). 
   - Perceptual loss is discarded for simplicity. 
