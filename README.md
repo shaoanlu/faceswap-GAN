@@ -90,7 +90,7 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes(reddit user)'
 - **Face tracking/alignment using MTCNN and Kalman filter during video conversion**: 
   - MTCNN provides more stable detections. 
   - Kalman filter is introduced to smoothen face bounding box positions over frames and eliminate jitter on the swapped face.
-  - Face alignment (FA) stablize the output results.
+  - Face alignment (FA) stablizes the output results.
 
   ![dlib_vs_MTCNN](https://www.dropbox.com/s/diztxntkss4dt7v/mask_dlib_mtcnn.gif?raw=1)  
   ![comp_FA](https://www.dropbox.com/s/kviue4065gdqfnt/comp_fa.gif?raw=1)
@@ -122,10 +122,6 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes(reddit user)'
     %time clip.write_videofile(output, audio=True) # Set audio=True
     ```
 #### 3. Previews look good, but it does not transform to the output videos?
-  - Default setting transfroms face B to face A.
-  - To transform face A to face B, modify the following parameters depending on your current running notebook:
-    - Change `path_abgr_A` to `path_abgr_B` in `process_video()` (step 13/14 of v2_train.ipynb and v2_sz128_train.ipynb).
-    - Change `direction = "BtoA"` to `direction = "AtoB"` (step 12 of v2_test_video.ipynb).
   - Model performs its full potential when the input images contain less backgrund.
     - Input images should better be preprocessed with face alignment methods.
     - ![readme_note001](https://www.dropbox.com/s/a1kjy0ynnlj2g4c/readme_note00.jpg?raw=1)
