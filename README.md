@@ -4,21 +4,27 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes(reddit user)'
 ## Updates
 | Date          | Update        |
 | ------------- | ------------- |  
+| 2018-06-25      | **Model update**: faceswap-GAN v2.2 has been released. The [v2.2 notebook](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2.2_train_test.ipynb) contains code for training and video conversion with face alignment (finally!). Additional binary masks are required for training, which can be generated through [prep_binary_masks](https://github.com/shaoanlu/faceswap-GAN/blob/master/prep_binary_masks.ipynb).|
 | 2018-06-19      | **Readme**: Add previews of the incoming v2.2 model in which introduced an eyes-aware training loss to improve output eyeballs direction.|
 | 2018-06-06      | **Model architecture**: Add a self-attention mechanism proposed in [SAGAN](https://arxiv.org/abs/1805.08318) into V2 GAN model. (Note: There is still no official code release for SAGAN, the implementation in this repo. could be wrong. We'll keep an eye on it.)|
 | 2018-03-17      | **Training**: V2 model now provides a 40000-iter training schedule which automatically switches to proper loss functions at predefined iterations. ([Cage/Trump dataset results](https://www.dropbox.com/s/24k16vtqkhlf13i/auto_results.jpg?raw=1))| 
 | 2018-03-13      | **Model architecture**: V2.1 model now provides 3 base architectures: (i) XGAN, (ii) VAE-GAN, and (iii) a variant of v2 GAN. See "4. Training Phase Configuration" in [v2.1 notebook](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2.1_train.ipynb) for detail.| 
-| 2018-03-03      | **Model architecture**: Add a [new notebook](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2.1_train.ipynb) which contains an improved GAN architecture. The architecture is greatly inspired by [XGAN](https://arxiv.org/abs/1711.05139) and [MS-D neural network](http://www.pnas.org/content/115/2/254).| 
 
 ## Descriptions  
 ### GAN-v2
-* [FaceSwap_GAN_v2_train.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_train.ipynb) **(recommend for trainnig)**
+* [FaceSwap_GAN_v2_train.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_train.ipynb)
   - Notebook for training the version 2 GAN model.
   - Video conversion functions are also included.
   
-* [FaceSwap_GAN_v2_test_video_MTCNN.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video_MTCNN.ipynb) **(recommend for video conversion)**
+* [FaceSwap_GAN_v2_test_video_MTCNN.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_test_video_MTCNN.ipynb)
   - Notebook for generating videos. Use MTCNN for face detection.
-  
+
+* [FaceSwap_GAN_v2.2_train_test.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2.2_train_test.ipynb) **(recommend for trainnig and video conversion)**
+  - Notebook for model training and video conversion of GAN model version 2.2.
+  - Additional training images generated from [this notebook](https://github.com/shaoanlu/faceswap-GAN/blob/master/prep_binary_masks.ipynb) are required.
+  - Face alignment using 5-points landmarks is introduced to video conversion. The quality of output videos should be greatly improved.
+  - Not compatible with `_test_video_MTCNN` notebook (will make compatible in future updates).
+
 * [faceswap_WGAN-GP_keras_github.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/temp/faceswap_WGAN-GP_keras_github.ipynb)
   - This notebook is an independent training script for a GAN model of [WGAN-GP](https://arxiv.org/abs/1704.00028). 
   - Perceptual loss is discarded for simplicity. 
@@ -105,7 +111,6 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes(reddit user)'
   - ~~One `res_block` in the decoder is replaced by MS-D network (default depth = 16) for output refinement~~.
     - ~~This is a very inefficient implementation of MS-D network.~~ MS-D network is not included for now.
   - Preview images are saved in `./previews` folder.
-  - (WIP) Random motion blur as data augmentation, reducing ghost effect in output video.
   - FCN8s for face segmentation is introduced to improve masking in video conversion (default `use_FCN_mask = True`).
     - To enable this feature, keras weights file should be generated through jupyter notebook provided in [this repo](https://github.com/shaoanlu/face_segmentation_keras).
 
@@ -135,10 +140,12 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes(reddit user)'
 
 * keras 2
 * Tensorflow 1.3 
-* Python 3
+* Python >3.5
 * OpenCV
 * [keras-vggface](https://github.com/rcmalli/keras-vggface)
 * [moviepy](http://zulko.github.io/moviepy/)
+* [prefetch_generator](https://github.com/justheuristic/prefetch_generator) (required for v2.2 model)
+* [face-alignment](https://github.com/1adrianb/face-alignment) (required as preprocessing for v2.2 model)
 * dlib (optional)
 * [face_recognition](https://github.com/ageitgey/face_recognition) (optinoal)
 
