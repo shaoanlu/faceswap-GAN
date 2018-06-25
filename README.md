@@ -138,9 +138,9 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes(reddit user)'
 
 ## Requirements
 
-* keras 2
-* Tensorflow 1.3 
-* Python >3.5
+* keras 2.1.5
+* Tensorflow 1.6.0 
+* Python 3.6.4
 * OpenCV
 * [keras-vggface](https://github.com/rcmalli/keras-vggface)
 * [moviepy](http://zulko.github.io/moviepy/)
