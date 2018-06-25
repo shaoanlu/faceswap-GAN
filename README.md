@@ -127,7 +127,7 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes(reddit user)'
     - Change `path_abgr_A` to `path_abgr_B` in `process_video()` (step 13/14 of v2_train.ipynb and v2_sz128_train.ipynb).
     - Change `direction = "BtoA"` to `direction = "AtoB"` (step 12 of v2_test_video.ipynb).
   - Model performs its full potential when the input images contain less backgrund.
-    - Input images should be crop to 80% center area during video conversion.
+    - Input images should better be preprocessed with face alignment methods.
     - ![readme_note001](https://www.dropbox.com/s/a1kjy0ynnlj2g4c/readme_note00.jpg?raw=1)
 
 ## Requirements
