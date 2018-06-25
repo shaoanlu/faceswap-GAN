@@ -9,7 +9,7 @@ def icnr_keras(shape, dtype=None):
     shape = list(shape)
     
     scale = 2
-    initializer = tf.keras.initializers.he_normal()
+    initializer = tf.keras.initializers.RandomNormal(0, 0.02)
 
     new_shape = shape[:3] + [int(shape[3] / (scale ** 2))]
     x = initializer(new_shape, dtype)

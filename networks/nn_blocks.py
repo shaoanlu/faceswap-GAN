@@ -7,6 +7,7 @@ from .custom_layers.scale_layer import Scale
 from .custom_inits.icnr_initializer import icnr_keras
 import tensorflow as tf
 
+# initializers and weight decay regularization are fixed
 conv_init = 'he_normal'
 w_l2 = 1e-4
 
@@ -18,9 +19,9 @@ def self_attn_block(inp, nc, squeeze_factor=8):
     x = inp
     shape_x = x.get_shape().as_list()
     
-    f = Conv2D(nc//squeeze_factor, 1)(x)
-    g = Conv2D(nc//squeeze_factor, 1)(x)
-    h = Conv2D(nc, 1, kernel_initializer=conv_init)(x)
+    f = Conv2D(nc//squeeze_factor, 1, kernel_regularizer=regularizers.l2(w_l2))(x)
+    g = Conv2D(nc//squeeze_factor, 1, kernel_regularizer=regularizers.l2(w_l2))(x)
+    h = Conv2D(nc, 1, kernel_regularizer=regularizers.l2(w_l2))(x)
     
     shape_f = f.get_shape().as_list()
     shape_g = g.get_shape().as_list()

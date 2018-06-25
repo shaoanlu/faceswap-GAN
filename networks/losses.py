@@ -55,7 +55,7 @@ def reconstruction_loss(real, fake_abgr, mask_eyes, **weights):
     
     loss_G = 0
     loss_G += weights['w_recon'] * calc_loss(fake_bgr, real, "l1")
-    loss_G += weights['w_eyes'] * calc_loss(mask_eyes*fake_bgr, mask_eyes*real, "l1")    
+    loss_G += weights['w_eyes'] * K.mean(K.abs(mask_eyes*(fake_bgr - real)))    
     return loss_G
 
 def edge_loss(real, fake_abgr, mask_eyes, **weights):
@@ -85,7 +85,7 @@ def perceptual_loss(real, fake_abgr, distorted, mask_eyes, vggface_feats, **weig
     
     real_sz224 = tf.image.resize_images(real, [224, 224])
     real_sz224 = Lambda(preprocess_vggface)(real_sz224)
-    dist = Beta(0.1, 0.1)
+    dist = Beta(0.2, 0.2)
     lam = dist.sample() # use mixup trick here to reduce foward pass from 2 times to 1.
     mixup = lam*fake_bgr + (1-lam)*fake
     fake_sz224 = tf.image.resize_images(mixup, [224, 224])
