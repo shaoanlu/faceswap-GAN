@@ -90,7 +90,7 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes(reddit user)'
 - **Face tracking/alignment using MTCNN and Kalman filter during video conversion**: 
   - MTCNN provides more stable detections. 
   - Kalman filter is introduced to smoothen face bounding box positions over frames and eliminate jitter on the swapped face.
-  - Face alignment (FA) stablizes the output results.
+  - Face alignment (FA) further stabilises the output results.
 
   ![dlib_vs_MTCNN](https://www.dropbox.com/s/diztxntkss4dt7v/mask_dlib_mtcnn.gif?raw=1)  
   ![comp_FA](https://www.dropbox.com/s/kviue4065gdqfnt/comp_fa.gif?raw=1)
