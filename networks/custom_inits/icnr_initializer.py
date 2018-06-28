@@ -4,7 +4,7 @@ def icnr_keras(shape, dtype=None):
     """
     From https://github.com/kostyaev/ICNR      
     Custom initializer for subpix upscaling
-    Note: upscale factor is fixzed to 2, and base initializer is fixed to he_normal
+    Note: upscale factor is fixzed to 2, and the base initializer is fixed to random normal.
     """
     shape = list(shape)
     
