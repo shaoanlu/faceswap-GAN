@@ -10,7 +10,7 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes(reddit user)'
 | 2018-03-13      | **Model architecture**: V2.1 model now provides 3 base architectures: (i) XGAN, (ii) VAE-GAN, and (iii) a variant of v2 GAN. See "4. Training Phase Configuration" in [v2.1 notebook](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2.1_train.ipynb) for detail.| 
 
 ## Descriptions  
-### faceswap-GAN v2.2 (Recommend model)
+### faceswap-GAN v2.2 (Recommended model)
 * [FaceSwap_GAN_v2.2_train_test.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2.2_train_test.ipynb)
   - Notebook for model training and video conversion of GAN model version 2.2.
   - Additional training images generated from [prep_binary_masks.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/prep_binary_masks.ipynb) are required.
