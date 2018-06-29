@@ -12,7 +12,7 @@ class FaceswapGANModel():
     def __init__(self, **arch_config):
         self.nc_G_inp = 3
         self.nc_D_inp = 6 
-        self.IMAGE_SHAPE = (64, 64, 3)
+        self.IMAGE_SHAPE = arch_config['IMAGE_SHAPE']
         self.lrD = 2e-4
         self.lrG = 1e-4
         self.use_self_attn = arch_config['use_self_attn']
@@ -21,30 +21,32 @@ class FaceswapGANModel():
         
         # define networks
         self.encoder = self.build_encoder(nc_in=self.nc_G_inp, 
-                                          input_size=64, 
+                                          input_size=self.IMAGE_SHAPE[0], 
                                           use_self_attn=self.use_self_attn,
                                           norm=self.norm,
                                           model_capacity=self.model_capacity
                                          )
         self.decoder_A = self.build_decoder(nc_in=512, 
                                             input_size=8, 
+                                            output_size=self.IMAGE_SHAPE[0],
                                             use_self_attn=self.use_self_attn,
                                             norm=self.norm,
                                             model_capacity=self.model_capacity
                                            )
         self.decoder_B = self.build_decoder(nc_in=512, 
                                             input_size=8, 
+                                            output_size=self.IMAGE_SHAPE[0],
                                             use_self_attn=self.use_self_attn,
                                             norm=self.norm,
                                             model_capacity=self.model_capacity
                                            )
         self.netDA = self.build_discriminator(nc_in=self.nc_D_inp, 
-                                              input_size=64,
+                                              input_size=self.IMAGE_SHAPE[0],
                                               use_self_attn=self.use_self_attn,
                                               norm=self.norm                                         
                                              )
         self.netDB = self.build_discriminator(nc_in=self.nc_D_inp, 
-                                              input_size=64,
+                                              input_size=self.IMAGE_SHAPE[0],
                                               use_self_attn=self.use_self_attn,
                                               norm=self.norm                                         
                                              )
@@ -65,6 +67,7 @@ class FaceswapGANModel():
     @staticmethod
     def build_encoder(nc_in=3, input_size=64, use_self_attn=True, norm='none', model_capacity='standard'):
         coef = 2 if model_capacity == "lite" else 1
+        activ_map_size = input_size
         
         inp = Input(shape=(input_size, input_size, nc_in))
         x = Conv2D(64, kernel_size=5, use_bias=False, padding="same")(inp)
@@ -74,6 +77,12 @@ class FaceswapGANModel():
         x = conv_block(x, 512, True, norm=norm) 
         x = self_attn_block(x, 512) if use_self_attn else x
         x = conv_block(x, 1024//coef, True, norm=norm)
+        
+        activ_map_size = activ_map_size//16
+        while (activ_map_size > 4):
+            x = conv_block(x, 1024//coef, True, norm=norm)
+            activ_map_size = activ_map_size//2
+        
         x = Dense(1024//coef)(Flatten()(x))
         x = Dense(4*4*1024//coef)(x)
         x = Reshape((4, 4, 1024//coef))(x)
@@ -81,8 +90,9 @@ class FaceswapGANModel():
         return Model(inputs=inp, outputs=out)        
     
     @staticmethod
-    def build_decoder(nc_in=512, input_size=8, use_self_attn=True, norm='none', model_capacity='standard'):  
+    def build_decoder(nc_in=512, input_size=8, output_size=64, use_self_attn=True, norm='none', model_capacity='standard'):  
         coef = 2 if model_capacity == "lite" else 1
+        activ_map_size = input_size
 
         inp = Input(shape=(input_size, input_size, nc_in))
         x = inp
@@ -92,18 +102,33 @@ class FaceswapGANModel():
         x = upscale_ps(x, 64//coef, True, norm=norm)
         x = res_block(x, 64//coef, norm=norm)
         x = self_attn_block(x, 64//coef) if use_self_attn else conv_block(x, 64//coef, strides=1)
+        
+        activ_map_size = activ_map_size * 8
+        while (activ_map_size < output_size):
+            x = upscale_ps(x, 64//coef, True, norm=norm)
+            x = conv_block(x, 64//coef, strides=1)
+            activ_map_size *= 2
+        
         alpha = Conv2D(1, kernel_size=5, padding='same', activation="sigmoid")(x)
         bgr = Conv2D(3, kernel_size=5, padding='same', activation="tanh")(x)
         out = concatenate([alpha, bgr])
         return Model(inp, out)
     
     @staticmethod
-    def build_discriminator(nc_in, input_size=64, use_self_attn=True, norm='none'):    
+    def build_discriminator(nc_in, input_size=64, use_self_attn=True, norm='none'):  
+        activ_map_size = input_size
+        
         inp = Input(shape=(input_size, input_size, nc_in))
         x = conv_block_d(inp, 64, False)
         x = conv_block_d(x, 128, True, norm=norm)
         x = conv_block_d(x, 256, True, norm=norm)
         x = self_attn_block(x, 256) if use_self_attn else x
+        
+        activ_map_size = activ_map_size//8
+        while (activ_map_size > 8):
+            x = conv_block_d(x, 256, True, norm=norm)
+            activ_map_size = activ_map_size//2
+            
         out = Conv2D(1, kernel_size=4, use_bias=False, padding="same")(x)   
         return Model(inputs=[inp], outputs=out)
     
