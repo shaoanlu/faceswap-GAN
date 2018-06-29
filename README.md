@@ -59,7 +59,7 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes(reddit user)'
   - Face images can be of any size. 
   - For better generalization, source faces can also be from multiple people.
 
-## Generative Adversarial Network for face swapping (version 2, version 2.2)
+## Generative Adversarial Network for face swapping
 ### 1. Architecture
   ![enc_arch3d](https://www.dropbox.com/s/b43x8bv5xxbo5q0/enc_arch3d_resized2.jpg?raw=1)
   
@@ -92,7 +92,7 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes(reddit user)'
     - From left to right: source face, swapped face (after masking), mask heatmap.  
 ###### Source video: [佐野ひなことすごくどうでもいい話？(遊戯王)](https://www.youtube.com/watch?v=tzlD1CQvkwU)
 
-- **Optional 128x128 input/output resolution**: Increase input and output resilution from 64x64 to 128x128.
+- **Configurable input/output resolution**: The model supports 64x64, 128x128, and 256x256 outupt resolutions.
 
 - **Face tracking/alignment using MTCNN and Kalman filter during video conversion**: 
   - MTCNN provides more stable detections. 
