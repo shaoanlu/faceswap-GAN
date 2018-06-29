@@ -127,6 +127,7 @@ class FaceswapGANModel():
         activ_map_size = activ_map_size//8
         while (activ_map_size > 8):
             x = conv_block_d(x, 256, True, norm=norm)
+            x = self_attn_block(x, 256) if use_self_attn else x
             activ_map_size = activ_map_size//2
             
         out = Conv2D(1, kernel_size=4, use_bias=False, padding="same")(x)   
