@@ -25,9 +25,9 @@ def calc_loss(pred, target, loss='l2'):
         raise ValueError(f'Recieve an unknown loss type: {loss}.')
     
 def cyclic_loss(netG1, netG2, real1):
-    fake2 = netG2(real1) # fake2 ABGR
+    fake2 = netG2(real1)[-1] # fake2 ABGR
     fake2 = Lambda(lambda x: x[:,:,:, 1:])(fake2) # fake2 BGR
-    cyclic1 = netG1(fake2) # cyclic1 ABGR
+    cyclic1 = netG1(fake2)[-1] # cyclic1 ABGR
     cyclic1 = Lambda(lambda x: x[:,:,:, 1:])(cyclic1) # cyclic1 BGR
     loss = calc_loss(cyclic1, real1, loss='l1')
     return loss
@@ -49,13 +49,18 @@ def adversarial_loss(netD, real, fake_abgr, distorted, **weights):
     loss_G += weights['w_D'] * calc_loss(output_mixup2, (1 - lam) * K.ones_like(output_mixup2), "l2")
     return loss_D, loss_G
 
-def reconstruction_loss(real, fake_abgr, mask_eyes, **weights):
+def reconstruction_loss(real, fake_abgr, mask_eyes, model_outputs, **weights):
     alpha = Lambda(lambda x: x[:,:,:, :1])(fake_abgr)
     fake_bgr = Lambda(lambda x: x[:,:,:, 1:])(fake_abgr)
     
     loss_G = 0
     loss_G += weights['w_recon'] * calc_loss(fake_bgr, real, "l1")
     loss_G += weights['w_eyes'] * K.mean(K.abs(mask_eyes*(fake_bgr - real)))    
+    
+    for out in model_outputs[:-1]:
+        out_size = out.get_shape().as_list()
+        resized_real = tf.image.resize_images(real, out_size[1:3])
+        loss_G += weights['w_recon'] * calc_loss(out, resized_real, "l1")    
     return loss_G
 
 def edge_loss(real, fake_abgr, mask_eyes, **weights):

@@ -103,8 +103,10 @@ class FaceswapGANModel():
         x = res_block(x, 64//coef, norm=norm)
         x = self_attn_block(x, 64//coef) if use_self_attn else conv_block(x, 64//coef, strides=1)
         
+        outputs = []
         activ_map_size = activ_map_size * 8
         while (activ_map_size < output_size):
+            outputs.append(Conv2D(3, kernel_size=5, padding='same', activation="tanh")(x))
             x = upscale_ps(x, 64//coef, True, norm=norm)
             x = conv_block(x, 64//coef, strides=1)
             activ_map_size *= 2
@@ -112,7 +114,8 @@ class FaceswapGANModel():
         alpha = Conv2D(1, kernel_size=5, padding='same', activation="sigmoid")(x)
         bgr = Conv2D(3, kernel_size=5, padding='same', activation="tanh")(x)
         out = concatenate([alpha, bgr])
-        return Model(inp, out)
+        outputs.append(out)
+        return Model(inp, outputs)
     
     @staticmethod
     def build_discriminator(nc_in, input_size=64, use_self_attn=True, norm='none'):  
@@ -136,7 +139,7 @@ class FaceswapGANModel():
     @staticmethod
     def define_variables(netG):
         distorted_input = netG.inputs[0]
-        fake_output = netG.outputs[0]
+        fake_output = netG.outputs[-1]
         alpha = Lambda(lambda x: x[:,:,:, :1])(fake_output)
         bgr = Lambda(lambda x: x[:,:,:, 1:])(fake_output)
 
@@ -158,9 +161,11 @@ class FaceswapGANModel():
 
         # Reconstruction loss
         loss_recon_GA = reconstruction_loss(self.real_A, self.fake_A, 
-                                            self.mask_eyes_A, **loss_weights)
+                                            self.mask_eyes_A, self.netGA.outputs,
+                                            **loss_weights)
         loss_recon_GB = reconstruction_loss(self.real_B, self.fake_B, 
-                                            self.mask_eyes_B, **loss_weights)
+                                            self.mask_eyes_B, self.netGB.outputs,
+                                            **loss_weights)
 
         # Edge loss
         loss_edge_GA = edge_loss(self.real_A, self.fake_A, self.mask_eyes_A, **loss_weights)
