@@ -59,7 +59,7 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes(reddit user)'
   - Face images can be of any size. 
   - For better generalization, source faces can also be from multiple people.
 
-## Generative Adversarial Network for face swapping
+## Generative adversarial networks for face swapping
 ### 1. Architecture
   ![enc_arch3d](https://www.dropbox.com/s/b43x8bv5xxbo5q0/enc_arch3d_resized2.jpg?raw=1)
   
