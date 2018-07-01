@@ -7,9 +7,7 @@ def get_src_landmarks(x0, x1, y0, y1, pnts):
     x0, x1, y0, y1: (smoothed) bbox coord.
     pnts: landmarks predicted by MTCNN
     """    
-    src_landmarks = []
-    for i in range(5):
-        src_landmarks.extend([(int(pnts[i+5][0]-x0), int(pnts[i][0]-y0))])
+    src_landmarks = [(int(pnts[i+5][0]-x0), int(pnts[i][0]-y0)) for i in range(5)]
     return src_landmarks
 
 def get_tar_landmarks(img):
@@ -22,17 +20,16 @@ def get_tar_landmarks(img):
         (0.5523683107816256, 0.5187296867370605),
         (0.7752419985257663, 0.37262483743520886),
         (0.7759613623985877, 0.6772957581740159)
-        ]   
-    
-    tar_landmarks = []
-    img_size = img.shape
-    for xy in avg_landmarks: 
-        tar_landmarks.extend([(int(xy[0]*img_size[0]), int(xy[1]*img_size[1]))])
+        ]       
+    img_sz = img.shape
+    tar_landmarks = [(int(xy[0]*img_sz[0]), int(xy[1]*img_sz[1])) for xy in avg_landmarks]
     return tar_landmarks
 
-def landmarks_match_mtcnn(src_im, src_landmarks, tar_landmarks):  
-    # umeyama(src, dst, estimate_scale)
-    # landmarks coord. should be (width, height) or (y, x)
+def landmarks_match_mtcnn(src_im, src_landmarks, tar_landmarks): 
+    """
+    umeyama(src, dst, estimate_scale), 
+    src/dst landmarks coord. should be (y, x)
+    """
     src_size = src_im.shape
     src_tmp = [(int(xy[1]), int(xy[0])) for xy in src_landmarks]
     dst_tmp = [(int(xy[1]), int(xy[0])) for xy in tar_landmarks]
