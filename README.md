@@ -19,6 +19,9 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes(reddit user)'
   - Face alignment using 5-points landmarks is introduced to video conversion. The quality of output videos should be greatly improved.
   - Not compatible with `_test_video_MTCNN` notebook (will make compatible in future updates).
   
+* [FaceSwap_GAN_v2.2_video_conversion.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2.2_video_conversion.ipynb)
+  - Notebook for video conversion of GAN model version 2.2.
+  
 * [prep_binary_masks.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/prep_binary_masks.ipynb)
   - Notebook for training data preprocessing. It generates binary masks for each training image.
   - Require [face_alignment](https://github.com/1adrianb/face-alignment) package.
