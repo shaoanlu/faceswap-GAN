@@ -101,7 +101,8 @@ class VideoConverter():
         best_conf_score = 0
 
         # loop through all detected faces
-        for (x0, y1, x1, y0, conf_score) in faces:    
+        for i, (x0, y1, x1, y0, conf_score) in enumerate(faces):   
+            lms = pnts[:,i:i+1]
             # smoothe the bounding box
             if options["use_smoothed_bbox"]:
                 if self.frames != 0 and conf_score >= best_conf_score:
@@ -132,7 +133,7 @@ class VideoConverter():
                 det_face_im = input_img[int(x0):int(x1),int(y0):int(y1),:]
 
                 # get src/tar landmarks
-                src_landmarks = get_src_landmarks(x0, x1, y0, y1, pnts)
+                src_landmarks = get_src_landmarks(x0, x1, y0, y1, lms)
                 tar_landmarks = get_tar_landmarks(det_face_im)
 
                 # align detected face
