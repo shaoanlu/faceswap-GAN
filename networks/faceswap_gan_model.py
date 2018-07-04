@@ -155,9 +155,13 @@ class FaceswapGANModel():
         assert loss_weights is not None, "loss weights are not provided."
         # Adversarial loss
         loss_DA, loss_adv_GA = adversarial_loss(self.netDA, self.real_A, self.fake_A, 
-                                                self.distorted_A, **loss_weights)
+                                                self.distorted_A, 
+                                                loss_config["gan_training"], 
+                                                **loss_weights)
         loss_DB, loss_adv_GB = adversarial_loss(self.netDB, self.real_B, self.fake_B, 
-                                                self.distorted_B, **loss_weights)
+                                                self.distorted_B, 
+                                                loss_config["gan_training"], 
+                                                **loss_weights)
 
         # Reconstruction loss
         loss_recon_GA = reconstruction_loss(self.real_A, self.fake_A, 

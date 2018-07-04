@@ -32,21 +32,37 @@ def cyclic_loss(netG1, netG2, real1):
     loss = calc_loss(cyclic1, real1, loss='l1')
     return loss
 
-def adversarial_loss(netD, real, fake_abgr, distorted, **weights):   
+def adversarial_loss(netD, real, fake_abgr, distorted, gan_training="mixup_LSGAN", **weights):   
     alpha = Lambda(lambda x: x[:,:,:, :1])(fake_abgr)
     fake_bgr = Lambda(lambda x: x[:,:,:, 1:])(fake_abgr)
     fake = alpha * fake_bgr + (1-alpha) * distorted
     
-    dist = Beta(0.2, 0.2)
-    lam = dist.sample()
-    mixup = lam * concatenate([real, distorted]) + (1 - lam) * concatenate([fake, distorted])        
-    output_mixup = netD(mixup)
-    loss_D = calc_loss(output_mixup, lam * K.ones_like(output_mixup), "l2")
-    loss_G = weights['w_D'] * calc_loss(output_mixup, (1 - lam) * K.ones_like(output_mixup), "l2")
-    mixup2 = lam * concatenate([real, distorted]) + (1 - lam) * concatenate([fake_bgr, distorted])
-    output_mixup2 = netD(mixup2)
-    loss_D += calc_loss(output_mixup2, lam * K.ones_like(output_mixup2), "l2")
-    loss_G += weights['w_D'] * calc_loss(output_mixup2, (1 - lam) * K.ones_like(output_mixup2), "l2")
+    if gan_training == "mixup_LSGAN":
+        dist = Beta(0.2, 0.2)
+        lam = dist.sample()
+        mixup = lam * concatenate([real, distorted]) + (1 - lam) * concatenate([fake, distorted])        
+        output_mixup = netD(mixup)
+        loss_D = calc_loss(output_mixup, lam * K.ones_like(output_mixup), "l2")
+        loss_G = weights['w_D'] * calc_loss(output_mixup, (1 - lam) * K.ones_like(output_mixup), "l2")
+        mixup2 = lam * concatenate([real, distorted]) + (1 - lam) * concatenate([fake_bgr, distorted])
+        output_mixup2 = netD(mixup2)
+        loss_D += calc_loss(output_mixup2, lam * K.ones_like(output_mixup2), "l2")
+        loss_G += weights['w_D'] * calc_loss(output_mixup2, (1 - lam) * K.ones_like(output_mixup2), "l2")
+    elif gan_training == "relativistic_avg_LSGAN":
+        real_pred = netD(concatenate([real, distorted]))
+        fake_pred = netD(concatenate([fake, distorted]))
+        loss_D = K.mean(K.square(real_pred - K.mean(fake_pred,axis=0) - K.ones_like(fake_pred)))
+        loss_D += K.mean(K.square(K.mean(fake_pred,axis=0) - real_pred + K.ones_like(fake_pred)))
+        loss_G = weights['w_D'] * K.mean(K.square(real_pred - K.mean(fake_pred,axis=0) + K.ones_like(fake_pred))) 
+        loss_G += weights['w_D'] * K.mean(K.square(K.mean(fake_pred,axis=0) - real_pred - K.ones_like(fake_pred)))
+        
+        fake_pred2 = netD(concatenate([fake_bgr, distorted]))
+        loss_D += K.mean(K.square(real_pred - K.mean(fake_pred2,axis=0) - K.ones_like(fake_pred2)))
+        loss_D += K.mean(K.square(K.mean(fake_pred2,axis=0) - real_pred + K.ones_like(fake_pred2)))
+        loss_G += weights['w_D'] * K.mean(K.square(real_pred - K.mean(fake_pred2,axis=0) + K.ones_like(fake_pred2))) 
+        loss_G += weights['w_D'] * K.mean(K.square(K.mean(fake_pred2,axis=0) - real_pred - K.ones_like(fake_pred2)))
+    else:
+        raise ValueError("Receive an unknown GAN training method: {gan_training}")
     return loss_D, loss_G
 
 def reconstruction_loss(real, fake_abgr, mask_eyes, model_outputs, **weights):
