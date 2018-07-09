@@ -4,6 +4,7 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes(reddit user)'
 ## Updates
 | Date          | Update        |
 | ------------- | ------------- |        
+| 2018-07-09      | **WIP**: Add [experiment notes](https://github.com/shaoanlu/faceswap-GAN/blob/master/notes/README.md#12-neural-style-transfer-as-output-refinement) for applying neural style transfer as output refinement. It seems to be a promosing post-processing method for high quality/resolution single image face-swapping of a 64x64 model.|
 | 2018-07-04      | **GAN training**: Add the [relativistic discriminator](https://arxiv.org/abs/1807.00734) as an alternative option to the default mixup training method. Set `loss_config["gan_training"]="relativistic_avg_LSGAN"` in config cells to enable it.|
 | 2018-06-29      | **Model architecture**: faceswap-GAN v2.2 now supports different output resolutions: 64x64, 128x128, and 256x256. Default `RESOLUTION = 64` can be changed in the config cell of [v2.2 notebook](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2.2_train_test.ipynb).|
 | 2018-06-25      | **New version**: faceswap-GAN v2.2 has been released. The main improvements of v2.2 model are its capability of generating realistic and consistent eye movements (results are shown below, or Ctrl+F for eyes), as well as higher video quality with face alignment.|
