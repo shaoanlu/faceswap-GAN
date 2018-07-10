@@ -255,9 +255,21 @@ class FaceswapGANModel():
             self.decoder_B.load_weights(f"{path}/decoder_B.h5")
             self.netDA.load_weights(f"{path}/netDA.h5") 
             self.netDB.load_weights(f"{path}/netDB.h5") 
-            print ("Model weights files are successfully loaded")
+            print ("Model weights files are successfully loaded.")
         except:
             print ("Error occurs during loading weights files.")
+            pass
+    
+    def save_weights(self, path="./models"):
+        try:
+            self.encoder.save_weights(f"{path}/encoder.h5")
+            self.decoder_A.save_weights(f"{path}/decoder_A.h5")
+            self.decoder_B.save_weights(f"{path}/decoder_B.h5")
+            self.netDA.save_weights(f"{path}/netDA.h5") 
+            self.netDB.save_weights(f"{path}/netDB.h5") 
+            print (f"Model weights files have been saved to {path}.")
+        except:
+            print ("Error occurs during saving weights.")
             pass
         
     def train_one_batch_G(self, data_A, data_B):
