@@ -1,28 +1,25 @@
 # faceswap-GAN
-Adding Adversarial loss and perceptual loss (VGGface) to deepfakes(reddit user)' auto-encoder architecture.
+Adding Adversarial loss and perceptual loss (VGGface) to deepfakes'(reddit user) auto-encoder architecture.
 
 ## Updates
 | Date          | Update        |
 | ------------- | ------------- |        
-| 2018-07-09      | **WIP**: Add [experiment notes](https://github.com/shaoanlu/faceswap-GAN/blob/master/notes/README.md#12-neural-style-transfer-as-output-refinement) for applying neural style transfer as output refinement. It seems to be a promosing post-processing method for high quality/resolution single image face-swapping of a 64x64 model.|
 | 2018-07-04      | **GAN training**: Add the [relativistic discriminator](https://arxiv.org/abs/1807.00734) as an alternative option to the default mixup training method. Set `loss_config["gan_training"]="relativistic_avg_LSGAN"` in config cells to enable it.|
 | 2018-06-29      | **Model architecture**: faceswap-GAN v2.2 now supports different output resolutions: 64x64, 128x128, and 256x256. Default `RESOLUTION = 64` can be changed in the config cell of [v2.2 notebook](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2.2_train_test.ipynb).|
 | 2018-06-25      | **New version**: faceswap-GAN v2.2 has been released. The main improvements of v2.2 model are its capability of generating realistic and consistent eye movements (results are shown below, or Ctrl+F for eyes), as well as higher video quality with face alignment.|
 | 2018-06-06      | **Model architecture**: Add a self-attention mechanism proposed in [SAGAN](https://arxiv.org/abs/1805.08318) into V2 GAN model. (Note: There is still no official code release for SAGAN, the implementation in this repo. could be wrong. We'll keep an eye on it.)|
-| 2018-03-17      | **Training**: V2 model now provides a 40000-iter training schedule which automatically switches to proper loss functions at predefined iterations. ([Cage/Trump dataset results](https://www.dropbox.com/s/24k16vtqkhlf13i/auto_results.jpg?raw=1))| 
-| 2018-03-13      | **Model architecture**: V2.1 model now provides 3 base architectures: (i) XGAN, (ii) VAE-GAN, and (iii) a variant of v2 GAN. See "4. Training Phase Configuration" in [v2.1 notebook](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2.1_train.ipynb) for detail.| 
 
 ## Descriptions  
 ### faceswap-GAN v2.2 (Recommended model)
 * [FaceSwap_GAN_v2.2_train_test.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2.2_train_test.ipynb)
   - Notebook for model training and video conversion of GAN model version 2.2.
-  - Additional training images generated from [prep_binary_masks.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/prep_binary_masks.ipynb) are required.
+  - Additional training images generated through [prep_binary_masks.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/prep_binary_masks.ipynb) are required.
   - Supported output resolutions: 64x64, 128x128, and 256x256.
-  - Face alignment using 5-points landmarks is introduced to video conversion. The quality of output videos should be greatly improved.
-  - Not compatible with `_test_video_MTCNN` notebook (will make compatible in future updates).
+  - Face alignment using 5-points landmarks is introduced to video conversion.
   
 * [FaceSwap_GAN_v2.2_video_conversion.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2.2_video_conversion.ipynb)
   - Notebook for video conversion of GAN model version 2.2.
+  - Face alignment using 5-points landmarks is introduced to video conversion.
   
 * [prep_binary_masks.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/prep_binary_masks.ipynb)
   - Notebook for training data preprocessing. It generates binary masks for each training image.
