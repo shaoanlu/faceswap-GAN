@@ -36,6 +36,8 @@ def adain(src_im, tar_im, eps=1e-7):
     ss = np.std(src_im, axis=(0,1))    
     if ss.any() <= eps: return src_im    
     result = st * (src_im.astype(np.float32) - ms) / (ss+eps) + mt
-    result = result - result.min()
-    result = (255.0/result.max()*result).astype(np.float32)
+    if result.min() < 0:
+        result = result - result.min()
+    if result.max() > 255:
+        result = (255.0/result.max()*result).astype(np.float32)
     return result
