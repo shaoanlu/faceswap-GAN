@@ -40,20 +40,23 @@ def adversarial_loss(netD, real, fake_abgr, distorted, gan_training="mixup_LSGAN
     if gan_training == "mixup_LSGAN":
         dist = Beta(0.2, 0.2)
         lam = dist.sample()
-        mixup = lam * concatenate([real, distorted]) + (1 - lam) * concatenate([fake, distorted])        
-        output_mixup = netD(mixup)
-        loss_D = calc_loss(output_mixup, lam * K.ones_like(output_mixup), "l2")
-        loss_G = weights['w_D'] * calc_loss(output_mixup, (1 - lam) * K.ones_like(output_mixup), "l2")
+        mixup = lam * concatenate([real, distorted]) + (1 - lam) * concatenate([fake, distorted])     
+        pred_fake = netD(concatenate([fake, distorted]))
+        pred_mixup = netD(mixup)
+        loss_D = calc_loss(pred_mixup, lam * K.ones_like(pred_mixup), "l2")
+        loss_G = weights['w_D'] * calc_loss(pred_fake, K.ones_like(pred_fake), "l2")
         mixup2 = lam * concatenate([real, distorted]) + (1 - lam) * concatenate([fake_bgr, distorted])
-        output_mixup2 = netD(mixup2)
-        loss_D += calc_loss(output_mixup2, lam * K.ones_like(output_mixup2), "l2")
-        loss_G += weights['w_D'] * calc_loss(output_mixup2, (1 - lam) * K.ones_like(output_mixup2), "l2")
+        pred_fake_bgr = netD(concatenate([fake_bgr, distorted]))
+        pred_mixup2 = netD(mixup2)
+        loss_D += calc_loss(pred_mixup2, lam * K.ones_like(pred_mixup2), "l2")
+        loss_G += weights['w_D'] * calc_loss(pred_fake_bgr, K.ones_like(pred_fake_bgr), "l2")
     elif gan_training == "relativistic_avg_LSGAN":
         real_pred = netD(concatenate([real, distorted]))
         fake_pred = netD(concatenate([fake, distorted]))
-        loss_D = K.mean(K.square(real_pred - K.ones_like(fake_pred)))/2
-        loss_D += K.mean(K.square(fake_pred - K.zeros_like(fake_pred)))/2
-        loss_G = weights['w_D'] * K.mean(K.square(fake_pred - K.ones_like(fake_pred)))
+        loss_D = K.mean(K.square(real_pred - K.mean(fake_pred,axis=0) - K.ones_like(fake_pred)))/2
+        loss_D += K.mean(K.square(fake_pred - K.mean(real_pred,axis=0) - K.zeros_like(fake_pred)))/2 
+        loss_G = weights['w_D'] * K.mean(K.square(real_pred - K.mean(fake_pred,axis=0) - K.zeros_like(fake_pred)))/2
+        loss_G += weights['w_D'] * K.mean(K.square(fake_pred - K.mean(real_pred,axis=0) - K.ones_like(fake_pred)))/2
         
         fake_pred2 = netD(concatenate([fake_bgr, distorted]))
         loss_D += K.mean(K.square(real_pred - K.mean(fake_pred2,axis=0) - K.ones_like(fake_pred2)))/2
