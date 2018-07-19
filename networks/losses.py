@@ -53,10 +53,9 @@ def adversarial_loss(netD, real, fake_abgr, distorted, gan_training="mixup_LSGAN
     elif gan_training == "relativistic_avg_LSGAN":
         real_pred = netD(concatenate([real, distorted]))
         fake_pred = netD(concatenate([fake, distorted]))
-        loss_D = K.mean(K.square(real_pred - K.mean(fake_pred,axis=0) - K.ones_like(fake_pred)))/2
-        loss_D += K.mean(K.square(fake_pred - K.mean(real_pred,axis=0) - K.zeros_like(fake_pred)))/2 
-        loss_G = weights['w_D'] * K.mean(K.square(real_pred - K.mean(fake_pred,axis=0) - K.zeros_like(fake_pred)))/2
-        loss_G += weights['w_D'] * K.mean(K.square(fake_pred - K.mean(real_pred,axis=0) - K.ones_like(fake_pred)))/2
+        loss_D = K.mean(K.square(real_pred - K.ones_like(fake_pred)))/2
+        loss_D += K.mean(K.square(fake_pred - K.zeros_like(fake_pred)))/2 
+        loss_G = weights['w_D'] * K.mean(K.square(fake_pred - K.ones_like(fake_pred)))
         
         fake_pred2 = netD(concatenate([fake_bgr, distorted]))
         loss_D += K.mean(K.square(real_pred - K.mean(fake_pred2,axis=0) - K.ones_like(fake_pred2)))/2
