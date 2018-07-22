@@ -52,9 +52,9 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes'(reddit user)
     2. Add additional regressoin loss (mae loss) on 64x64 branch output.
   
 ### Miscellaneous
-* [dlib_video_face_detection.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/dlib_video_face_detection.ipynb)
-  - Detect/Crop faces in a video using dlib's cnn model. 
-  - Pack cropped face images into a zip file.
+* [MTCNN_video_face_detection_alignment.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/MTCNN_video_face_detection_alignment.ipynb)
+  - This notebook performs face detection on the input video. 
+  - Images are save in folder `./faces/raw_faces` and `./faces/aligned_faces` for non-aligned/aligned faces respectively.
   
 ### Training data format 
   - Face images are supposed to be in `./faceA/` or `./faceB/` folder for each taeget respectively. 
