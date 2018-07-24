@@ -85,3 +85,4 @@ Adding face landmarks as the fourth input channel during training (w/ dropout_ch
     - <img src="https://www.dropbox.com/s/w8zr5ou1s3hw7da/cos_sim_real_trump_fake_trump.png?raw=1" width="350"> <img src="https://www.dropbox.com/s/fy8t1wo2z5eh8bw/cos_sim_real_cage_fake_cage.png?raw=1" width="350">
     - We also checked the cosine similarity between real Trump and real Cage. And the result was not suprise: they have low similarity. This also supports the above observations that the swapped face is much look-alike its target face.
     - <img src="https://www.dropbox.com/s/peydir8ci6rpto4/cos_sim_real_trump_real_cage.png?raw=1" width="350">
+  - **Conclusion:** Cosine similarity seems to be a good way to compare performance among different models on the same dataset. Hope this can accelerate the iteration for seaching optimal hyper-parameters and exploring model architectures.
