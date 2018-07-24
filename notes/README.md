@@ -74,15 +74,15 @@ Adding face landmarks as the fourth input channel during training (w/ dropout_ch
     - Top 3 most look-alike identities of "real Cage": Jimmy_Stewart, Nick_Grimshaw, and Sylvester_Stallone
     - Top 3 most look-alike identities of "fake Cage": Franjo_Pooth, Jimmy_Stewart, and Bob_Beckel
     - <img src="https://www.dropbox.com/s/jz5ovwqqg6rha2s/top_1_count_cage.png?raw=1">
-    - **Observations:** Overall, the top-1 look-alike identity of the real Trump/Cage also appear in the top-3 that of the fake one.
-  - **Evaluation method 2: Compare cosine similarity of extracted VGGFace-ResNet50 features.**
+    - **Observations:** Overall, the top-1 look-alike identity of the real Trump/Cage also appear in the top-3 that of the fake one. (Notice that the face-swapping only changes the facial attributes, not the chins and face shape. Thus the fake faces will not look exactly the same with its target face.)
+  - **Evaluation method 2: Compare the cosine similarity of extracted VGGFace-ResNet50 features.**
     - Features for comparison are extracted from the global average pooling layer (the last layer before fully-connected layer) of ResNet50, which have diimension of 2048.
     - The definition of cosine distance can be found [here](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.cosine.html). The cosine similarity is just cosine distance w/o the one minus part.
-    - **Observations:** This evaluation gives clear indication that the swapped faces are very look-alike the target face.
     - The following 2 heatmaps show the correlation of real Trump images and real Cage images.
     - <img src="https://www.dropbox.com/s/bb88pjycp6ey7l2/cos_sim_real_trump.png?raw=1" width="350"> <img src="https://www.dropbox.com/s/rgfa7b2zz78x86n/cos_sim_real_cage.png?raw=1" width="350">
     - The following 2 heatmaps show the cosine similarity between real/fake Trump images and real/fake Cage images. It is obvious that the similarity is not as high as real samples but is still close enough (Note that the low similarity between real and fake Cage is caused by profile faces and heavily occluded faces in real Trump samples, which are hard for the model to transform.)
     - <img src="https://www.dropbox.com/s/w8zr5ou1s3hw7da/cos_sim_real_trump_fake_trump.png?raw=1" width="350"> <img src="https://www.dropbox.com/s/fy8t1wo2z5eh8bw/cos_sim_real_cage_fake_cage.png?raw=1" width="350">
     - We also checked the cosine similarity between real Trump and real Cage. And the result was not suprise: they have low similarity. This also supports the above observations that the swapped face is much look-alike its target face.
     - <img src="https://www.dropbox.com/s/peydir8ci6rpto4/cos_sim_real_trump_real_cage.png?raw=1" width="350">
-  - **Conclusion:** Cosine similarity seems to be a good way to compare performance among different models on the same dataset. Hope this can accelerate the iteration for seaching optimal hyper-parameters and exploring model architectures.
+    - **Observations:** This evaluation gives clear indication that the swapped faces are very look-alike the target face.
+  - **Conclusion:** Cosine similarity seems to be a good way to compare performance among different models on the same dataset. Hope this can accelerate our iterations for seaching optimal hyper-parameters and exploring model architectures.
