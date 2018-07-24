@@ -6,7 +6,16 @@ import numpy as np
 from moviepy.editor import VideoFileClip
 
 
-class VideoConverter():
+class VideoConverter(object):
+    """
+    This class is for video conversion
+    
+    Attributes:
+        ftrans: FaceTransformer instance
+        fdetect: MTCNNFaceDetector instance
+        prev_x0, prev_x1, prev_y0, prev_y1, frames: Variables for smoothing bounding box
+        kf0, kf1: KalmanFilter instances for smoothing bounding box
+    """
     def __init__(self):        
         # Variables for smoothing bounding box
         self.prev_x0 = 0
@@ -18,8 +27,12 @@ class VideoConverter():
         # face transformer
         self.ftrans = FaceTransformer()
         
-        # MTCNN face detectors
+        # MTCNN face detector
         self.fdetect = None
+        
+        # Kalman filters
+        self.kf0 = None
+        self.kf1 = None
         
     def set_gan_model(self, model):
         self.ftrans.set_model(model)
@@ -27,7 +40,7 @@ class VideoConverter():
     def set_face_detector(self, fdetect):
         self.fdetect = fdetect
     
-    def __get_smoothed_coord(self, x0, x1, y0, y1, img_shape, use_kalman_filter=True, ratio=0.65):
+    def _get_smoothed_coord(self, x0, x1, y0, y1, img_shape, use_kalman_filter=True, ratio=0.65):
         if not use_kalman_filter:
             x0 = int(ratio * self.prev_x0 + (1-ratio) * x0)
             x1 = int(ratio * self.prev_x1 + (1-ratio) * x1)
@@ -48,33 +61,34 @@ class VideoConverter():
                 x0, y0, x1, y1 = self.prev_x0, self.prev_y0, self.prev_x1, self.prev_y1
         return x0, x1, y0, y1    
     
-    def __set_prev_coord(self, x0, x1, y0, y1):
+    def _set_prev_coord(self, x0, x1, y0, y1):
         self.prev_x0 = x0
         self.prev_x1 = x1
         self.prev_y1 = y1
         self.prev_y0 = y0
         
-    def __init_kalman_filters(self, noise_coef):
+    def _init_kalman_filters(self, noise_coef):
         self.kf0 = KalmanFilter(noise_coef=noise_coef)
         self.kf1 = KalmanFilter(noise_coef=noise_coef)
         
     def convert(self, input_fn, output_fn, options, duration=None):
+        self.check_options(options)
+        
         if options['use_kalman_filter']:
-            self.__init_kalman_filters(options["kf_noise_coef"])
+            self._init_kalman_filters(options["kf_noise_coef"])
         
         self.frames = 0
         self.prev_x0 = self.prev_x1 = self.prev_y0 = self.prev_y1 = 0
-        # STUCK at clip1.fl_image, where process_video only accept one argument, thus self cannot be passed in.
-        # Sol: https://stackoverflow.com/questions/47335733/how-to-add-parameters-to-fl-image-in-moviepy
         
-        assert self.fdetect is not None, f"face detector has not been set yet."
+        if self.fdetect is None:
+            raise Exception(f"face detector has not been set through VideoConverter.set_face_detector() yet.")
         
         clip1 = VideoFileClip(input_fn)
         if type(duration) is tuple:
             clip = clip1.fl_image(lambda img: self.process_video(img, options)).subclip(duration[0], duration[1])
         else:
             clip = clip1.fl_image(lambda img: self.process_video(img, options))
-        clip.write_videofile(output_fn, audio=False)
+        clip.write_videofile(output_fn, audio=True)
         clip1.reader.close()
         try:
             clip1.audio.reader.close_proc()
@@ -82,6 +96,7 @@ class VideoConverter():
             pass
         
     def process_video(self, input_img, options): 
+        """Transform detected faces in single input frame."""
         image = input_img
 
         # detect face using MTCNN (faces: face bbox coord, pnts: landmarks coord.)
@@ -106,20 +121,20 @@ class VideoConverter():
             # smoothe the bounding box
             if options["use_smoothed_bbox"]:
                 if self.frames != 0 and conf_score >= best_conf_score:
-                    x0, x1, y0, y1 = self.__get_smoothed_coord(
+                    x0, x1, y0, y1 = self._get_smoothed_coord(
                         x0, x1, y0, y1, 
                         img_shape=image.shape, 
                         use_kalman_filter=options["use_kalman_filter"],
                         ratio=options["bbox_moving_avg_coef"],
                     )
-                    self.__set_prev_coord(x0, x1, y0, y1)
+                    self._set_prev_coord(x0, x1, y0, y1)
                     best_conf_score = conf_score
                     self.frames += 1
                 elif conf_score <= best_conf_score:
                     self.frames += 1
                 else:
                     if conf_score >= best_conf_score:
-                        self.__set_prev_coord(x0, x1, y0, y1)
+                        self._set_prev_coord(x0, x1, y0, y1)
                         best_conf_score = conf_score
                     if options["use_kalman_filter"]:
                         for i in range(200):
@@ -143,7 +158,7 @@ class VideoConverter():
                 r_im, r_rgb, r_a = self.ftrans.transform(
                     aligned_det_face_im, 
                     direction=options["direction"], 
-                    roi_coef=options["roi_coef"],
+                    roi_coverage=options["roi_coverage"],
                     color_correction=options["use_color_correction"],
                     IMAGE_SHAPE=options["IMAGE_SHAPE"]
                     )
@@ -165,7 +180,7 @@ class VideoConverter():
                 result, _, result_a = self.ftrans.transform(
                     det_face_im,
                     direction=options["direction"], 
-                    roi_coef=options["roi_coef"],
+                    roi_coverage=options["roi_coverage"],
                     color_correction=options["use_color_correction"],
                     IMAGE_SHAPE=options["IMAGE_SHAPE"]
                     )
@@ -189,5 +204,20 @@ class VideoConverter():
             return comb_img  # return input and result image combined as one
         elif options["output_type"] == 3:
             return triple_img #return input,result and mask heatmap image combined as one
-
-
+        
+    @staticmethod
+    def check_options(options):
+        if options["roi_coverage"] <= 0 or options["roi_coverage"] >= 1:
+            raise ValueError(f"roi_coverage should be between 0 and 1 (exclusive).")
+        if options["bbox_moving_avg_coef"] < 0 or options["bbox_moving_avg_coef"] > 1:
+            raise ValueError(f"bbox_moving_avg_coef should be between 0 and 1 (inclusive).")
+        if options["detec_threshold"] < 0 or options["detec_threshold"] > 1:
+            raise ValueError(f"detec_threshold should be between 0 and 1 (inclusive).")
+        if options["use_smoothed_bbox"] not in [True, False]:
+            raise ValueError(f"use_smoothed_bbox should be a boolean.")
+        if options["use_kalman_filter"] not in [True, False]:
+            raise ValueError(f"use_kalman_filter should be a boolean.")
+        if options["use_auto_downscaling"] not in [True, False]:
+            raise ValueError(f"use_auto_downscaling should be a boolean.")
+        if options["output_type"] not in range(1,4):
+            raise ValueError(f"Received an unknown output_type option: {output_type}.")
