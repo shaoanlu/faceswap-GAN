@@ -90,7 +90,9 @@ class FaceTransformer(object):
         return mask  
 
     def transform(self, inp_img, direction, roi_coverage, color_correction, IMAGE_SHAPE):
-        assert self.model is not None, f"Generator model has not been set."
+        self.check_generator_model(self.model)
+        self.check_roi_coverage(inp_img, roi_coverage)
+        
         if direction == "AtoB":
             self.path_func = self.model.path_abgr_B
         elif direction == "BtoA":
@@ -118,3 +120,17 @@ class FaceTransformer(object):
                                   self.input_size, self.roi, roi_coverage)
         
         return self.result, self.result_rawRGB, self.result_alpha
+    
+    @staticmethod
+    def check_generator_model(model):
+        if model is None: 
+            raise ValueError(f"Generator model has not been set.")
+    
+    @staticmethod
+    def check_roi_coverage(inp_img, roi_coverage):
+        input_size = inp_img.shape        
+        roi_x, roi_y = int(input_size[0]*(1-roi_coverage)), int(input_size[1]*(1-roi_coverage))
+        if roi_x == 0 or roi_y == 0:
+            raise ValueError("Error occurs when cropping roi image. \
+            Consider increasing min_face_area or decreasing roi_coverage.")
+        

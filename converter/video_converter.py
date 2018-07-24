@@ -103,7 +103,9 @@ class VideoConverter(object):
         faces, pnts = self.fdetect.detect_face(image, minsize=20, 
                                                threshold=options["detec_threshold"], 
                                                factor=0.709, 
-                                               use_auto_downscaling=options["use_auto_downscaling"])
+                                               use_auto_downscaling=options["use_auto_downscaling"],
+                                               min_face_area=options["min_face_area"]
+                                              )
 
         # check if any face detected
         if len(faces) == 0:
@@ -141,7 +143,7 @@ class VideoConverter(object):
                             self.kf0.predict()
                             self.kf1.predict()
                     self.frames += 1
-
+            
             # transform face
             try:
                 # get detected face

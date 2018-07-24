@@ -6,6 +6,12 @@ import cv2
 import os
 
 class MTCNNFaceDetector():
+    """
+    This class load the MTCNN network and perform face detection.
+    
+    Attributes:
+        model_path: path to the MTCNN weights files
+    """
     def __init__(self, sess, model_path="./mtcnn_weights/"):
         self.pnet = None
         self.rnet = None
@@ -32,7 +38,7 @@ class MTCNNFaceDetector():
         self.rnet = K.function([rnet.layers['data']], [rnet.layers['conv5-2'], rnet.layers['prob1']])
         self.onet = K.function([onet.layers['data']], [onet.layers['conv6-2'], onet.layers['conv6-3'], onet.layers['prob1']])
     
-    def detect_face(self, image, minsize=20, threshold=0.7, factor=0.709, use_auto_downscaling=True):
+    def detect_face(self, image, minsize=20, threshold=0.7, factor=0.709, use_auto_downscaling=True, min_face_area=25*25):
         if use_auto_downscaling:
             image, scale_factor = self.auto_downscale(image)
             
@@ -42,6 +48,7 @@ class MTCNNFaceDetector():
             [0.6, 0.7, threshold], 
             factor)
         faces = self.process_mtcnn_bbox(faces, image.shape)
+        faces, pnts = self.remove_small_faces(faces, pnts, min_face_area)
         
         if use_auto_downscaling:
             faces = self.calibrate_coord(faces, scale_factor)
@@ -109,3 +116,21 @@ class MTCNNFaceDetector():
     def calibrate_landmarks(pnts, scale_factor):
         # pnts is a numpy array
         return np.array([xy * scale_factor for xy in pnts])
+            
+    @staticmethod
+    def remove_small_faces(faces, pnts, min_area=25*25):
+        def compute_area(face_coord):
+            x0, y1, x1, y0, _ = face_coord
+            area = np.abs((x1 - x0) * (y1 - y0))
+            return area
+            
+        new_faces = []
+        new_pnts = []
+        # faces has shape (num_faces, coord), and pnts has shape (coord, num_faces)
+        for face,pnt in zip(faces, pnts.transpose()):
+            if compute_area(face) >= min_area:
+                new_faces.append(face)
+                new_pnts.append(pnt)
+        new_faces = np.array(new_faces)
+        new_pnts = np.array(new_pnts).transpose()
+        return new_faces, new_pnts
