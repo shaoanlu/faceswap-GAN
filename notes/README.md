@@ -77,6 +77,7 @@ Adding face landmarks as the fourth input channel during training (w/ dropout_ch
     - **Observations:** Overall, the top-1 look-alike identity of the real Trump/Cage also appear in the top-3 that of the fake one. (Notice that the face-swapping only changes the facial attributes, not the chins and face shape. Thus the fake faces will not look exactly the same with its target face.)
   - **Evaluation method 2: Compare the cosine similarity of extracted VGGFace-ResNet50 features.**
     - Features for comparison are extracted from the global average pooling layer (the last layer before fully-connected layer) of ResNet50, which have diimension of 2048.
+    - <img src="https://www.dropbox.com/s/mmzku861gom3j6g/features_umap.png?raw=1" width="450">
     - The definition of cosine distance can be found [here](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.cosine.html). The cosine similarity is just cosine distance w/o the one minus part.
     - The following 2 heatmaps show the correlation of real Trump images and real Cage images.
     - <img src="https://www.dropbox.com/s/bb88pjycp6ey7l2/cos_sim_real_trump.png?raw=1" width="350"> <img src="https://www.dropbox.com/s/rgfa7b2zz78x86n/cos_sim_real_cage.png?raw=1" width="350">
