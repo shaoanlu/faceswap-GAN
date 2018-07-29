@@ -11,7 +11,7 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes'(reddit user)
 | 2018-06-06      | **Model architecture**: Add a self-attention mechanism proposed in [SAGAN](https://arxiv.org/abs/1805.08318) into V2 GAN model. (Note: There is still no official code release for SAGAN, the implementation in this repo. could be wrong. We'll keep an eye on it.)|
 
 ## Descriptions  
-### faceswap-GAN v2.2 (Recommended model)
+### faceswap-GAN v2.2 (Recommended model)  
 * [FaceSwap_GAN_v2.2_train_test.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2.2_train_test.ipynb)
   - Notebook for model training of faceswap-GAN model version 2.2.
   - Require additional training images generated through [prep_binary_masks.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/prep_binary_masks.ipynb).
@@ -22,7 +22,13 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes'(reddit user)
   
 * [prep_binary_masks.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/prep_binary_masks.ipynb)
   - Notebook for training data preprocessing. Output binary masks are save in `./binary_masks/faceA_eyes` and `./binary_masks/faceB_eyes` folders.
-  - Require [face_alignment](https://github.com/1adrianb/face-alignment) package. (An alternative method for generating binary masks (not requiring `face_alignment` and `dlib` packages) can be found in [MTCNN_video_face_detection_alignment.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/MTCNN_video_face_detection_alignment.ipynb).)
+  - Require [face_alignment](https://github.com/1adrianb/face-alignment) package. (An alternative method for generating binary masks (not requiring `face_alignment` and `dlib` packages) can be found in [MTCNN_video_face_detection_alignment.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/MTCNN_video_face_detection_alignment.ipynb).)  
+  
+* **Usage**
+1. Run [MTCNN_video_face_detection_alignment.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/MTCNN_video_face_detection_alignment.ipynb) to extract faces from videos.
+2. Run [prep_binary_masks.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/prep_binary_masks.ipynb) to create binary masks of training images.
+3. Run [FaceSwap_GAN_v2.2_train_test.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2.2_train_test.ipynb) to train a model.
+4. Run  [FaceSwap_GAN_v2.2_video_conversion.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2.2_video_conversion.ipynb) to produce videos using the trained model in step 3. 
 
 ### faceswap-GAN v2
 * [FaceSwap_GAN_v2_train.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2_train.ipynb)
