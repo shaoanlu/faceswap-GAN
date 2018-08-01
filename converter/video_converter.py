@@ -166,7 +166,7 @@ class VideoConverter(object):
                     )
 
                 # reverse alignment
-                rev_aligned_det_face_im = landmarks_match_mtcnn(r_rgb, tar_landmarks, src_landmarks)
+                rev_aligned_det_face_im = landmarks_match_mtcnn(r_im, tar_landmarks, src_landmarks)
                 rev_aligned_mask = landmarks_match_mtcnn(r_a, tar_landmarks, src_landmarks)
 
                 # merge source face and transformed face
@@ -188,10 +188,17 @@ class VideoConverter(object):
                     )
 
             comb_img[int(x0):int(x1),input_img.shape[1]+int(y0):input_img.shape[1]+int(y1),:] = result
-
+            
+            # Enhance output
+            if options["enhance"] != 0:
+                comb_img = -1*options["enhance"] * get_init_comb_img(input_img) + (1+options["enhance"]) * comb_img
+                comb_img = np.clip(comb_img, 0, 255)              
+            
             if conf_score >= best_conf_score:
                 mask_map[int(x0):int(x1),int(y0):int(y1),:] = result_a
-                mask_map = np.clip(mask_map + .15 * input_img, 0, 255)     
+                mask_map = np.clip(mask_map + .15 * input_img, 0, 255)   
+                # Possible bug: when small faces are detected before the most confident face,
+                #               the mask_map will show brighter input_img
             else:
                 mask_map[int(x0):int(x1),int(y0):int(y1),:] += result_a
                 mask_map = np.clip(mask_map, 0, 255)
@@ -222,4 +229,5 @@ class VideoConverter(object):
         if options["use_auto_downscaling"] not in [True, False]:
             raise ValueError(f"use_auto_downscaling should be a boolean.")
         if options["output_type"] not in range(1,4):
-            raise ValueError(f"Received an unknown output_type option: {output_type}.")
+            ot = options["output_type"]
+            raise ValueError(f"Received an unknown output_type option: {ot}.")
