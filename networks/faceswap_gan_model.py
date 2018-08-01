@@ -4,11 +4,17 @@ from keras.optimizers import Adam
 from .nn_blocks import *
 from .losses import *
 
-"""
-faceswap-GAN v2.2 model
-"""
-
 class FaceswapGANModel():
+    """
+    faceswap-GAN v2.2 model
+    
+    Attributes:
+        arch_config: A dictionary that contains architecture configurations (details are described in train notebook).
+        nc_G_inp: int, number of generator input channels
+        nc_D_inp: int, number of discriminator input channels
+        lrG: float, learning rate of the generator
+        lrD: float, learning rate of the discriminator
+    """
     def __init__(self, **arch_config):
         self.nc_G_inp = 3
         self.nc_D_inp = 6 
@@ -65,7 +71,8 @@ class FaceswapGANModel():
         self.mask_eyes_B = Input(shape=self.IMAGE_SHAPE)
     
     @staticmethod
-    def build_encoder(nc_in=3, input_size=64, use_self_attn=True, norm='none', model_capacity='standard'):
+    def build_encoder(nc_in=3, input_size=64, use_self_attn=True, 
+                      norm='none', model_capacity='standard'):
         coef = 2 if model_capacity == "lite" else 1
         activ_map_size = input_size
         
@@ -90,7 +97,8 @@ class FaceswapGANModel():
         return Model(inputs=inp, outputs=out)        
     
     @staticmethod
-    def build_decoder(nc_in=512, input_size=8, output_size=64, use_self_attn=True, norm='none', model_capacity='standard'):  
+    def build_decoder(nc_in=512, input_size=8, output_size=64, use_self_attn=True, 
+                      norm='none', model_capacity='standard'):  
         coef = 2 if model_capacity == "lite" else 1
         activ_map_size = input_size
 
@@ -273,21 +281,33 @@ class FaceswapGANModel():
             pass
         
     def train_one_batch_G(self, data_A, data_B):
-        _, warped_A, target_A, bm_eyes_A = data_A
-        _, warped_B, target_B, bm_eyes_B = data_B
+        if len(data_A) == 4 and len(data_B) == 4:
+            _, warped_A, target_A, bm_eyes_A = data_A
+            _, warped_B, target_B, bm_eyes_B = data_B
+        elif len(data_A) == 3 and len(data_B) == 3:
+            warped_A, target_A, bm_eyes_A = data_A
+            warped_B, target_B, bm_eyes_B = data_B
+        else:
+            raise ValueError("Something's wrong with the input data generator.")
         errGA = self.netGA_train([warped_A, target_A, bm_eyes_A])
         errGB = self.netGB_train([warped_B, target_B, bm_eyes_B])        
         return errGA, errGB
     
     def train_one_batch_D(self, data_A, data_B):
-        _, warped_A, target_A, _ = data_A
-        _, warped_B, target_B, _ = data_B
+        if len(data_A) == 4 and len(data_B) == 4:
+            _, warped_A, target_A, _ = data_A
+            _, warped_B, target_B, _ = data_B
+        elif len(data_A) == 3 and len(data_B) == 3:
+            warped_A, target_A, _ = data_A
+            warped_B, target_B, _ = data_B
+        else:
+            raise ValueError("Something's wrong with the input data generator.")
         errDA = self.netDA_train([warped_A, target_A])
         errDB = self.netDB_train([warped_B, target_B])
         return errDA, errDB
     
     def transform_A2B(self, img):
-        return self.path_abgr_B([[ae_input]])
+        return self.path_abgr_B([[img]])
     
     def transform_B2A(self, img):
-        return self.path_abgr_A([[ae_input]])
+        return self.path_abgr_A([[img]])
