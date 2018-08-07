@@ -24,6 +24,7 @@ class FaceswapGANModel():
         self.use_self_attn = arch_config['use_self_attn']
         self.norm = arch_config['norm']
         self.model_capacity = arch_config['model_capacity']
+        self.enc_nc_out = 256 if self.model_capacity == "lite" else 512
         
         # define networks
         self.encoder = self.build_encoder(nc_in=self.nc_G_inp, 
@@ -32,14 +33,14 @@ class FaceswapGANModel():
                                           norm=self.norm,
                                           model_capacity=self.model_capacity
                                          )
-        self.decoder_A = self.build_decoder(nc_in=512, 
+        self.decoder_A = self.build_decoder(nc_in=self.enc_nc_out, 
                                             input_size=8, 
                                             output_size=self.IMAGE_SHAPE[0],
                                             use_self_attn=self.use_self_attn,
                                             norm=self.norm,
                                             model_capacity=self.model_capacity
                                            )
-        self.decoder_B = self.build_decoder(nc_in=512, 
+        self.decoder_B = self.build_decoder(nc_in=self.enc_nc_out, 
                                             input_size=8, 
                                             output_size=self.IMAGE_SHAPE[0],
                                             use_self_attn=self.use_self_attn,
@@ -71,43 +72,52 @@ class FaceswapGANModel():
         self.mask_eyes_B = Input(shape=self.IMAGE_SHAPE)
     
     @staticmethod
-    def build_encoder(nc_in=3, input_size=64, use_self_attn=True, 
-                      norm='none', model_capacity='standard'):
+    def build_encoder(nc_in=3, 
+                      input_size=64, 
+                      use_self_attn=True, 
+                      norm='none', 
+                      model_capacity='standard'):
         coef = 2 if model_capacity == "lite" else 1
+        upscale_block = upscale_nn if model_capacity == "lite" else upscale_ps
         activ_map_size = input_size
         
         inp = Input(shape=(input_size, input_size, nc_in))
-        x = Conv2D(64, kernel_size=5, use_bias=False, padding="same")(inp)
-        x = conv_block(x, 128)
-        x = conv_block(x, 256, True, norm=norm)
-        x = self_attn_block(x, 256) if use_self_attn else x
-        x = conv_block(x, 512, True, norm=norm) 
-        x = self_attn_block(x, 512) if use_self_attn else x
-        x = conv_block(x, 1024//coef, True, norm=norm)
+        x = Conv2D(64//coef, kernel_size=5, use_bias=False, padding="same")(inp)
+        x = conv_block(x, 128//coef)
+        x = conv_block(x, 256//coef, True, norm=norm)
+        x = self_attn_block(x, 256//coef) if use_self_attn else x
+        x = conv_block(x, 512//coef, True, norm=norm) 
+        x = self_attn_block(x, 512//coef) if use_self_attn else x
+        x = conv_block(x, 1024//(coef**2), True, norm=norm)
         
         activ_map_size = activ_map_size//16
         while (activ_map_size > 4):
-            x = conv_block(x, 1024//coef, True, norm=norm)
+            x = conv_block(x, 1024//(coef**2), True, norm=norm)
             activ_map_size = activ_map_size//2
         
-        x = Dense(1024//coef)(Flatten()(x))
-        x = Dense(4*4*1024//coef)(x)
-        x = Reshape((4, 4, 1024//coef))(x)
-        out = upscale_ps(x, 512, True, norm=norm)
+        x = Dense(1024)(Flatten()(x))
+        x = Dense(4*4*1024//(coef**2))(x)
+        x = Reshape((4, 4, 1024//(coef**2)))(x)
+        out = upscale_block(x, 512//coef, True, norm=norm)
         return Model(inputs=inp, outputs=out)        
     
     @staticmethod
-    def build_decoder(nc_in=512, input_size=8, output_size=64, use_self_attn=True, 
-                      norm='none', model_capacity='standard'):  
+    def build_decoder(nc_in=512, 
+                      input_size=8, 
+                      output_size=64, 
+                      use_self_attn=True, 
+                      norm='none', 
+                      model_capacity='standard'):  
         coef = 2 if model_capacity == "lite" else 1
+        upscale_block = upscale_nn if model_capacity == "lite" else upscale_ps
         activ_map_size = input_size
 
         inp = Input(shape=(input_size, input_size, nc_in))
         x = inp
-        x = upscale_ps(x, 256, True, norm=norm)
-        x = upscale_ps(x, 128, True, norm=norm)
-        x = self_attn_block(x, 128) if use_self_attn else x
-        x = upscale_ps(x, 64//coef, True, norm=norm)
+        x = upscale_block(x, 256//coef, True, norm=norm)
+        x = upscale_block(x, 128//coef, True, norm=norm)
+        x = self_attn_block(x, 128//coef) if use_self_attn else x
+        x = upscale_block(x, 64//coef, True, norm=norm)
         x = res_block(x, 64//coef, norm=norm)
         x = self_attn_block(x, 64//coef) if use_self_attn else conv_block(x, 64//coef, strides=1)
         
@@ -115,7 +125,7 @@ class FaceswapGANModel():
         activ_map_size = activ_map_size * 8
         while (activ_map_size < output_size):
             outputs.append(Conv2D(3, kernel_size=5, padding='same', activation="tanh")(x))
-            x = upscale_ps(x, 64//coef, True, norm=norm)
+            x = upscale_block(x, 64//coef, True, norm=norm)
             x = conv_block(x, 64//coef, strides=1)
             activ_map_size *= 2
         
@@ -126,7 +136,10 @@ class FaceswapGANModel():
         return Model(inp, outputs)
     
     @staticmethod
-    def build_discriminator(nc_in, input_size=64, use_self_attn=True, norm='none'):  
+    def build_discriminator(nc_in, 
+                            input_size=64, 
+                            use_self_attn=True, 
+                            norm='none'):  
         activ_map_size = input_size
         
         inp = Input(shape=(input_size, input_size, nc_in))

@@ -91,3 +91,16 @@ def upscale_ps(input_tensor, f, use_norm=False, w_l2=w_l2, norm='none'):
     x = normalization(x, norm, f) if use_norm else x
     x = PixelShuffler()(x)
     return x
+
+def ReflectPadding2D(x, pad=1):
+    x = Lambda(lambda x: tf.pad(x, [[0, 0], [pad, pad], [pad, pad], [0, 0]], mode='REFLECT'))(x)
+    return x
+
+def upscale_nn(input_tensor, f, use_norm=False, w_l2=w_l2, norm='none'):
+    x = input_tensor
+    x = UpSampling2D()(x)
+    x = ReflectPadding2D(x, 1)
+    x = Conv2D(f, kernel_size=3, kernel_regularizer=regularizers.l2(w_l2), 
+               kernel_initializer=conv_init)(x)
+    x = normalization(x, norm, f) if use_norm else x
+    return x
