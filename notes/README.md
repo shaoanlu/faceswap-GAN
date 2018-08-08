@@ -63,28 +63,28 @@ Adding face landmarks as the fourth input channel during training (w/ dropout_ch
   - Conclusion: **Using neural style transfer to improve output quality seems promising**, but we are not sure if it will benefit video quality w/o introducing jitter. Also the execution time is a problem, we should experiment with more arbitrary style transfer networks to see if there is any model that can do a good job on face refinement within one (or several) forward pass(es).
   - ![style_transfer_exp](https://www.dropbox.com/s/r00q5zxojxjofde/style_transfer_comp.png?raw=1)
   
-### 13. Model evaluation for Trump/Cage dataset
-  - Problem: GANs are hard to evaluate. Generally, Inception Score (IS) and Fréchet Inception Distance (FID score) are the most seen metric for evaluating the output "reality" (i.e., how close the outputs are to real samples). However, in face-swapping task, we care more about the "quality" of the outputs, i.e., how similar are the transformed output faces to its target face. Thus we have to find a more objective way to evauate the model performance as a counter-part of subjectively judging by its visualization.
+### 13. Model evaluation on Trump/Cage dataset
+  - Problem: GANs are hard to evaluate. Generally, Inception Score (IS) and Fréchet Inception Distance (FID score) are the most seen metrics for evaluating the output "reality" (i.e., how close the outputs are to real samples). However, in face-swapping task, we care more about the "quality" of the outputs such as how similar is the transformed output face to its target face. Thus we want to find an objective approach to evauate the model performance as a counter-part of subjectively judging by output visualization.
   - **Evaluation method 1: Compare the predicted identities of VGGFace-ResNet50.** 
-    - We look at the predictions and check if the model spits out similar predictions on real/fake images.
-    - There are 8631 identities in VGGFace (but unfortunately both Donald Trump and Nicolas Cage are not in the dataset)
+    - We look at the predictions of ResNet50 and check if it spits out similar predictions on real/fake images.
+    - There are 8631 identities in VGGFace (but unfortunately both Donald Trump and Nicolas Cage are not in this dataset)
     - Top 3 most look-alike identities of "real Trump" are: Alan_Mulally, Jon_Voight, and Tom_Berenger
     - Top 3 most look-alike identities of "fake Trump" are: Alan_Mulally, Franjo_Pooth, and Jon_Voight
     - <img src="https://www.dropbox.com/s/5yg93x9278dguoe/top_1_count_trump.png?raw=1">
     - Top 3 most look-alike identities of "real Cage" are: Jimmy_Stewart, Nick_Grimshaw, and Sylvester_Stallone
     - Top 3 most look-alike identities of "fake Cage" are: Franjo_Pooth, Jimmy_Stewart, and Bob_Beckel
     - <img src="https://www.dropbox.com/s/jz5ovwqqg6rha2s/top_1_count_cage.png?raw=1">
-    - **Observations:** Overall, the top-1 look-alike identity of the real Trump/Cage also appear in the top-3 that of the fake one. (Notice that the face-swapping only changes the facial attributes, not the chins and face shape. Thus the fake faces will not look exactly the same with its target face.)
+    - **Observation:** Overall, the top-1 look-alike identity of the real Trump/Cage also appear in the top-3 that of the fake one. (Notice that the face-swapping only changes the facial attributes, not the chins and face shape. Thus the fake faces will not look exactly the same with its target face.)
   - **Evaluation method 2: Compare the cosine similarity of extracted VGGFace-ResNet50 features.**
-    - Features are extracted from the global average pooling layer (the last layer the before fully-connected layer) of ResNet50, which have diimension of 2048.
+    - Features (embeddings) are extracted from the global average pooling layer (the last layer the before fully-connected layer) of ResNet50, which have diimension of 2048.
     - <img src="https://www.dropbox.com/s/mmzku861gom3j6g/features_umap.png?raw=1" width="450">
     - <img src="https://www.dropbox.com/s/fvij5ckpjyo4iqq/face_feats_vis3d.gif?raw=1">
     - The definition of cosine distance can be found [here](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.cosine.html). The cosine similarity is just cosine distance w/o the one minus part.
     - The following 2 heatmaps depict the within-class cosine similarity of real Trump images and real Cage images.
     - <img src="https://www.dropbox.com/s/bb88pjycp6ey7l2/cos_sim_real_trump.png?raw=1" width="350"> <img src="https://www.dropbox.com/s/rgfa7b2zz78x86n/cos_sim_real_cage.png?raw=1" width="350">
-    - The following 2 heatmaps illustrate the cosine similarity between real/fake Trump images and between real/fake Cage images. It is obvious that the similarity is not as high as real samples but is still close enough (Note that the low similarity between real and fake Cage is caused by profile faces and heavily occluded faces in real Trump samples, which are hard for the model to transform.)
+    - The following 2 heatmaps illustrate the cosine similarity between real/fake Trump images and between real/fake Cage images. It is obvious that the similarity is not as high as real samples but is still close enough (Note that the low similarity between real and fake Cage is caused by profile faces and heavily occluded faces in real Trump samples, which are hard for the faceswap model to transform.)
     - <img src="https://www.dropbox.com/s/w8zr5ou1s3hw7da/cos_sim_real_trump_fake_trump.png?raw=1" width="350"> <img src="https://www.dropbox.com/s/fy8t1wo2z5eh8bw/cos_sim_real_cage_fake_cage.png?raw=1" width="350">
-    - We also checked the cosine similarity between real Trump and real Cage. And the result was not suprise: it shows low similarity betwenn the two identites. This also supports the above observations that the swapped face is much look-alike its target face.
+    - We also checked the cosine similarity between real Trump and real Cage. And the result was not suprising: it shows low similarity between the two identites. This also supports the above observations that the swapped face is much look-alike its target face.
     - <img src="https://www.dropbox.com/s/peydir8ci6rpto4/cos_sim_real_trump_real_cage.png?raw=1" width="350">
-    - **Observations:** Evaluation using ResNet50 features demonstrates clear indication that the swapped faces are very look-alike its target face.
+    - **Observation:** Evaluation using ResNet50 features demonstrates clear indication that the swapped faces are very look-alike its target face.
   - **Conclusion:** Cosine similarity seems to be a good way to compare performance among different models on the same dataset. Hope this can accelerate our iterations for seaching optimal hyper-parameters and exploring model architectures.
