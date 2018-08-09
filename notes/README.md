@@ -88,3 +88,12 @@ Adding face landmarks as the fourth input channel during training (w/ dropout_ch
     - <img src="https://www.dropbox.com/s/peydir8ci6rpto4/cos_sim_real_trump_real_cage.png?raw=1" width="350">
     - **Observation:** Evaluation using ResNet50 features demonstrates clear indication that the swapped faces are very look-alike its target face.
   - **Conclusion:** Cosine similarity seems to be a good way to compare performance among different models on the same dataset. Hope this can accelerate our iterations for seaching optimal hyper-parameters and exploring model architectures.
+  
+### 14. 3D face reconstruction for output refinement
+  - Using [PRNet](https://github.com/YadiraF/PRNet) and its accompanying [face-swapping script](https://github.com/YadiraF/PRNet/blob/master/demo_texture.py) to refine the output image.
+    - **Result:** For extreme facial expressions, the mouth shape becomes more consistent after face texture editing. (The missing details can be restored through style transfer as shown in exp. 12 above.)
+    - Left to right: Input, output, refined output
+    - ![3dface01](https://www.dropbox.com/s/dwsj57za9tj127y/3dmodel_refine01.jpg?raw=1)
+    - ![3dface02](https://www.dropbox.com/s/fn3sli0gtlb4y78/3dmodel_refine02.jpg?raw=1)
+    - For occluded faces, their pose might not be correctly estimated, thus the refined outputs are likely to be distorted. e.g., the displaced microphone in the figure below.
+    - ![3dface03](https://www.dropbox.com/s/oaui3vaavv7c9zw/3dmodel_refine03.jpg?raw=1)
