@@ -6,6 +6,7 @@ from .pixel_shuffler import PixelShuffler
 from .custom_layers.scale_layer import Scale
 from .custom_inits.icnr_initializer import icnr_keras
 import tensorflow as tf
+import keras.backend as K
 
 # initializers and weight decay regularization are fixed
 conv_init = 'he_normal'
@@ -30,10 +31,10 @@ def self_attn_block(inp, nc, squeeze_factor=8):
     flat_g = Reshape((-1, shape_g[-1]))(g)
     flat_h = Reshape((-1, shape_h[-1]))(h)   
     
-    s = Lambda(lambda x: tf.matmul(x[0], x[1], transpose_b=True))([flat_g, flat_f])
+    s = Lambda(lambda x: K.batch_dot(x[0], Permute((2,1))(x[1])))([flat_g, flat_f])
 
     beta = Softmax(axis=-1)(s)
-    o = Lambda(lambda x: tf.matmul(x[0], x[1]))([beta, flat_h])
+    o = Lambda(lambda x: K.batch_dot(x[0], x[1]))([beta, flat_h])
     o = Reshape(shape_x[1:])(o)
     o = Scale()(o)
     
