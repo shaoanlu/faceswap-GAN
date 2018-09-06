@@ -51,6 +51,18 @@ def normalization(inp, norm='none', group='16'):
         x = GroupNormalization(group=16)(x)
     elif norm == 'instancenorm':
         x = InstanceNormalization()(x)
+    elif norm == 'hybrid':
+        if group % 2 == 1:
+            raise ValueError(f"Output channels must be an even number for hybrid norm, received {group}.")
+        f = group
+        x0 = Lambda(lambda x: x[...,:f//2])(x)
+        x1 = Lambda(lambda x: x[...,f//2:])(x)
+        
+        x0 = Conv2D(f//2, kernel_size=1, kernel_regularizer=regularizers.l2(w_l2),
+                    kernel_initializer=conv_init)(x0)
+        x1 = InstanceNormalization()(x1)
+        
+        x = concatenate([x0, x1], axis=-1)
     else:
         x = x
     return x

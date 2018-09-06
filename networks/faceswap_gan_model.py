@@ -78,27 +78,29 @@ class FaceswapGANModel():
                       norm='none', 
                       model_capacity='standard'):
         coef = 2 if model_capacity == "lite" else 1
+        latent_dim = 2048 if (model_capacity == "lite" and input_size > 64) else 1024
         upscale_block = upscale_nn if model_capacity == "lite" else upscale_ps
         activ_map_size = input_size
+        use_norm = False if (norm == 'none') else True
         
         inp = Input(shape=(input_size, input_size, nc_in))
-        x = Conv2D(64//coef, kernel_size=5, use_bias=False, padding="same")(inp)
+        x = Conv2D(64//coef, kernel_size=5, use_bias=False, padding="same")(inp) # use_bias should be True
         x = conv_block(x, 128//coef)
-        x = conv_block(x, 256//coef, True, norm=norm)
+        x = conv_block(x, 256//coef, use_norm, norm=norm)
         x = self_attn_block(x, 256//coef) if use_self_attn else x
-        x = conv_block(x, 512//coef, True, norm=norm) 
+        x = conv_block(x, 512//coef, use_norm, norm=norm) 
         x = self_attn_block(x, 512//coef) if use_self_attn else x
-        x = conv_block(x, 1024//(coef**2), True, norm=norm)
+        x = conv_block(x, 1024//(coef**2), use_norm, norm=norm)
         
         activ_map_size = activ_map_size//16
         while (activ_map_size > 4):
-            x = conv_block(x, 1024//(coef**2), True, norm=norm)
+            x = conv_block(x, 1024//(coef**2), use_norm, norm=norm)
             activ_map_size = activ_map_size//2
         
-        x = Dense(1024)(Flatten()(x))
+        x = Dense(latent_dim)(Flatten()(x))
         x = Dense(4*4*1024//(coef**2))(x)
         x = Reshape((4, 4, 1024//(coef**2)))(x)
-        out = upscale_block(x, 512//coef, True, norm=norm)
+        out = upscale_block(x, 512//coef, use_norm, norm=norm)
         return Model(inputs=inp, outputs=out)        
     
     @staticmethod
@@ -111,13 +113,14 @@ class FaceswapGANModel():
         coef = 2 if model_capacity == "lite" else 1
         upscale_block = upscale_nn if model_capacity == "lite" else upscale_ps
         activ_map_size = input_size
+        use_norm = False if (norm == 'none') else True
 
         inp = Input(shape=(input_size, input_size, nc_in))
         x = inp
-        x = upscale_block(x, 256//coef, True, norm=norm)
-        x = upscale_block(x, 128//coef, True, norm=norm)
+        x = upscale_block(x, 256//coef, use_norm, norm=norm)
+        x = upscale_block(x, 128//coef, use_norm, norm=norm)
         x = self_attn_block(x, 128//coef) if use_self_attn else x
-        x = upscale_block(x, 64//coef, True, norm=norm)
+        x = upscale_block(x, 64//coef, use_norm, norm=norm)
         x = res_block(x, 64//coef, norm=norm)
         x = self_attn_block(x, 64//coef) if use_self_attn else conv_block(x, 64//coef, strides=1)
         
@@ -125,7 +128,7 @@ class FaceswapGANModel():
         activ_map_size = activ_map_size * 8
         while (activ_map_size < output_size):
             outputs.append(Conv2D(3, kernel_size=5, padding='same', activation="tanh")(x))
-            x = upscale_block(x, 64//coef, True, norm=norm)
+            x = upscale_block(x, 64//coef, use_norm, norm=norm)
             x = conv_block(x, 64//coef, strides=1)
             activ_map_size *= 2
         
@@ -141,20 +144,21 @@ class FaceswapGANModel():
                             use_self_attn=True, 
                             norm='none'):  
         activ_map_size = input_size
+        use_norm = False if (norm == 'none') else True
         
         inp = Input(shape=(input_size, input_size, nc_in))
         x = conv_block_d(inp, 64, False)
-        x = conv_block_d(x, 128, True, norm=norm)
-        x = conv_block_d(x, 256, True, norm=norm)
+        x = conv_block_d(x, 128, use_norm, norm=norm)
+        x = conv_block_d(x, 256, use_norm, norm=norm)
         x = self_attn_block(x, 256) if use_self_attn else x
         
         activ_map_size = activ_map_size//8
         while (activ_map_size > 8):
-            x = conv_block_d(x, 256, True, norm=norm)
+            x = conv_block_d(x, 256, use_norm, norm=norm)
             x = self_attn_block(x, 256) if use_self_attn else x
             activ_map_size = activ_map_size//2
             
-        out = Conv2D(1, kernel_size=4, use_bias=False, padding="same")(x)   
+        out = Conv2D(1, kernel_size=4, use_bias=False, padding="same")(x) # use_bias should be True  
         return Model(inputs=[inp], outputs=out)
     
     @staticmethod
