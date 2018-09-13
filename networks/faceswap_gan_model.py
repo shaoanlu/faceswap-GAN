@@ -263,13 +263,19 @@ class FaceswapGANModel():
                                       [loss_GB, loss_adv_GB, loss_recon_GB, loss_edge_GB, loss_pl_GB], 
                                       training_updates)
     
-    def build_pl_model(self, vggface_model):
+    def build_pl_model(self, vggface_model, before_activ=False):
         # Define Perceptual Loss Model
         vggface_model.trainable = False
-        out_size112 = vggface_model.layers[1].output
-        out_size55 = vggface_model.layers[36].output
-        out_size28 = vggface_model.layers[78].output
-        out_size7 = vggface_model.layers[-2].output
+        if before_activ == False:
+            out_size112 = vggface_model.layers[1].output
+            out_size55 = vggface_model.layers[36].output
+            out_size28 = vggface_model.layers[78].output
+            out_size7 = vggface_model.layers[-2].output
+        else:
+            out_size112 = vggface_model.layers[15].output # misnamed: the output size is 55
+            out_size55 = vggface_model.layers[35].output
+            out_size28 = vggface_model.layers[77].output
+            out_size7 = vggface_model.layers[-3].output
         self.vggface_feats = Model(vggface_model.input, [out_size112, out_size55, out_size28, out_size7])
         self.vggface_feats.trainable = False
     
