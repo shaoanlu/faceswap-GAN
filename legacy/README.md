@@ -25,5 +25,5 @@
   
 ### faceswap-GAN v1
 * [FaceSwap_GAN_github.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/legacy/FaceSwap_GAN_github.ipynb)
-  - V1 model does not predict an alpha mask for each input.
+  - V1 model directly predicts color output images without masking.
   - Video conversion functions are also included.
