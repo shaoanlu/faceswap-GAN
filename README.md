@@ -94,12 +94,6 @@ Here is a [playground notebook](https://colab.research.google.com/github/shaoanl
   
 - **Eyes-aware training:** Introduce high reconstruction loss and edge loss around eyes area, which guides the model to generate realistic eyes.
 
-### 4. Experimental models
-- **V2.1 model:** An improved architecture is updated in order to stablize training. The architecture is greatly inspired by [XGAN](https://arxiv.org/abs/1711.05139) ~~and [MS-D neural network](http://www.pnas.org/content/115/2/254)~~. (Note: V2.1 script is experimental and not well-maintained)
-  - V2.1 model  provides three base architectures: (i) XGAN, (ii) VAE-GAN, and (iii) a variant of v2 GAN. (default `base_model="GAN"`)
-  - FCN8s for face segmentation is introduced to improve masking in video conversion (default `use_FCN_mask = True`).
-    - To enable this feature, keras weights file should be generated through jupyter notebook provided in [this repo](https://github.com/shaoanlu/face_segmentation_keras).
-
 ## Frequently asked questions and troubleshooting
 
 #### 1. How does it work?
