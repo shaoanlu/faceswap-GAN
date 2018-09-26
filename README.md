@@ -17,6 +17,7 @@ Here is a [playground notebook](https://colab.research.google.com/github/shaoanl
 ### faceswap-GAN v2.2
 * [FaceSwap_GAN_v2.2_train_test.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2.2_train_test.ipynb)
   - Notebook for model training of faceswap-GAN model version 2.2.
+  - This notebook also provides code for still image transformation at the bottom.
   - Require additional training images generated through [prep_binary_masks.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/prep_binary_masks.ipynb).
   
 * [FaceSwap_GAN_v2.2_video_conversion.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2.2_video_conversion.ipynb)
