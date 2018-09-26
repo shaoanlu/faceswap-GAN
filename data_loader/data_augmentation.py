@@ -70,6 +70,7 @@ def random_warp_rev(image, res=64):
 
 def random_color_match(image, fns_all_trn_data):
     rand_idx = np.random.randint(len(fns_all_trn_data))
+    rand_color_space_to_XYZ = np.random.choice([True, False])
     fn_match = fns_all_trn_data[rand_idx]
     tar_img = cv2.imread(fn_match)
     if tar_img is None:
@@ -77,7 +78,11 @@ def random_color_match(image, fns_all_trn_data):
         return image
     r = 60
     src_img = cv2.resize(image, (256,256))
-    tar_img = cv2.resize(tar_img, (256,256))
+    tar_img = cv2.resize(tar_img, (256,256))  
+    if rand_color_space_to_XYZ:
+        src_img = cv2.cvtColor(src_img, cv2.COLOR_BGR2XYZ)
+        tar_img = cv2.cvtColor(tar_img, cv2.COLOR_BGR2XYZ)
+    
     mt = np.mean(tar_img[r:-r,r:-r,:], axis=(0,1))
     st = np.std(tar_img[r:-r,r:-r,:], axis=(0,1))
     ms = np.mean(src_img[r:-r,r:-r,:], axis=(0,1))
@@ -88,6 +93,9 @@ def random_color_match(image, fns_all_trn_data):
         result = result - result.min()
     if result.max() > 255:
         result = (255.0/result.max()*result).astype(np.float32)
+        
+    if rand_color_space_to_XYZ:
+        result = cv2.cvtColor(result.astype(np.uint8), cv2.COLOR_XYZ2BGR)
     return result
 
 def read_image(fn, fns_all_trn_data, dir_bm_eyes=None, res=64, prob_random_color_match=0.5, 

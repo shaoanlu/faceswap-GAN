@@ -57,6 +57,9 @@ class FaceTransformer(object):
         if color_correction == "adain":
             self.ae_output_masked = adain(ae_output_masked, roi)
             self.ae_output_bgr = adain(ae_output_bgr, roi)
+        elif color_correction == "adain_xyz":
+            self.ae_output_masked = adain(ae_output_masked, roi, color_space="XYZ")
+            self.ae_output_bgr = adain(ae_output_bgr, roi, color_space="XYZ")
         elif color_correction == "hist_match":
             self.ae_output_masked = color_hist_match(ae_output_masked, roi)
             self.ae_output_bgr = color_hist_match(ae_output_bgr, roi)
