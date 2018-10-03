@@ -1,6 +1,8 @@
 import keras.backend as K
 from moviepy.editor import VideoFileClip
 from matplotlib import pyplot as plt
+from pathlib import Path
+import os
 
 from converter.landmarks_alignment import *
 
@@ -28,7 +30,8 @@ def process_image(input_img, info, detector, save_interval, save_path):
             # align detected face
             aligned_det_face_im = landmarks_match_mtcnn(det_face_im, src_landmarks, tar_landmarks)
 
-            fname = f"{save_path}rgb/frame{frame}face{str(idx)}.jpg"
+            Path(os.path.join(f"{save_path}", "rgb")).mkdir(parents=True, exist_ok=True)
+            fname = os.path.join(f"{save_path}", "rgb", f"frame{frame}face{str(idx)}.jpg")
             plt.imsave(fname, aligned_det_face_im, format="jpg")
             #fname = f"./faces/raw_faces/frame{frames}face{str(idx)}.jpg"
             #plt.imsave(fname, det_face_im, format="jpg")
@@ -40,7 +43,8 @@ def process_image(input_img, info, detector, save_interval, save_path):
             bm[int(src_landmarks[1][0]-h/15):int(src_landmarks[1][0]+h/15),
                int(src_landmarks[1][1]-w/8):int(src_landmarks[1][1]+w/8),:] = 255
             bm = landmarks_match_mtcnn(bm, src_landmarks, tar_landmarks)
-            fname = f"{save_path}binary_mask/frame{frame}face{str(idx)}.jpg"
+            Path(os.path.join(f"{save_path}", "binary_mask")).mkdir(parents=True, exist_ok=True)
+            fname = os.path.join(f"{save_path}", "binary_mask", f"frame{frame}face{str(idx)}.jpg")
             plt.imsave(fname, bm, format="jpg")
         
     return np.zeros((3,3,3))
@@ -50,7 +54,7 @@ def preprocess_video(fn_input_video, fd, save_interval, save_path):
     output = 'dummy.mp4'
     clip1 = VideoFileClip(fn_input_video)
     clip = clip1.fl_image(lambda img: process_image(img, info, fd, save_interval, save_path))
-    clip.write_videofile(output, audio=False)
+    clip.write_videofile(output, audio=False, verbose=False)
     clip1.reader.close()
 
         

@@ -69,31 +69,42 @@ def random_warp_rev(image, res=64):
     return warped_image, target_image
 
 def random_color_match(image, fns_all_trn_data):
-    rand_idx = np.random.randint(len(fns_all_trn_data))
-    rand_color_space_to_XYZ = np.random.choice([True, False])
+    rand_idx = np.random.randint(len(fns_all_trn_data))    
     fn_match = fns_all_trn_data[rand_idx]
     tar_img = cv2.imread(fn_match)
     if tar_img is None:
         print(f"Failed reading image {fn_match} in random_color_match().")
         return image
-    r = 60
+    r = 60 # only take color information of the center area
     src_img = cv2.resize(image, (256,256))
     tar_img = cv2.resize(tar_img, (256,256))  
+    
+    # randomly transform to XYZ color space
+    rand_color_space_to_XYZ = np.random.choice([True, False])
     if rand_color_space_to_XYZ:
         src_img = cv2.cvtColor(src_img, cv2.COLOR_BGR2XYZ)
         tar_img = cv2.cvtColor(tar_img, cv2.COLOR_BGR2XYZ)
     
+    # compute statistics
     mt = np.mean(tar_img[r:-r,r:-r,:], axis=(0,1))
     st = np.std(tar_img[r:-r,r:-r,:], axis=(0,1))
     ms = np.mean(src_img[r:-r,r:-r,:], axis=(0,1))
     ss = np.std(src_img[r:-r,r:-r,:], axis=(0,1))    
+    
+    # randomly interpolate the statistics
+    rand_ratio = np.random.uniform()
+    mt = rand_ratio * mt + (1 - rand_ratio) * ms
+    st = rand_ratio * st + (1 - rand_ratio) * ss
+    
+    # Apply color transfer from src to tar domain
     if ss.any() <= 1e-7: return src_img    
     result = st * (src_img.astype(np.float32) - ms) / (ss+1e-7) + mt
     if result.min() < 0:
         result = result - result.min()
     if result.max() > 255:
         result = (255.0/result.max()*result).astype(np.float32)
-        
+    
+    # transform back from XYZ to BGR color space if necessary
     if rand_color_space_to_XYZ:
         result = cv2.cvtColor(result.astype(np.uint8), cv2.COLOR_XYZ2BGR)
     return result
@@ -105,7 +116,7 @@ def read_image(fn, fns_all_trn_data, dir_bm_eyes=None, res=64, prob_random_color
         raise ValueError(f"dir_bm_eyes is not set.")
         
     # https://github.com/tensorflow/tensorflow/issues/5552
-    # TensorFlow converts str to bytes in most places, including sess.run.
+    # TensorFlow converts str to bytes in most places, including sess.run().
     if type(fn) == type(b"bytes"):
         fn = fn.decode("utf-8")
         dir_bm_eyes = dir_bm_eyes.decode("utf-8")
@@ -114,6 +125,7 @@ def read_image(fn, fns_all_trn_data, dir_bm_eyes=None, res=64, prob_random_color
     raw_fn = PurePath(fn).parts[-1]
     image = cv2.imread(fn)
     if image is None:
+        print(f"Failed reading image {fn}.")
         raise IOError(f"Failed reading image {fn}.")        
     if np.random.uniform() <= prob_random_color_match:
         image = random_color_match(image, fns_all_trn_data)
@@ -122,7 +134,11 @@ def read_image(fn, fns_all_trn_data, dir_bm_eyes=None, res=64, prob_random_color
     if use_bm_eyes:
         bm_eyes = cv2.imread(f"{dir_bm_eyes}/{raw_fn}")
         if bm_eyes is None:
-            raise IOError(f"Failed reading binary mask {dir_bm_eyes}/{raw_fn}.")
+            print(f"Failed reading binary mask {dir_bm_eyes}/{raw_fn}. \
+            If this message keeps showing, please check for existence of binary masks folder \
+            or disable eye-aware training in the configuration.")
+            bm_eyes = np.zeros_like(image)
+            #raise IOError(f"Failed reading binary mask {dir_bm_eyes}/{raw_fn}.")
         bm_eyes = cv2.resize(bm_eyes, (256,256)) / 255.
     else:
         bm_eyes = np.zeros_like(image)
