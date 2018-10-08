@@ -29,6 +29,7 @@ def color_hist_match(src_im, tar_im, color_space="RGB"):
     matched_G = hist_match(src_im[:,:,1], tar_im[:,:,1])
     matched_B = hist_match(src_im[:,:,2], tar_im[:,:,2])
     matched = np.stack((matched_R, matched_G, matched_B), axis=2).astype(np.float32)
+    matched = np.clip(matched, 0, 255)
     
     if color_space.lower() != "rgb":
         result = trans_color_space(result.astype(np.uint8), color_space, rev=True)
@@ -46,10 +47,7 @@ def adain(src_im, tar_im, eps=1e-7, color_space="RGB"):
     ss = np.std(src_im, axis=(0,1))    
     if ss.any() <= eps: return src_im    
     result = st * (src_im.astype(np.float32) - ms) / (ss+eps) + mt
-    if result.min() < 0:
-        result = result - result.min()
-    if result.max() > 255:
-        result = (255.0/result.max()*result).astype(np.float32)   
+    result = np.clip(result, 0, 255)  
         
     if color_space.lower() != "rgb":
         result = trans_color_space(result.astype(np.uint8), color_space, rev=True)
