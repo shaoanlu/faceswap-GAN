@@ -3,6 +3,11 @@ from keras import initializers, regularizers
 from keras import backend as K
 from keras.utils import conv_utils
 
+try:
+    from keras.utils.conv_utils import normalize_data_format
+except:
+    from keras.backend.common import normalize_data_format
+
 def to_list(x):
     if type(x) not in [list, tuple]:
         return [x]
@@ -26,7 +31,7 @@ class GroupNormalization(Layer):
         self.beta_regularizer = regularizers.get(beta_regularizer)
         self.epsilon = epsilon
         self.group = group
-        self.data_format = conv_utils.normalize_data_format(data_format)
+        self.data_format = normalize_data_format(data_format)
 
         self.supports_masking = True
 
