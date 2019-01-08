@@ -51,7 +51,7 @@ def random_warp_rev(image, res=64):
     interp_slice = slice(interp_param//10,9*interp_param//10)
     dst_pnts_slice = slice(0,65*res_scale,16*res_scale)
     
-    rand_coverage = np.random.randint(20) + 85 # random warping coverage
+    rand_coverage = np.random.randint(20) + 78 # random warping coverage
     rand_scale = np.random.uniform(5., 6.2) # random warping scale
     
     range_ = np.linspace(128-rand_coverage, 128+rand_coverage, 5)
