@@ -152,6 +152,48 @@ def res_block(input_tensor, f, use_norm=False, w_l2=w_l2, norm='none'):
     x = normalization(x, norm, f) if use_norm else x
     return x
 
+def SPADE_res_block(input_tensor, cond_input_tensor, f, use_norm=True, norm='none'):
+    """
+    Semantic Image Synthesis with Spatially-Adaptive Normalization
+    Taesung Park, Ming-Yu Liu, Ting-Chun Wang, Jun-Yan Zhu
+    https://arxiv.org/abs/1903.07291
+
+    Note:
+        SPADE just works like a charm. 
+        It speeds up training alot and is also very promosing approach for solving profile face generation issue.
+        *(This implementation can be wrong since I haven't finished reading the paper. 
+          The author hasn't release their code either (https://github.com/NVlabs/SPADE).)
+    """
+    def SPADE(input_tensor, cond_input_tensor, f, use_norm=True, norm='none'):
+        x = input_tensor
+        x = normalization(x, norm, f) if use_norm else x
+        y = cond_input_tensor
+        y = Conv2D(128, kernel_size=3, kernel_regularizer=regularizers.l2(w_l2), 
+                   kernel_initializer=conv_init, padding='same')(y)
+        y = Activation('relu')(y)           
+        gamma = Conv2D(f, kernel_size=3, kernel_regularizer=regularizers.l2(w_l2), 
+                   kernel_initializer=conv_init, padding='same')(y)
+        beta = Conv2D(f, kernel_size=3, kernel_regularizer=regularizers.l2(w_l2), 
+                   kernel_initializer=conv_init, padding='same')(y)
+        x = multiply([x, gamma])
+        x = add([x, beta])
+        return x
+        
+    x = input_tensor
+    x = SPADE(x, cond_input_tensor, f, use_norm)
+    x = Activation('relu')(x)
+    x = ReflectPadding2D(x)
+    x = Conv2D(f, kernel_size=3, kernel_regularizer=regularizers.l2(w_l2), 
+               kernel_initializer=conv_init, use_bias=not use_norm)(x)
+    x = SPADE(x, cond_input_tensor, f, use_norm)
+    x = Activation('relu')(x)
+    x = ReflectPadding2D(x)
+    x = Conv2D(f, kernel_size=3, kernel_regularizer=regularizers.l2(w_l2), 
+               kernel_initializer=conv_init)(x)
+    x = add([x, input_tensor])
+    x = Activation('relu')(x)
+    return x
+
 def upscale_ps(input_tensor, f, use_norm=False, w_l2=w_l2, norm='none'):
     x = input_tensor
     x = Conv2D(f*4, kernel_size=3, kernel_regularizer=regularizers.l2(w_l2), 
