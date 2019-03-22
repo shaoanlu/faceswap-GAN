@@ -160,7 +160,7 @@ def SPADE_res_block(input_tensor, cond_input_tensor, f, use_norm=True, norm='non
 
     Note:
         SPADE just works like a charm. 
-        It speeds up training alot and is also very promosing approach for solving profile face generation issue.
+        It speeds up training alot and is also a very promosing approach for solving profile face generation issue.
         *(This implementation can be wrong since I haven't finished reading the paper. 
           The author hasn't release their code either (https://github.com/NVlabs/SPADE).)
     """
@@ -180,12 +180,12 @@ def SPADE_res_block(input_tensor, cond_input_tensor, f, use_norm=True, norm='non
         return x
         
     x = input_tensor
-    x = SPADE(x, cond_input_tensor, f, use_norm)
+    x = SPADE(x, cond_input_tensor, f, use_norm, norm)
     x = Activation('relu')(x)
     x = ReflectPadding2D(x)
     x = Conv2D(f, kernel_size=3, kernel_regularizer=regularizers.l2(w_l2), 
                kernel_initializer=conv_init, use_bias=not use_norm)(x)
-    x = SPADE(x, cond_input_tensor, f, use_norm)
+    x = SPADE(x, cond_input_tensor, f, use_norm, norm)
     x = Activation('relu')(x)
     x = ReflectPadding2D(x)
     x = Conv2D(f, kernel_size=3, kernel_regularizer=regularizers.l2(w_l2), 
