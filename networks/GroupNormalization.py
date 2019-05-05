@@ -121,7 +121,7 @@ class GroupNormalization(Layer):
                   'gamma_init': initializers.serialize(self.gamma_init),
                   'beta_init': initializers.serialize(self.beta_init),
                   'gamma_regularizer': regularizers.serialize(self.gamma_regularizer),
-                  'beta_regularizer': regularizers.serialize(self.gamma_regularizer),
+                  'beta_regularizer': regularizers.serialize(self.beta_regularizer),
                   'group': self.group
                  }
         base_config = super(GroupNormalization, self).get_config()
