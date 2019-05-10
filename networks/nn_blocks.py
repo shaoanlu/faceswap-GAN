@@ -175,7 +175,7 @@ def SPADE_res_block(input_tensor, cond_input_tensor, f, use_norm=True, norm='non
                    kernel_initializer=conv_init, padding='same')(y)
         beta = Conv2D(f, kernel_size=3, kernel_regularizer=regularizers.l2(w_l2), 
                    kernel_initializer=conv_init, padding='same')(y)
-        x = multiply([x, gamma])
+        x = add([x, multiply([x, gamma])])
         x = add([x, beta])
         return x
         
