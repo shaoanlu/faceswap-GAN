@@ -13,6 +13,8 @@ Adding Adversarial loss and perceptual loss (VGGface) to deepfakes'(reddit user)
 ## Google Colab support
 Here is a [playground notebook](https://colab.research.google.com/github/shaoanlu/faceswap-GAN/blob/master/colab_demo/faceswap-GAN_colab_demo.ipynb) for faceswap-GAN v2.2 on Google Colab. Users can train their own model in the browser.
 
+[Update 2019/10/04] There seems to be import errors in the latest Colab environment due to inconsistent version of packages. Please make sure that the Keras and TensorFlow follow the version number shown in the requirement section below.
+
 ## Descriptions  
 ### faceswap-GAN v2.2
 * [FaceSwap_GAN_v2.2_train_test.ipynb](https://github.com/shaoanlu/faceswap-GAN/blob/master/FaceSwap_GAN_v2.2_train_test.ipynb)
