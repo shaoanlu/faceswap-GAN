@@ -7,6 +7,7 @@ from .custom_layers.scale_layer import Scale
 from .custom_inits.icnr_initializer import icnr_keras
 import tensorflow as tf
 import keras.backend as K
+from keras import regularizers
 
 # initializers and weight decay regularization are fixed
 conv_init = 'he_normal'
